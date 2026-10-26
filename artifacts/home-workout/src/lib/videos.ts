@@ -5,6 +5,7 @@ export type TrainingVideo = {
   title: string;
   description: string;
   videoId: string;
+  durationSeconds: number;
   trainer: string;
   trainerGroup: Exclude<TrainerFilter, 'all'> | 'mixed';
   language: string;
@@ -19,6 +20,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'تمارين منزلية بسيطة للمبتدئين',
     description: 'حركات متنوعة وسهلة في البيت مع المدربة الرياضية فرح بكار.',
     videoId: 'obtzDPwAt6c',
+    durationSeconds: 543,
     trainer: 'فرح بكار · صباح النور',
     trainerGroup: 'women',
     language: 'العربية',
@@ -30,6 +32,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'شرح تمارين الكاليسثنكس في المنزل',
     description: 'شرح عربي للتدريب المنزلي بوزن الجسم. اختر التدرج الملائم لقدرتك، وتجاوز أي حركة متقدمة لا تناسبك.',
     videoId: 'HG1vjeHWG1A',
+    durationSeconds: 364,
     trainer: 'Bar Warrior · شرح بالعربية',
     trainerGroup: 'men',
     language: 'العربية',
@@ -41,6 +44,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'البلانك للمبتدئين خطوة بخطوة',
     description: 'تدرّج واضح لتعلّم وضعية البلانك من البداية.',
     videoId: '6HvLcQclEu0',
+    durationSeconds: 103,
     trainer: 'Tarek FitCore',
     trainerGroup: 'men',
     language: 'العربية',
@@ -52,6 +56,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: '5 تمارين لكامل الجسم بدون معدات',
     description: 'فيديو عربي قصير للمبتدئين، ويمكن للجميع متابعة الحركات حسب مستواهم.',
     videoId: 'FaWVHKU_I5Y',
+    durationSeconds: 411,
     trainer: 'د. إبراهيم الدخيل',
     trainerGroup: 'men',
     language: 'العربية',
@@ -63,6 +68,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'إطالات الرقبة والكتفين',
     description: 'حركات إطالة مع شرح عربي من المدربة فرح بكار. تحرك في نطاق مريح دون ضغط على الرقبة، وتوقف إذا ظهر ألم.',
     videoId: '64oux1TtQzY',
+    durationSeconds: 660,
     trainer: 'فرح بكار · العربي 2',
     trainerGroup: 'women',
     language: 'العربية',
@@ -74,6 +80,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'تمارين لكامل الجسم في المنزل | بناء العضلات في المنزل (بدون معدات، بدون جيم)',
     description: 'تمرين لكامل الجسم بوزن الجسم في المنزل. مستوى الفيديو غير محدد من الناشر؛ اختر حركة مريحة وتوقف إذا ظهر ألم.',
     videoId: 'ZyRSfhuXF34',
+    durationSeconds: 902,
     trainer: 'أكرم | Akram',
     trainerGroup: 'men',
     language: 'العربية',
@@ -86,6 +93,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: '7 تمارين منزلية للجسم كامل بدون معدات | تبني جسمك في البيت',
     description: 'سبع حركات بوزن الجسم في المنزل. مستوى الفيديو غير محدد من الناشر؛ استخدم التدرج الذي يناسب قدرتك.',
     videoId: 'Zel61SO7zh8',
+    durationSeconds: 617,
     trainer: 'Coach Mostafa Fitness',
     trainerGroup: 'men',
     language: 'العربية',
@@ -98,6 +106,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'تمارين البيلاتس الرياضية لتقوية عضلات البطن مع المدربة الرياضية فرح بكار',
     description: 'تمارين بيلاتس للبطن مع فرح بكار على قناة العربي 2. اختاري حركة مريحة وتوقفي إذا ظهر ألم.',
     videoId: 'qqHwI7D-tWM',
+    durationSeconds: 833,
     trainer: 'فرح بكار · العربي 2',
     trainerGroup: 'women',
     language: 'العربية',
@@ -110,6 +119,7 @@ export const trainingVideos: TrainingVideo[] = [
     title: 'تمارين رياضية لتحت الجسم في البيت في أقل من 30 دقيقة مع مدربة الرياضة أمال عبيدي',
     description: 'جلسة للجزء السفلي مع أمال عبيدي. يذكر المصدر استخدام الأوزان، لذلك قد تحتاج إلى معدات خفيفة.',
     videoId: '01ZIh6R3dlA',
+    durationSeconds: 651,
     trainer: 'أمال عبيدي · صباح النور',
     trainerGroup: 'women',
     language: 'العربية',
@@ -130,6 +140,13 @@ const englishVideoCopy: Record<string, { title: string; description: string }> =
   'farah-pilates-abs': { title: 'Pilates Exercises to Strengthen the Abs with Trainer Farah Bakkar', description: 'Pilates exercises for the abs with Farah Bakkar on Al Arabi 2. Choose comfortable movements and stop if pain occurs.' },
   'amal-lower-body-home': { title: 'Under-30-Minute Lower-Body Workout at Home with Trainer Amal Obeidi', description: 'A lower-body session with Amal Obeidi. The source mentions using weights, so light equipment may be needed.' },
 };
+
+export function formatVideoDuration(totalSeconds: number): string {
+  const safeSeconds = Math.max(0, Math.floor(totalSeconds));
+  const minutes = Math.floor(safeSeconds / 60);
+  const seconds = safeSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
 
 const englishTrainers: Record<string, string> = {
   'farah-bakkar-home': 'Farah Bakkar · Sabah Al-Noor',

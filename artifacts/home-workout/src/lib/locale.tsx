@@ -46,7 +46,7 @@ const translations: Record<string, string> = {
   'هدفك': 'Your goal is', 'جلسات. يمكنك تعديله من المزيد.': 'sessions. You can change it under More.', 'إجمالي الجلسات': 'Total sessions',
   'إجمالي الوقت': 'Total time', 'آخر التمارين المكتملة': 'Recent completed workouts', 'سجلك يبدأ بجلسة': 'Your history starts with one session',
   'لا جلسات محفوظة بعد. أكمل جلسة قصيرة وستظهر هنا بإحصاءات حقيقية.': 'No saved sessions yet. Complete a short session to see your stats here.',
-  'تدريب بالفيديو': 'Video training', 'سجل المشاهدة': 'Watch history', 'شغّل فيديو عشان يبدأ سجل المشاهدة هنا.': 'Play a video to start your watch history here.',
+  'تدريب بالفيديو': 'Video training', 'مدة الفيديو': 'Duration', 'سجل المشاهدة': 'Watch history', 'شغّل فيديو عشان يبدأ سجل المشاهدة هنا.': 'Play a video to start your watch history here.',
   'فيديوهات بشرح عربي مع مدربات ومدربين، بدون الحاجة إلى ترجمة تلقائية. الخطط والتمارين في ڤايورا متاحة للنساء والرجال؛ اختر المستوى والحركة المناسبة لك. الفلتر يحدد المدرب فقط، وليس من يمكنه أداء التمرين.': 'These videos feature Arabic instruction by women and men trainers; the clips themselves are in Arabic. VYORA plans and exercises are for women and men. Choose the level and movement that suit you. The filter selects a trainer, not who can do the exercise.',
   'اختيار المدرب': 'Choose a trainer', 'مع مدربة': 'Women trainers', 'مع مدرب': 'Men trainers', 'للجميع': 'All', 'تشغيل الفيديو': 'Play video',
   'فتح على YouTube': 'Open on YouTube', 'لا توجد فيديوهات هنا': 'No videos here', 'اختر عرض كل الفيديوهات لمشاهدة المزيد.': 'Choose all videos to see more.',

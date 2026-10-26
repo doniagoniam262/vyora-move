@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Clock3, ExternalLink, Film, History, Play, ShieldCheck, Video } from 'lucide-react';
 import { Chip, EmptyState, Tag } from '@/components/vyora';
-import { trainingVideos, type TrainerFilter } from '@/lib/videos';
+import { formatVideoDuration, trainingVideos, type TrainerFilter } from '@/lib/videos';
 import { asset } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizeVideo } from '@/lib/videos';
@@ -63,6 +63,13 @@ function VideoCard({ video }: { video: (typeof trainingVideos)[number] }) {
       </div>
       <div className="space-y-3 p-4">
         <div className="flex flex-wrap gap-1.5">
+          <Tag tone="dim">
+            <span className="inline-flex items-center gap-1.5" aria-label={`${t('مدة الفيديو')} ${formatVideoDuration(video.durationSeconds)}`} data-testid={`video-duration-${video.id}`}>
+              <Clock3 size={12} aria-hidden="true" />
+              <span>{t('مدة الفيديو')}</span>
+              <span dir="ltr">{formatVideoDuration(video.durationSeconds)}</span>
+            </span>
+          </Tag>
           <Tag>{video.level}</Tag>
           <Tag tone="dim">{video.language}</Tag>
           {video.trainerGroup === 'mixed' && <Tag tone="dim">للجميع</Tag>}

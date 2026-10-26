@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Link } from 'wouter';
-import { Bell, Clock3, Film, Move, Play, Sparkles, VolumeX } from 'lucide-react';
+import { Bell, ChevronLeft, ChevronRight, Clock3, Film, Move, Play, Sparkles, VolumeX } from 'lucide-react';
 import { asset, exercises, planById, plans, planExercises, categoryLabel, recommendHomePlan, scheduledPlanForDay } from '@/lib/data';
 import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
@@ -7,8 +8,19 @@ import { PlanCard } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
 
+const brandGalleryImages = [
+  { src: 'images/vyora-launch-poster.jpg', altAr: 'بوستر ڤايورا الكامل مع صورة رياضيين وشعار MOVE BEYOND LIMITS.', altEn: 'Full VYORA poster with athletes and the MOVE BEYOND LIMITS slogan.' },
+  { src: 'images/brand-boxing-pink.jpg', altAr: 'رياضية تتدرب على كيس الملاكمة مع شعار ڤايورا.', altEn: 'A woman training on a punching bag with the VYORA logo.' },
+  { src: 'images/brand-boxing-ember.jpg', altAr: 'ملاكمة ترتدي قفازات حمراء تحت شعار ڤايورا.', altEn: 'A boxer wearing red gloves beneath the VYORA logo.' },
+  { src: 'images/brand-dumbbell-detail.jpg', altAr: 'لقطة قريبة ليد تمسك دمبل في صالة رياضية.', altEn: 'Close-up of a hand holding a dumbbell in a gym.' },
+  { src: 'images/brand-squat-team.jpg', altAr: 'رجل وامرأة يؤديان تمرين السكوات في صالة رياضية.', altEn: 'A man and woman doing squats in a gym.' },
+  { src: 'images/brand-training-pair.jpg', altAr: 'رجل وامرأة يتدربان بالأوزان معًا.', altEn: 'A man and woman training with dumbbells together.' },
+  { src: 'images/brand-squat-coaching.jpg', altAr: 'مدرب يوجّه متدربة أثناء تمرين السكوات بالبار.', altEn: 'A trainer guiding a woman through a barbell squat.' },
+] as const;
+
 export default function HomePage() {
   const { locale, t } = useLocale();
+  const [brandGalleryIndex, setBrandGalleryIndex] = useState(0);
   const sessions = useSessions();
   const [settings, updateSettings] = useSettings();
   const [schedule] = useWeeklySchedule();
@@ -31,6 +43,8 @@ export default function HomePage() {
     recentPlanIds: sessions.slice(0, 2).map((session) => session.planId),
   });
   const localizedHomePlan = homePlan ? localizePlan(homePlan, locale) : undefined;
+  const activeBrandImage = brandGalleryImages[brandGalleryIndex];
+  const moveBrandGallery = (step: number) => setBrandGalleryIndex((index) => (index + step + brandGalleryImages.length) % brandGalleryImages.length);
   const choiceClass = (active: boolean) => `focus-ring press rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${active ? 'border-primary bg-primary/15 text-primary' : 'border-border bg-background/60 text-muted-foreground hover:border-primary/40'}`;
   return (
     <div className="page-enter space-y-3.5">
@@ -43,15 +57,57 @@ export default function HomePage() {
         <Link href="/progress" data-testid="link-home-notifications" aria-label={locale === 'ar' ? 'تقدمك' : 'Your progress'} className="focus-ring press grid h-11 w-11 place-items-center rounded-full border border-border bg-card"><Bell size={18} /></Link>
       </div>
 
-      <figure className="overflow-hidden rounded-2xl border border-border bg-card" data-testid="brand-poster">
-        <img
-          src={asset('images/vyora-launch-poster.jpg')}
-          alt={locale === 'ar' ? 'هوية ڤايورا: MOVE BEYOND LIMITS. تدريبك في بيتك.. لنسخة أقوى من نفسك.' : 'VYORA — MOVE BEYOND LIMITS. Training at home, for a stronger you.'}
-          className="block aspect-[2/1] w-full object-cover object-[center_78%]"
-          loading="eager"
-          decoding="async"
-        />
-      </figure>
+      <section className="card-dark overflow-hidden" data-testid="brand-gallery" aria-label={locale === 'ar' ? 'معرض صور ڤايورا' : 'VYORA image gallery'}>
+        <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <h2 className="text-sm font-extrabold">{locale === 'ar' ? 'صور ڤايورا' : 'VYORA gallery'}</h2>
+          <span className="text-xs font-bold text-muted-foreground" dir="ltr" aria-live="polite" data-testid="brand-gallery-counter">{brandGalleryIndex + 1} / {brandGalleryImages.length}</span>
+        </div>
+        <div className="flex h-[68vh] min-h-[320px] max-h-[620px] items-center justify-center bg-black px-2 py-1">
+          <img
+            src={asset(activeBrandImage.src)}
+            alt={locale === 'ar' ? activeBrandImage.altAr : activeBrandImage.altEn}
+            className="h-full w-full object-contain"
+            loading="eager"
+            decoding="async"
+            data-testid="brand-gallery-image"
+          />
+        </div>
+        <div className="flex items-center justify-between gap-3 px-3 py-2.5">
+          <button
+            type="button"
+            onClick={() => moveBrandGallery(-1)}
+            aria-label={locale === 'ar' ? 'الصورة السابقة' : 'Previous image'}
+            className="focus-ring press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-primary"
+            data-testid="brand-gallery-previous"
+          >
+            <ChevronLeft className={locale === 'ar' ? 'rotate-180' : ''} size={19} />
+          </button>
+          <div className="flex items-center gap-1" role="group" aria-label={locale === 'ar' ? 'اختيار صورة' : 'Choose an image'}>
+            {brandGalleryImages.map((image, index) => (
+              <button
+                key={image.src}
+                type="button"
+                onClick={() => setBrandGalleryIndex(index)}
+                aria-label={`${locale === 'ar' ? 'عرض الصورة' : 'Show image'} ${index + 1}`}
+                aria-pressed={brandGalleryIndex === index}
+                className="focus-ring grid h-7 w-6 place-items-center rounded-full"
+                data-testid={`brand-gallery-dot-${index + 1}`}
+              >
+                <span className={`h-2 w-2 rounded-full ${brandGalleryIndex === index ? 'bg-primary' : 'bg-muted-foreground/50'}`} />
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => moveBrandGallery(1)}
+            aria-label={locale === 'ar' ? 'الصورة التالية' : 'Next image'}
+            className="focus-ring press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-primary"
+            data-testid="brand-gallery-next"
+          >
+            <ChevronRight className={locale === 'ar' ? 'rotate-180' : ''} size={19} />
+          </button>
+        </div>
+      </section>
 
       <section data-testid="card-today-challenge" className="card-dark relative overflow-hidden">
         <SmartImg src={today.image} alt={today.name} className="absolute inset-0 h-full w-full" />

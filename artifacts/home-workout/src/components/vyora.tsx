@@ -17,7 +17,7 @@ export function Logo({ full = false }: { full?: boolean }) {
       <LogoMark />
       <span className="leading-none">
         <span className="flex items-baseline gap-2">
-          <span className="latin text-xl font-bold tracking-[.22em]" dir="ltr">VYORA</span>
+          <span className="latin text-xl font-bold tracking-[.32em]" dir="ltr">VY<span className="text-primary">O</span>RA</span>
           <span className="text-sm font-bold text-primary">ڤايورا</span>
         </span>
         <span className="latin mt-1 block text-[9px] font-medium tracking-[.2em] text-muted-foreground" dir="ltr">MOVE BEYOND LIMITS.</span>
@@ -32,7 +32,7 @@ export function SmartImg({ src, alt, className = '', testId, label }: { src: str
   const ref = useRef<HTMLImageElement>(null);
   useEffect(() => { setState('loading'); if (ref.current?.complete && ref.current.naturalWidth > 0) setState('ok'); }, [src]);
   return (
-    <div className={`relative overflow-hidden bg-muted ${className}`} data-testid={testId}>
+    <div className={`${className.split(/\s+/).includes('absolute') ? 'absolute' : 'relative'} overflow-hidden bg-muted ${className}`} data-testid={testId}>
       {state === 'loading' && <div className="shimmer absolute inset-0" aria-hidden="true" />}
       {state === 'error' ? (
         <div role="img" aria-label={alt} className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#1b1f1a] to-[#0d0f0d] text-muted-foreground" data-testid="img-fallback">

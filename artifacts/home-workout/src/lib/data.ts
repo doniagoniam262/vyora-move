@@ -52,20 +52,25 @@ export const LEVELS: { id: Level; label: string }[] = [
 export const categoryLabel = (c: Category) => CATEGORIES.find((x) => x.id === c)?.label ?? c;
 export const levelLabel = (l: Level) => LEVELS.find((x) => x.id === l)?.label ?? l;
 
+const R = 'images/reference/';
 const IMG = {
-  squat: 'images/hero-squat.jpg',
-  plank: 'images/plank.jpg',
-  push: 'images/push-up.jpg',
-  stretch: 'images/stretch.jpg',
-  abs: 'images/abs.jpg',
-  lunges: 'images/lunges.jpg',
+  squat: R + 'squat.webp',
+  plank: R + 'plank-woman.webp',
+  push: R + 'push-man.webp',
+  stretch: R + 'stretch-seated.webp',
+  abs: R + 'crunch-woman.webp',
+  lunges: R + 'stretch-woman.webp',
+  man: R + 'plank-pair.webp',
+  upper: R + 'upper-woman.webp',
+  athletes: R + 'athletes.webp',
+  pair: R + 'plan-pair.webp',
 };
 
 export const exercises: Exercise[] = [
   { id: 'march', name: 'مشي في المكان', latin: 'March in Place', category: 'warmup', level: 'beginner', image: IMG.lunges, duration: 40, sets: 1,
     instructions: ['قف بقدمين بعرض الوركين وكتفين مرتخيين.', 'ارفع ركبة ثم الأخرى بإيقاع ثابت مع تحريك الذراعين.', 'تنفّس بانتظام وزد الإيقاع تدريجيًا.'],
     safety: 'ابدأ ببطء واستند إلى كرسي إن شعرت بعدم اتزان.', easier: 'قلّل ارتفاع الركبتين وامشِ بإيقاع أهدأ.' },
-  { id: 'shoulder-circles', name: 'دوائر الكتفين', latin: 'Shoulder Circles', category: 'warmup', level: 'beginner', image: IMG.stretch, duration: 30, sets: 2,
+  { id: 'shoulder-circles', name: 'دوائر الكتفين', latin: 'Shoulder Circles', category: 'warmup', level: 'beginner', image: IMG.upper, duration: 30, sets: 2,
     instructions: ['قف مستقيمًا وارفع الكتفين نحو الأذنين.', 'ارسم دوائر كبيرة للخلف بتحكم.', 'بدّل الاتجاه في منتصف الوقت.'],
     safety: 'حافظ على حركة مريحة ولا تدفع المفصل لأقصى مدى.', easier: 'اجعل الدوائر أصغر.' },
   { id: 'squat', name: 'سكوات', latin: 'Squat', category: 'lower', level: 'beginner', image: IMG.squat, duration: 40, reps: 12, sets: 3,
@@ -80,13 +85,13 @@ export const exercises: Exercise[] = [
   { id: 'jacks-low', name: 'جاك خفيف', latin: 'Step Jacks', category: 'full', level: 'beginner', image: IMG.squat, duration: 40, sets: 2,
     instructions: ['ابدأ واقفًا وقدماك متقاربتان.', 'خذ خطوة جانبية مع رفع الذراعين للأعلى.', 'عُد للمنتصف وبدّل الجهة بإيقاع ثابت.'],
     safety: 'بدون قفز، مناسب لمن يريد حملًا أخف على المفاصل.', easier: 'اخفض الذراعين للمستوى الأفقي فقط.' },
-  { id: 'mountain-climber', name: 'متسلق الجبل', latin: 'Mountain Climber', category: 'full', level: 'intermediate', image: IMG.plank, duration: 30, sets: 3,
+  { id: 'mountain-climber', name: 'متسلق الجبل', latin: 'Mountain Climber', category: 'full', level: 'intermediate', image: IMG.man, duration: 30, sets: 3,
     instructions: ['خذ وضع البلانك بيدين تحت الكتفين.', 'اسحب ركبة نحو الصدر ثم بدّل بسرعة متحكَّم بها.', 'حافظ على الوركين منخفضين والجذع ثابتًا.'],
     safety: 'إن شعرت بضغط على المعصمين استخدم قبضتين مغلقتين أو تمرن على سطح مرتفع.', easier: 'نفّذ الحركة ببطء أو على سطح مرتفع كالأريكة.' },
   { id: 'incline-push', name: 'ضغط مائل', latin: 'Incline Push-up', category: 'upper', level: 'beginner', image: IMG.push, duration: 40, reps: 8, sets: 3,
     instructions: ['ضع يديك على سطح ثابت مرتفع بعرض أوسع قليلًا من الكتفين.', 'اجعل جسمك خطًا مستقيمًا من الرأس للكعبين.', 'انزل بالصدر نحو السطح ثم ادفع للأعلى.'],
     safety: 'تأكد أن السطح ثابت وغير منزلق، وأبقِ الرقبة في وضع محايد.', easier: 'استخدم حائطًا بدل السطح المنخفض.' },
-  { id: 'chair-dip', name: 'غطس على الكرسي', latin: 'Chair Dip', category: 'upper', level: 'intermediate', image: IMG.push, duration: 35, reps: 8, sets: 3,
+  { id: 'chair-dip', name: 'غطس على الكرسي', latin: 'Chair Dip', category: 'upper', level: 'intermediate', image: IMG.upper, duration: 35, reps: 8, sets: 3,
     instructions: ['اجلس على حافة كرسي ثابت وضع كفيك بجانب الوركين.', 'ازحف بالوركين للأمام وانزل بثني المرفقين للخلف.', 'ادفع بالذراعين للعودة دون قفل المرفقين.'],
     safety: 'ابقَ الوركين قريبين من الكرسي وتجنّب النزول العميق إن شعرت بضغط في الكتف.', easier: 'اثنِ الركبتين وقرّب القدمين من الكرسي.' },
   { id: 'plank', name: 'بلانك', latin: 'Plank', category: 'abs', level: 'beginner', image: IMG.plank, duration: 30, sets: 3,
@@ -109,11 +114,11 @@ export const exercises: Exercise[] = [
 export const exerciseById = (id: string) => exercises.find((e) => e.id === id);
 
 export const plans: WorkoutPlan[] = [
-  { id: 'beginner-plan', name: 'خطة المبتدئين', description: 'بداية متدرجة: إحماء، حركات أساسية، وتمدد. مناسبة لأول أسبوع لك.', level: 'beginner', minutes: 0, frequency: '3 أيام في الأسبوع', image: IMG.plank,
+  { id: 'beginner-plan', name: 'خطة المبتدئين', description: 'بداية متدرجة: إحماء، حركات أساسية، وتمدد. مناسبة لأول أسبوع لك.', level: 'beginner', minutes: 0, frequency: '3 أيام في الأسبوع', image: IMG.pair,
     exerciseIds: ['march', 'squat', 'incline-push', 'glute-bridge', 'plank', 'childs-pose'] },
-  { id: 'ten-minute', name: 'خطة 10 دقائق', description: 'جلسة سريعة لأيام الازدحام: حركات مركبة بإيقاع ثابت.', level: 'beginner', minutes: 0, frequency: 'يوميًا إن رغبت', image: IMG.lunges,
+  { id: 'ten-minute', name: 'خطة 10 دقائق', description: 'جلسة سريعة لأيام الازدحام: حركات مركبة بإيقاع ثابت.', level: 'beginner', minutes: 0, frequency: 'يوميًا إن رغبت', image: IMG.man,
     exerciseIds: ['march', 'jacks-low', 'squat', 'crunch', 'plank', 'hamstring'] },
-  { id: 'twenty-minute', name: 'خطة 20 دقيقة', description: 'جلسة أطول للجسم كاملًا لمن اعتاد الحركة، مع إحماء وتمدد.', level: 'intermediate', minutes: 0, frequency: '4 أيام في الأسبوع', image: IMG.abs,
+  { id: 'twenty-minute', name: 'خطة 20 دقيقة', description: 'جلسة أطول للجسم كاملًا لمن اعتاد الحركة، مع إحماء وتمدد.', level: 'intermediate', minutes: 0, frequency: '4 أيام في الأسبوع', image: IMG.athletes,
     exerciseIds: ['march', 'shoulder-circles', 'lunge', 'squat', 'chair-dip', 'mountain-climber', 'bicycle', 'plank', 'hamstring', 'childs-pose'] },
 ];
 

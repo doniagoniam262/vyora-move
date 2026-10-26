@@ -1,0 +1,1 @@
+- [VYORA visual direction](vyora-visual-direction.md) — fidelity to the supplied reference, its actual photos, and one identity for women and men.

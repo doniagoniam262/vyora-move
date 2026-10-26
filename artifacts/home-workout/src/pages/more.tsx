@@ -10,12 +10,12 @@ export default function MorePage() {
   const [confirm, setConfirm] = useState(false);
   const { toast } = useToast();
   const Sec = ({ id, icon, title, children }: { id: string; icon: React.ReactNode; title: string; children: React.ReactNode }) => (
-    <section id={id} data-testid={`section-${id}`} className="card-dark scroll-mt-20 p-5"><h2 className="flex items-center gap-2 font-extrabold"><span className="text-primary">{icon}</span>{title}</h2><div className="mt-4">{children}</div></section>
+    <section id={id} data-testid={`section-${id}`} className="card-dark scroll-mt-20 p-4"><h2 className="flex items-center gap-2 text-sm font-extrabold"><span className="text-primary">{icon}</span>{title}</h2><div className="mt-3">{children}</div></section>
   );
   return (
-    <div className="page-enter mx-auto max-w-2xl space-y-4">
-      <h1 className="text-3xl font-extrabold">المزيد</h1>
-      <Link href="/videos" data-testid="link-more-videos" className="card-dark focus-ring lift flex items-center gap-3 p-4">
+    <div className="page-enter mx-auto max-w-2xl space-y-2.5">
+      <h1 className="text-xl font-extrabold">المزيد</h1>
+      <Link href="/videos" data-testid="link-more-videos" className="card-dark focus-ring lift flex items-center gap-3 p-3.5">
         <Film className="text-primary" size={20} />
         <span className="flex-1"><b className="block text-sm">تمارين بالفيديو</b><span className="text-xs text-muted-foreground">فيديوهات عربية وإنجليزية مع مدربات ومدربين</span></span>
         <ArrowLeft size={16} className="text-muted-foreground" />
@@ -38,7 +38,7 @@ export default function MorePage() {
         <p className="text-sm text-muted-foreground">احذف كل الجلسات والإعدادات المحفوظة على هذا الجهاز.</p>
         <button onClick={() => setConfirm(true)} data-testid="button-clear-data" className="focus-ring press mt-4 rounded-xl border border-destructive/50 px-5 py-2.5 text-sm font-bold text-destructive hover:bg-destructive/10">مسح كل البيانات</button>
       </Sec>
-      <div className="flex flex-col items-center gap-2 py-6 text-center"><Mountain className="text-primary" /><p className="text-sm font-bold">الاستمرارية هي سر النجاح</p><p className="text-xs text-muted-foreground">كل يوم أقرب لهدفك.</p></div>
+      <div className="flex flex-col items-center gap-1 py-3 text-center"><Mountain className="text-primary" /><p className="text-sm font-bold">الاستمرارية هي سر النجاح</p><p className="text-xs text-muted-foreground">كل يوم أقرب لهدفك.</p></div>
       <Modal open={confirm} title="مسح كل البيانات؟" body="سيتم حذف سجل الجلسات والإعدادات نهائيًا من هذا الجهاز ولا يمكن التراجع." confirmLabel="نعم، امسح" onCancel={() => setConfirm(false)} onConfirm={() => { clearAllData(); setConfirm(false); toast({ title: 'تم مسح البيانات' }); }} />
     </div>
   );

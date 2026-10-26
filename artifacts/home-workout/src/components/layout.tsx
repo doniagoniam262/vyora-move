@@ -32,11 +32,11 @@ export function SiteLayout({ children }: { children: ReactNode }) {
         </nav>
         <p className="latin mt-auto text-[10px] tracking-[.2em] text-muted-foreground" dir="ltr">MOVE BEYOND LIMITS.</p>
       </aside>
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-5 py-3 backdrop-blur md:hidden">
+      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-background/90 px-4 py-2.5 backdrop-blur md:hidden">
         <Link href="/" data-testid="link-brand-home-mobile" className="focus-ring rounded-lg"><Logo /></Link>
       </header>
-      <main id="main" className={`md:pr-64 ${inSession ? '' : 'pb-28 md:pb-10'}`}>
-        <div className="mx-auto max-w-5xl px-5 py-6 md:px-10 md:py-10">{children}</div>
+      <main id="main" className={`md:pr-64 ${inSession ? '' : 'pb-24 md:pb-10'}`}>
+        <div className="mx-auto max-w-[1000px] px-4 py-4 md:px-10 md:py-10">{children}</div>
       </main>
       {!inSession && (
         <nav aria-label="التنقل السفلي" className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-[#0a0b0a]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur md:hidden">

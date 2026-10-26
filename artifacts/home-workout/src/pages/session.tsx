@@ -104,7 +104,7 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
         <span className="num text-xs text-muted-foreground" data-testid="text-session-elapsed">{formatTime(s.elapsed)}</span>
       </div>
       <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-muted"><div data-testid="progress-session" className="h-full rounded-full bg-primary transition-[width] duration-500" style={{ width: `${(s.idx / steps.length) * 100}%` }} /></div>
-      <SmartImg src={step.ex.image} alt={step.ex.name} className="mt-5 h-36 w-full rounded-2xl" />
+      <div className="mt-5 flex items-center justify-center gap-3"><SmartImg src={step.ex.image} alt={step.ex.name} className="h-12 w-12 rounded-xl border border-border" /><span className="text-sm font-bold">{step.ex.name}</span></div>
       <div className="relative mx-auto mt-6 grid h-64 w-64 place-items-center">
         <svg className="timer-ring absolute inset-0 h-full w-full" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="45" fill="none" stroke="hsl(120 3% 15%)" strokeWidth="6" /><circle className="timer-arc" cx="50" cy="50" r="45" fill="none" stroke={s.phase === 'rest' ? '#d8d8d8' : '#A4F477'} strokeWidth="6" strokeLinecap="round" strokeDasharray={`${arc} 283`} /></svg>
         <div className="text-center">

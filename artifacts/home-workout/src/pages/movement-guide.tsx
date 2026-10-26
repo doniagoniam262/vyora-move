@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { SmartImg } from '@/components/vyora';
 import { MuscleMap } from '@/components/muscle-map';
+import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
 import { CATEGORIES, exercises, type Category, type Exercise } from '@/lib/data';
 import { localizeExercise } from '@/lib/localized-data';
 import { useLocale } from '@/lib/locale';
@@ -471,6 +472,8 @@ export default function MovementGuidePage() {
                 </div>
               </div>
             </div>
+
+            <ExerciseMotionPlayer exercise={selected} locale={locale} />
 
             {insight ? (
               <>

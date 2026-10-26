@@ -100,14 +100,17 @@ export default function ProgressPage() {
       </div>
       <section className="card-dark p-4">
         <h2 className="text-sm font-extrabold">{t('التقدم الأسبوعي')}</h2>
-        <div className="mt-4 flex h-28 items-end gap-2">
+        <div className="mt-4 flex h-32 items-end gap-2">
           {days.map((d, i) => (
-            <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
+            <div key={i} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
+              <span className="num h-3 text-[9px] text-primary" aria-label={`${d.count}`}>
+                {d.count > 0 ? d.count : ''}
+              </span>
               <div
                 data-testid={`bar-day-${i}`}
                 title={`${d.count}`}
                 className={`w-full rounded-md ${d.count ? 'bg-primary' : 'bg-muted'}`}
-                style={{ height: `${d.count ? 20 + (d.count / max) * 80 : 8}%` }}
+                style={{ height: `${d.count ? 18 + (d.count / max) * 50 : 5}%` }}
               />
               <span className="text-[10px] text-muted-foreground">{names[i].slice(0, 3)}</span>
             </div>

@@ -128,17 +128,24 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
     if (!s.done || saved.current) return;
     saved.current = true;
     if (s.elapsed > 0 || s.completed.length > 0) {
+      const inProgressId = steps[Math.min(s.idx, steps.length - 1)]?.ex.id;
+      const completedExerciseIds =
+        s.completed.length > 0
+          ? s.completed
+          : s.elapsed > 0 && inProgressId
+            ? [inProgressId]
+            : [];
       saveSession({
         id: runId.current,
         planId,
         planName: name,
         completedAt: new Date().toISOString(),
         durationSeconds: Math.max(1, s.elapsed),
-        completedExerciseIds: s.completed,
-        completedCount: s.completed.length,
+        completedExerciseIds,
+        completedCount: Math.max(s.completed.length, completedExerciseIds.length),
       });
     }
-  }, [s.done, s.elapsed, s.completed, planId, name]);
+  }, [s.done, s.elapsed, s.completed, s.idx, steps, planId, name]);
 
   const step = steps[Math.min(s.idx, steps.length - 1)];
   const nextStep = steps[s.idx + 1];

@@ -1,0 +1,92 @@
+.movement-demo__screen {
+  position: relative;
+  display: grid;
+  min-height: 190px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 78%, hsl(var(--primary) / .12), transparent 56%),
+    linear-gradient(180deg, #121216, #0c0d10);
+}
+
+.movement-demo__figure {
+  width: min(72%, 310px);
+  height: 172px;
+  transform-origin: 50% 70%;
+}
+
+.movement-demo__screen-label {
+  position: absolute;
+  inset-inline: 14px;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgb(255 255 255 / .08);
+  padding-top: 7px;
+}
+
+.movement-demo.is-playing .movement-demo__figure,
+.movement-demo__screen.is-playing .movement-demo__figure {
+  animation: vyora-demo-motion 1.5s ease-in-out infinite;
+}
+
+.movement-demo--squat.is-playing .movement-demo__figure { animation-name: vyora-demo-squat; }
+.movement-demo--bridge.is-playing .movement-demo__figure { animation-name: vyora-demo-bridge; }
+.movement-demo--lunge.is-playing .movement-demo__figure { animation-name: vyora-demo-lunge; }
+.movement-demo--plank.is-playing .movement-demo__figure { animation-name: vyora-demo-plank; }
+.movement-demo--press.is-playing .movement-demo__figure { animation-name: vyora-demo-press; }
+.movement-demo--step.is-playing .movement-demo__figure { animation-name: vyora-demo-step; }
+.movement-demo--stretch.is-playing .movement-demo__figure { animation-name: vyora-demo-stretch; }
+.movement-demo--core.is-playing .movement-demo__figure { animation-name: vyora-demo-core; }
+
+@keyframes vyora-demo-motion {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(6px) scale(.97); }
+}
+
+@keyframes vyora-demo-squat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(9px) scale(.94); }
+}
+
+@keyframes vyora-demo-bridge {
+  0%, 100% { transform: translateY(4px) scaleY(.96); }
+  50% { transform: translateY(-7px) scaleY(1.02); }
+}
+
+@keyframes vyora-demo-lunge {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  50% { transform: translateX(7px) rotate(1.5deg); }
+}
+
+@keyframes vyora-demo-plank {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(2px) scale(.985); }
+}
+
+@keyframes vyora-demo-press {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+
+@keyframes vyora-demo-step {
+  0%, 100% { transform: translateX(-4px) rotate(-1deg); }
+  50% { transform: translateX(4px) rotate(1deg); }
+}
+
+@keyframes vyora-demo-stretch {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(5px) rotate(1deg); }
+}
+
+@keyframes vyora-demo-core {
+  0%, 100% { transform: translateX(-3px) rotate(-1deg); }
+  50% { transform: translateX(3px) rotate(1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .movement-demo.is-playing .movement-demo__figure,
+  .movement-demo__screen.is-playing .movement-demo__figure {
+    animation-duration: 8s;
+  }
+}

@@ -28,6 +28,7 @@ import { useLocale } from '@/lib/locale';
 import { localizeExercise } from '@/lib/localized-data';
 import { getMovementInsight } from '@/lib/movement-details';
 import { MuscleMap } from '@/components/muscle-map';
+import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
 
 export function ExercisesPage() {
   const { locale, t } = useLocale();
@@ -218,6 +219,7 @@ export function ExerciseDetailPage() {
           <Tag tone="dim">{t(levelLabel(ex.level))}</Tag>
         </div>
       </div>
+      <ExerciseMotionPlayer exercise={ex} locale={locale} />
       {insight && (
         <section
           className="grid gap-3 md:grid-cols-[.9fr_1.1fr]"

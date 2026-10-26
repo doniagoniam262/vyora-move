@@ -68,14 +68,18 @@ export function parseSessions(current: string | null, legacy: string | null): Sa
     const ids = Array.isArray(e.completedExerciseIds)
       ? e.completedExerciseIds.filter((x): x is string => typeof x === 'string')
       : [];
+    const durationSeconds = Math.max(0, Number(e.durationSeconds));
+    const storedCount = Number.isFinite(e.completedCount)
+      ? Math.max(0, Math.floor(Number(e.completedCount)))
+      : ids.length;
     out.set(e.id, {
       id: e.id,
       planId: String(e.planId ?? ''),
       planName: String(e.planName ?? 'جلسة'),
       completedAt: e.completedAt,
-      durationSeconds: Number(e.durationSeconds),
+      durationSeconds,
       completedExerciseIds: ids,
-      completedCount: Number.isFinite(e.completedCount) ? Number(e.completedCount) : ids.length,
+      completedCount: Math.max(storedCount, durationSeconds > 0 || ids.length > 0 ? 1 : 0),
     });
   }
   for (const e of arr(legacy)) {
@@ -89,14 +93,18 @@ export function parseSessions(current: string | null, legacy: string | null): Sa
     )
       continue;
     if (Number.isNaN(new Date(e.completedAt).getTime())) continue;
+    const durationSeconds = Math.max(0, Number(e.durationSeconds));
+    const storedCount = Number.isFinite(e.exerciseCount)
+      ? Math.max(0, Math.floor(Number(e.exerciseCount)))
+      : 0;
     out.set(e.id, {
       id: e.id,
       planId: String(e.workoutId ?? ''),
       planName: String(e.workoutTitle ?? 'جلسة سابقة'),
       completedAt: e.completedAt,
-      durationSeconds: Number(e.durationSeconds),
+      durationSeconds,
       completedExerciseIds: [],
-      completedCount: Number.isFinite(e.exerciseCount) ? Number(e.exerciseCount) : 0,
+      completedCount: Math.max(storedCount, durationSeconds > 0 ? 1 : 0),
     });
   }
   return [...out.values()].sort((a, b) => b.completedAt.localeCompare(a.completedAt));

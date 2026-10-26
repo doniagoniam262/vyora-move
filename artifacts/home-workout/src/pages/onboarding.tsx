@@ -183,6 +183,27 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
                   <input id="field-heightCm" data-testid="input-height-cm" type="number" min="100" max="250" step="1" inputMode="numeric" autoComplete="off" value={draft.heightCm} onChange={(event) => update('heightCm', event.target.value)} placeholder="170" aria-invalid={!!errors.heightCm} aria-describedby={errors.heightCm ? 'error-height' : undefined} className={inputClass(errors.heightCm)} />
                 </Field>
               </div>
+              {initialProfile &&
+                Number(draft.weightKg) >= 25 &&
+                Number(draft.weightKg) <= 300 &&
+                Number(draft.heightCm) >= 100 &&
+                Number(draft.heightCm) <= 250 && (
+                  <div
+                    className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3"
+                    data-testid="profile-bmi"
+                    aria-live="polite"
+                  >
+                    <div>
+                      <p className="text-xs font-bold">{text('مؤشر كتلة الجسم (BMI)', 'Body Mass Index (BMI)')}</p>
+                      <p className="mt-1 text-[10px] text-muted-foreground">
+                        {text('حساب تقريبي للتوعية، وليس تشخيصًا طبيًا.', 'A general estimate for information, not a medical diagnosis.')}
+                      </p>
+                    </div>
+                    <strong className="latin text-2xl text-primary" dir="ltr">
+                      {(Number(draft.weightKg) / (Number(draft.heightCm) / 100) ** 2).toFixed(1)}
+                    </strong>
+                  </div>
+                )}
             </section>
 
             <section className={`${panel} p-4 sm:p-6`} aria-labelledby="goal-title">

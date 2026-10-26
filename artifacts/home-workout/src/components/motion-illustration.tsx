@@ -1,8 +1,10 @@
 import type { CSSProperties } from 'react';
 
+export type MotionVariant = 'squat' | 'reach' | 'lunge' | 'plank' | 'stretch' | 'step' | 'bridge' | 'press';
+
 type MotionIllustrationProps = {
   exercise?: string;
-  variant?: 'squat' | 'reach' | 'lunge' | 'plank' | 'stretch' | 'step' | 'bridge' | 'press';
+  variant?: MotionVariant;
   className?: string;
   label?: string;
 };

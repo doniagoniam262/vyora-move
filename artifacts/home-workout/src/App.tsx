@@ -13,13 +13,7 @@ import { SessionPage } from '@/pages/session';
 import ProgressPage from '@/pages/progress';
 import MorePage from '@/pages/more';
 import VideosPage from '@/pages/videos';
-import {
-  Redirect,
-  Route,
-  Switch,
-  useLocation,
-  Router as WouterRouter,
-} from 'wouter';
+import { Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 
@@ -37,8 +31,12 @@ function Router() {
           <Route path="/progress" component={ProgressPage} />
           <Route path="/videos" component={VideosPage} />
           <Route path="/more" component={MorePage} />
-          <Route path="/workouts"><Redirect to="/exercises" /></Route>
-          <Route path="/history"><Redirect to="/progress" /></Route>
+          <Route path="/workouts">
+            <Redirect to="/exercises" />
+          </Route>
+          <Route path="/history">
+            <Redirect to="/progress" />
+          </Route>
           <Route component={NotFound} />
         </Switch>
       </RoutedErrorBoundary>

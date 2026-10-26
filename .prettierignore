@@ -1,0 +1,3 @@
+**/node_modules/**
+**/dist/**
+artifacts/home-workout/src/components/ui/**

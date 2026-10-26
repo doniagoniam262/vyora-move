@@ -16,7 +16,7 @@ import { MuscleMap } from '@/components/muscle-map';
 import { CATEGORIES, exercises, type Category, type Exercise } from '@/lib/data';
 import { localizeExercise } from '@/lib/localized-data';
 import { useLocale } from '@/lib/locale';
-import { getMovementInsight } from '@/lib/movement-details';
+import { getMovementInsight, muscleNames, type MuscleId } from '@/lib/movement-details';
 import { useVYORAProfile } from '@/lib/profile-context';
 import {
   recordVideoWatch,
@@ -33,6 +33,8 @@ const copy = {
     library: 'مكتبة الحركة',
     search: 'ابحث عن تمرين أو عضلة',
     all: 'كل الحركات',
+    targetFilter: 'استهداف العضلة',
+    allMuscles: 'كل العضلات',
     favorites: 'المحفوظة',
     recent: 'شوهدت مؤخرًا',
     clear: 'إلغاء الفلاتر',
@@ -78,6 +80,8 @@ const copy = {
     library: 'Movement library',
     search: 'Search movement or muscle',
     all: 'All movements',
+    targetFilter: 'Target muscle',
+    allMuscles: 'All muscles',
     favorites: 'Saved',
     recent: 'Recently viewed',
     clear: 'Clear filters',
@@ -120,6 +124,7 @@ const copy = {
 
 type View = 'all' | 'favorites' | 'recent';
 type Difficulty = 'all' | Exercise['level'];
+const muscleIds = Object.keys(muscleNames) as MuscleId[];
 
 function categoryName(category: Category, locale: 'ar' | 'en') {
   const names: Record<Category, { ar: string; en: string }> = {
@@ -200,6 +205,7 @@ export default function MovementGuidePage() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [difficulty, setDifficulty] = useState<Difficulty>('all');
+  const [selectedMuscle, setSelectedMuscle] = useState<MuscleId | 'all'>('all');
   const [view, setView] = useState<View>('all');
   const [selectedId, setSelectedId] = useState(exercises[0]?.id ?? '');
 
@@ -252,8 +258,12 @@ export default function MovementGuidePage() {
           ...(movement?.secondaryNames ?? []),
         ]
           .some((value) => value.toLocaleLowerCase(locale === 'ar' ? 'ar' : 'en').includes(normalized));
+      const matchesMuscle =
+        selectedMuscle === 'all' ||
+        Boolean(movement && [...movement.primary, ...movement.secondary].includes(selectedMuscle));
       return (
         matchesQuery &&
+        matchesMuscle &&
         (category === 'all' || exercise.category === category) &&
         (difficulty === 'all' || exercise.level === difficulty)
       );
@@ -265,7 +275,7 @@ export default function MovementGuidePage() {
         .sort((a, b) => recentIds.indexOf(a.id) - recentIds.indexOf(b.id));
     }
     return result;
-  }, [localizedExercises, query, category, difficulty, view, catalogFavorites, catalogHistory, locale]);
+  }, [localizedExercises, query, category, difficulty, selectedMuscle, view, catalogFavorites, catalogHistory, locale]);
 
   const selectMovement = (id: string) => {
     setSelectedId(id);
@@ -304,7 +314,7 @@ export default function MovementGuidePage() {
         <div className="relative mt-6 flex items-center gap-3 border-t border-border/80 pt-4">
           <span className="latin text-[9px] tracking-[.2em] text-muted-foreground" dir="ltr">MOVE WITH INTENT</span>
           <span className="h-px flex-1 bg-border" />
-          <span className="latin text-[9px] text-muted-foreground" dir="ltr">01 — 14</span>
+          <span className="latin text-[9px] text-muted-foreground" dir="ltr">01 — {String(exercises.length).padStart(2, '0')}</span>
         </div>
       </header>
 
@@ -357,6 +367,32 @@ export default function MovementGuidePage() {
               <button key={item.id} type="button" onClick={() => setCategory(item.id)} aria-pressed={category === item.id} data-testid={`button-filter-category-${item.id}`} className={`focus-ring press shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-semibold ${category === item.id ? 'border-primary/45 bg-primary/10 text-primary' : 'border-border text-muted-foreground'}`}>{categoryName(item.id, locale)}</button>
             ))}
           </div>
+          <div className="mt-3">
+            <span className="text-[10px] font-bold text-muted-foreground">{text.targetFilter}</span>
+            <div className="hide-scroll mt-2 flex gap-2 overflow-x-auto pb-1">
+              <button
+                type="button"
+                onClick={() => setSelectedMuscle('all')}
+                aria-pressed={selectedMuscle === 'all'}
+                data-testid="button-filter-muscle-all"
+                className={`focus-ring press shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-semibold ${selectedMuscle === 'all' ? 'border-primary/45 bg-primary/10 text-primary' : 'border-border text-muted-foreground'}`}
+              >
+                {text.allMuscles}
+              </button>
+              {muscleIds.map((id) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setSelectedMuscle(id)}
+                  aria-pressed={selectedMuscle === id}
+                  data-testid={`button-filter-muscle-${id}`}
+                  className={`focus-ring press shrink-0 rounded-full border px-3 py-1.5 text-[11px] font-semibold ${selectedMuscle === id ? 'border-primary/45 bg-primary/10 text-primary' : 'border-border text-muted-foreground'}`}
+                >
+                  {muscleNames[id][locale]}
+                </button>
+              ))}
+            </div>
+          </div>
           <div className="mt-3 flex items-center gap-2">
             <span className="shrink-0 text-[10px] font-bold text-muted-foreground">{text.difficulty}</span>
             {([
@@ -367,8 +403,8 @@ export default function MovementGuidePage() {
               <button key={id} type="button" onClick={() => setDifficulty(id)} aria-pressed={difficulty === id} data-testid={`button-filter-difficulty-${id}`} className={`focus-ring press rounded-full border px-2.5 py-1.5 text-[10px] font-semibold ${difficulty === id ? 'border-primary/45 bg-primary/10 text-primary' : 'border-border text-muted-foreground'}`}>{label}</button>
             ))}
           </div>
-          {(query || category !== 'all' || difficulty !== 'all' || view !== 'all') && (
-            <button type="button" onClick={() => { setQuery(''); setCategory('all'); setDifficulty('all'); setView('all'); }} data-testid="button-reset-movement-filters" className="focus-ring mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
+          {(query || category !== 'all' || difficulty !== 'all' || selectedMuscle !== 'all' || view !== 'all') && (
+            <button type="button" onClick={() => { setQuery(''); setCategory('all'); setDifficulty('all'); setSelectedMuscle('all'); setView('all'); }} data-testid="button-reset-movement-filters" className="focus-ring mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline">
               <X size={13} />{text.clear}
             </button>
           )}

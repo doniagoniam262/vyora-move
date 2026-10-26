@@ -208,6 +208,114 @@ export const movementInsights: Record<string, MovementInsight> = {
     ],
     breathing: cue('أنفاس بطيئة وهادئة في وضعية التمدد.', 'Take slow, calm breaths in the stretch.'),
   },
+  'wall-push-up': {
+    primary: ['chest'],
+    secondary: ['arms', 'shoulders', 'core'],
+    cues: [
+      cue('تثبيت راحتي اليدين على مستوى الصدر مع شد الجذع.', 'Place your palms at chest height and brace your torso.'),
+      cue('ثني المرفقين للخلف بزاوية مريحة ثم الدفع بعيدًا عن الحائط.', 'Bend your elbows at a comfortable angle, then press away from the wall.'),
+    ],
+    mistakes: [
+      cue('يُتجنب تقويس الظهر أو دفع الرأس للأمام.', 'Avoid arching your back or reaching your head forward.'),
+    ],
+    breathing: cue('شهيق عند الاقتراب من الحائط، وزفير عند الدفع.', 'Inhale toward the wall and exhale as you press away.'),
+  },
+  'prone-w-raise': {
+    primary: ['upper-back'],
+    secondary: ['shoulders', 'arms'],
+    cues: [
+      cue('تقريب لوحي الكتف دون رفع الكتفين نحو الأذنين.', 'Draw your shoulder blades together without shrugging.'),
+      cue('استخدام مدى رفع صغير مع رقبة مرتاحة.', 'Use a small lift and keep your neck relaxed.'),
+    ],
+    mistakes: [
+      cue('يُتجنب رفع الصدر عاليًا أو تقويس أسفل الظهر.', 'Avoid lifting your chest too high or arching your lower back.'),
+    ],
+    breathing: cue('الزفير عند رفع الذراعين، والشهيق عند العودة.', 'Exhale as you lift your arms and inhale as you lower.'),
+  },
+  'wall-sit': {
+    primary: ['quads'],
+    secondary: ['glutes', 'core'],
+    cues: [
+      cue('توزيع الوزن على القدمين كاملتين مع تثبيت الظهر على الحائط.', 'Keep your whole foot grounded and your back against the wall.'),
+      cue('اختيار عمق مريح وثبات الركبتين باتجاه أصابع القدم.', 'Choose a comfortable depth and keep your knees tracking over your toes.'),
+    ],
+    mistakes: [
+      cue('يُتجنب نزول الركبتين للداخل أو حبس النفس.', 'Avoid letting your knees cave inward or holding your breath.'),
+    ],
+    breathing: cue('تنفس بانتظام خلال الثبات.', 'Breathe steadily throughout the hold.'),
+  },
+  'calf-raise': {
+    primary: ['calves'],
+    secondary: ['core'],
+    cues: [
+      cue('رفع الكعبين بشكل متساوٍ مع ثبات الكاحلين.', 'Lift both heels evenly while keeping your ankles steady.'),
+      cue('العودة ببطء حتى تلامس القدم الأرض كاملة.', 'Lower slowly until your full foot is grounded.'),
+    ],
+    mistakes: [
+      cue('يُتجنب الارتداد أو الاعتماد الكامل على الذراعين.', 'Avoid bouncing or leaning heavily on your arms.'),
+    ],
+    breathing: cue('الزفير عند الارتفاع، والشهيق عند النزول.', 'Exhale as you rise and inhale as you lower.'),
+  },
+  'dead-bug': {
+    primary: ['core'],
+    secondary: ['obliques', 'hip-flexors'],
+    cues: [
+      cue('شد البطن مع حركة بطيئة للذراع والساق المتعاكستين.', 'Brace your abdomen and move the opposite arm and leg slowly.'),
+      cue('إيقاف مدى الحركة قبل أن يرتفع أسفل الظهر عن الأرض.', 'Stop the range before your lower back lifts from the floor.'),
+    ],
+    mistakes: [
+      cue('يُتجنب مد الذراع والساق بسرعة أو فقدان ثبات الجذع.', 'Avoid extending quickly or losing torso control.'),
+    ],
+    breathing: cue('زفير مع مد الطرفين، وشهيق عند العودة للمنتصف.', 'Exhale as you extend and inhale as you return to center.'),
+  },
+  'side-plank': {
+    primary: ['obliques'],
+    secondary: ['core', 'shoulders', 'glutes'],
+    cues: [
+      cue('محاذاة المرفق أسفل الكتف ورفع الوركين دون دوران.', 'Stack your elbow beneath your shoulder and lift without rotating.'),
+      cue('الحفاظ على خط واحد من الكتف إلى الورك والقدم.', 'Keep a straight line from shoulder through hip to foot.'),
+    ],
+    mistakes: [
+      cue('يُتجنب هبوط الورك أو دفع الكتف بعيدًا عن الأذن.', 'Avoid letting your hip sag or shrugging your shoulder.'),
+    ],
+    breathing: cue('أنفاس هادئة ومنتظمة أثناء الثبات.', 'Take calm, even breaths during the hold.'),
+  },
+  'fire-hydrant': {
+    primary: ['glutes'],
+    secondary: ['hip-flexors', 'core'],
+    cues: [
+      cue('إبقاء الحوض مواجهًا للأرض أثناء رفع الركبة للجانب.', 'Keep your hips facing the floor as you lift your knee to the side.'),
+      cue('رفع الركبة بقدر مريح مع ثبات الظهر.', 'Lift only as high as comfortable while keeping your back steady.'),
+    ],
+    mistakes: [
+      cue('يُتجنب تدوير الجذع أو تقويس الظهر لرفع الساق أكثر.', 'Avoid rotating your torso or arching your back to lift higher.'),
+    ],
+    breathing: cue('الزفير عند الرفع، والشهيق عند خفض الركبة.', 'Exhale as you lift and inhale as you lower your knee.'),
+  },
+  'hip-hinge': {
+    primary: ['hamstrings'],
+    secondary: ['glutes', 'core'],
+    cues: [
+      cue('تحريك الوركين للخلف مع بقاء الظهر طويلًا.', 'Move your hips back while keeping a long spine.'),
+      cue('العودة للوقوف بدفع الوركين للأمام دون المبالغة في تقويس الظهر.', 'Stand by bringing your hips forward without over-arching your back.'),
+    ],
+    mistakes: [
+      cue('يُتجنب تحويل الحركة إلى انحناء من أسفل الظهر.', 'Avoid turning the movement into a bend through your lower back.'),
+    ],
+    breathing: cue('شهيق عند إرجاع الوركين، وزفير عند الوقوف.', 'Inhale as your hips move back and exhale as you stand.'),
+  },
+  'pike-push-up': {
+    primary: ['shoulders'],
+    secondary: ['arms', 'chest', 'core'],
+    cues: [
+      cue('تثبيت اليدين ورفع الوركين لتكوين شكل V مقلوب.', 'Set your hands and lift your hips into an inverted V.'),
+      cue('خفض الرأس بين اليدين بمدى مريح مع تحكم بالمرفقين.', 'Lower your head between your hands through a comfortable range.'),
+    ],
+    mistakes: [
+      cue('يُتجنب هبوط الرأس بسرعة أو تحميل الرسغين دون استعداد.', 'Avoid dropping your head quickly or forcing your wrists.'),
+    ],
+    breathing: cue('شهيق عند النزول، وزفير عند دفع الأرض للعودة.', 'Inhale as you lower and exhale as you press back.'),
+  },
 };
 
 export function getMovementInsight(exerciseId: string, locale: Locale) {

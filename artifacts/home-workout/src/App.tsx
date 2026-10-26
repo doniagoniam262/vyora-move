@@ -126,6 +126,8 @@ function WorkoutRoutes({
           <Route path="/plans" component={PlansPage} />
           <Route path="/plans/:planId" component={PlanDetailPage} />
           <Route path="/progress" component={ProgressPage} />
+          <Route path="/movement-guide" component={MovementGuidePage} />
+          {/* Keep old local bookmarks working; this route is the in-app guide, not a video embed. */}
           <Route path="/videos" component={MovementGuidePage} />
           <Route path="/schedule" component={WeeklyPlanPage} />
           <Route path="/nutrition" component={NutritionPage} />

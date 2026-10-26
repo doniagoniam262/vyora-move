@@ -162,7 +162,7 @@ export default function MorePage() {
         </button>
       </section>
       <Link
-        href="/videos"
+        href="/movement-guide"
         data-testid="link-more-movement-guide"
         className="card-dark focus-ring lift flex items-center gap-3 p-3.5"
       >

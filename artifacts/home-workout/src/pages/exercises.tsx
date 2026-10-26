@@ -302,7 +302,7 @@ export function ExerciseDetailPage() {
       {insight && (
         <section className="card-dark space-y-3 p-4" data-testid="exercise-common-errors">
           <h2 className="text-sm font-extrabold">
-            {locale === 'ar' ? 'أخطاء شائعة انتبهي لها' : 'Common form errors'}
+            {locale === 'ar' ? 'أخطاء شائعة' : 'Common form errors'}
           </h2>
           <ul className="space-y-2">
             {insight.mistakes.map((mistake, index) => (
@@ -333,7 +333,7 @@ export function ExerciseDetailPage() {
         </div>
       </div>
       <Link
-        href={`/videos#movement-${ex.id}`}
+        href={`/movement-guide#movement-${ex.id}`}
         data-testid="link-exercise-movement-guide"
         className="card-dark focus-ring lift flex items-center gap-3 p-4"
       >

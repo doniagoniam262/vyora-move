@@ -146,6 +146,96 @@ const exerciseText: Record<
     safety: 'If your knees hurt, place a cushion beneath them.',
     easier: 'Place a cushion between your hips and heels.',
   },
+  'wall-push-up': {
+    name: 'Wall Push-up',
+    instructions: [
+      'Stand facing a stable wall and place your palms at chest height.',
+      'Step back slightly and keep a straight line from head to heels.',
+      'Bend your elbows to move toward the wall, then press back.',
+    ],
+    safety: 'Keep your feet and the wall steady; stop if your shoulder or wrist hurts.',
+    easier: 'Stand closer to the wall and use a shorter range.',
+  },
+  'prone-w-raise': {
+    name: 'Prone W Raise',
+    instructions: [
+      'Lie on your stomach with your arms shaped like a W.',
+      'Draw your shoulder blades back and lift your hands slightly.',
+      'Pause, then lower slowly while keeping your neck relaxed.',
+    ],
+    safety: 'Use a small lift and stop if you feel neck or lower-back strain.',
+    easier: 'Squeeze your shoulder blades without lifting your hands.',
+  },
+  'wall-sit': {
+    name: 'Wall Sit',
+    instructions: [
+      'Lean against a stable wall with your feet slightly in front.',
+      'Lower only as far as comfortable, keeping knees in line with toes.',
+      'Hold while breathing calmly, then press through your heels to stand.',
+    ],
+    safety: 'Do not hold a painful depth; stop if your knee hurts.',
+    easier: 'Hold higher or for less time.',
+  },
+  'calf-raise': {
+    name: 'Calf Raise',
+    instructions: [
+      'Stand beside a wall or sturdy chair for balance.',
+      'Slowly lift your heels until you are on the balls of your feet.',
+      'Pause, then lower your heels with control.',
+    ],
+    safety: 'Use steady support if balance is difficult and avoid bouncing.',
+    easier: 'Raise your heels only a little while holding the wall.',
+  },
+  'dead-bug': {
+    name: 'Dead Bug',
+    instructions: [
+      'Lie on your back with arms raised and knees above your hips.',
+      'Slowly extend one arm and the opposite leg while keeping your lower back close to the floor.',
+      'Return to center and switch sides while keeping your torso steady.',
+    ],
+    safety: 'Shorten the range if your lower back lifts or pain appears.',
+    easier: 'Move one leg at a time while keeping your arms still.',
+  },
+  'side-plank': {
+    name: 'Side Plank',
+    instructions: [
+      'Lie on your side and place your elbow beneath your shoulder.',
+      'Lift your hips until your body forms a straight line.',
+      'Hold while breathing, then switch sides.',
+    ],
+    safety: 'Stop if you feel shoulder or lower-back pain.',
+    easier: 'Bend your knees and support yourself on them.',
+  },
+  'fire-hydrant': {
+    name: 'Fire Hydrant',
+    instructions: [
+      'Start on your hands and knees with a neutral back.',
+      'Lift one knee out to the side without rotating your torso.',
+      'Lower slowly, repeat, then switch sides.',
+    ],
+    safety: 'Keep the hip range comfortable and stop if it hurts.',
+    easier: 'Lift the knee a short distance and keep your torso still.',
+  },
+  'hip-hinge': {
+    name: 'Hip Hinge',
+    instructions: [
+      'Stand with a slight bend in your knees and a long spine.',
+      'Push your hips back and lean forward from the hip joints.',
+      'Press through the floor and bring your hips forward to stand.',
+    ],
+    safety: 'Stop if you feel sharp pain in your back or hamstrings.',
+    easier: 'Place your hands on your thighs and use a shorter range.',
+  },
+  'pike-push-up': {
+    name: 'Pike Push-up',
+    instructions: [
+      'Start in an inverted V shape with your hands steady on the floor.',
+      'Bend your elbows and lower your head toward the space between your hands.',
+      'Press the floor away to return, keeping your neck relaxed.',
+    ],
+    safety: 'Use a small range and stop if your shoulder or wrist hurts.',
+    easier: 'Use a wall or elevated surface for an incline push-up.',
+  },
 };
 
 const planText: Record<string, { name: string; description: string; frequency: string }> = {

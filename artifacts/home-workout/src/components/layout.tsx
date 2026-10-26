@@ -92,11 +92,11 @@ const items = [
     match: (l: string) => l.startsWith('/plans'),
   },
   {
-    href: '/videos',
+    href: '/movement-guide',
     label: 'دليل الحركة',
     Icon: Activity,
     id: 'movement-guide',
-    match: (l: string) => l.startsWith('/videos'),
+    match: (l: string) => l.startsWith('/movement-guide') || l.startsWith('/videos'),
   },
   {
     href: '/progress',

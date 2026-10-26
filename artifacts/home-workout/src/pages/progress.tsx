@@ -185,7 +185,7 @@ export default function ProgressPage() {
                   </span>
                 </span>
                 <Link
-                  href={`/videos#movement-${exercise.id}`}
+                  href={`/movement-guide#movement-${exercise.id}`}
                   data-testid={`link-favorite-movement-${exercise.id}`}
                   className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary"
                 >
@@ -222,7 +222,7 @@ export default function ProgressPage() {
                   </span>
                 </span>
                 <Link
-                  href={`/videos#movement-${exercise.id}`}
+                  href={`/movement-guide#movement-${exercise.id}`}
                   data-testid={`link-viewed-movement-${exercise.id}`}
                   className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary"
                 >

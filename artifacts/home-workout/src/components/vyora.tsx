@@ -56,12 +56,16 @@ export function SmartImg({
 }) {
   const variantFor = (key: string) => {
     if (key.includes('squat') || key.includes('سكوات')) return 'squat';
+    if (key.includes('calf') || key.includes('heel') || key.includes('القدمين') || key.includes('الكعب')) return 'step';
+    if (key.includes('wall sit') || key.includes('wall-sit') || key.includes('جلوس الحائط')) return 'squat';
+    if (key.includes('w-raise') || key.includes('upper-back') || key.includes('ظهر')) return 'reach';
     if (key.includes('march') || key.includes('step') || key.includes('مشي') || key.includes('جاك'))
       return 'step';
     if (key.includes('plank') || key.includes('crunch') || key.includes('abs') || key.includes('بلانك') || key.includes('كرنش'))
       return 'plank';
-    if (key.includes('bridge') || key.includes('glute') || key.includes('جسر')) return 'bridge';
-    if (key.includes('lunge') || key.includes('اندفاع')) return 'lunge';
+    if (key.includes('bridge') || key.includes('glute') || key.includes('hydrant') || key.includes('جسر') || key.includes('الورك من وضع الأربع'))
+      return 'bridge';
+    if (key.includes('lunge') || key.includes('hinge') || key.includes('انحناء الورك') || key.includes('اندفاع')) return 'lunge';
     if (key.includes('stretch') || key.includes('child') || key.includes('hamstring') || key.includes('تمدد'))
       return 'stretch';
     if (key.includes('push') || key.includes('upper') || key.includes('press') || key.includes('ضغط') || key.includes('غطس'))

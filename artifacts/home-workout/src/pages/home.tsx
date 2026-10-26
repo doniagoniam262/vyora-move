@@ -375,7 +375,7 @@ export default function HomePage() {
       </section>
 
       <Link
-        href="/videos"
+        href="/movement-guide"
         data-testid="card-home-videos"
         className="card-dark focus-ring lift flex items-center gap-3 p-3"
       >

@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Bell, Clock3, Film, Move, Play, Sparkles, VolumeX } from 'lucide-react';
-import { exercises, planById, plans, planExercises, categoryLabel, recommendHomePlan, scheduledPlanForDay } from '@/lib/data';
+import { asset, exercises, planById, plans, planExercises, categoryLabel, recommendHomePlan, scheduledPlanForDay } from '@/lib/data';
 import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
@@ -42,6 +42,16 @@ export default function HomePage() {
         </div>
         <Link href="/progress" data-testid="link-home-notifications" aria-label={locale === 'ar' ? 'تقدمك' : 'Your progress'} className="focus-ring press grid h-11 w-11 place-items-center rounded-full border border-border bg-card"><Bell size={18} /></Link>
       </div>
+
+      <figure className="overflow-hidden rounded-2xl border border-border bg-card" data-testid="brand-poster">
+        <img
+          src={asset('images/vyora-launch-poster.jpg')}
+          alt={locale === 'ar' ? 'هوية ڤايورا: MOVE BEYOND LIMITS. تدريبك في بيتك.. لنسخة أقوى من نفسك.' : 'VYORA — MOVE BEYOND LIMITS. Training at home, for a stronger you.'}
+          className="block aspect-[2/1] w-full object-cover object-[center_78%]"
+          loading="eager"
+          decoding="async"
+        />
+      </figure>
 
       <section data-testid="card-today-challenge" className="card-dark relative overflow-hidden">
         <SmartImg src={today.image} alt={today.name} className="absolute inset-0 h-full w-full" />

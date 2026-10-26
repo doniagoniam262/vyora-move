@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
-import { Bell, Film, Play } from 'lucide-react';
-import { exercises, planById, plans, planExercises, categoryLabel, scheduledPlanForDay } from '@/lib/data';
+import { Bell, Clock3, Film, Move, Play, Sparkles, VolumeX } from 'lucide-react';
+import { exercises, planById, plans, planExercises, categoryLabel, recommendHomePlan, scheduledPlanForDay } from '@/lib/data';
 import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
@@ -10,7 +10,7 @@ import { localizeExercise, localizePlan } from '@/lib/localized-data';
 export default function HomePage() {
   const { locale, t } = useLocale();
   const sessions = useSessions();
-  const [settings] = useSettings();
+  const [settings, updateSettings] = useSettings();
   const [schedule] = useWeeklySchedule();
   const day = new Date().getDay();
   const rawToday = planById(['ten-minute', 'beginner-plan', 'twenty-minute'][day % 3]) ?? plans[0];
@@ -23,6 +23,15 @@ export default function HomePage() {
   const names = locale === 'ar' ? ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'] : ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
   const scheduledToday = schedule.days.includes(day);
   const scheduledPlan = scheduledPlanForDay(schedule, day);
+  const homePlan = recommendHomePlan({
+    level: settings.homeFitLevel,
+    minutes: settings.homeFitMinutes,
+    quiet: settings.homeFitQuiet,
+    compact: settings.homeFitCompact,
+    recentPlanIds: sessions.slice(0, 2).map((session) => session.planId),
+  });
+  const localizedHomePlan = homePlan ? localizePlan(homePlan, locale) : undefined;
+  const choiceClass = (active: boolean) => `focus-ring press rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${active ? 'border-primary bg-primary/15 text-primary' : 'border-border bg-background/60 text-muted-foreground hover:border-primary/40'}`;
   return (
     <div className="page-enter space-y-3.5">
       <div className="flex items-start justify-between">
@@ -45,6 +54,66 @@ export default function HomePage() {
           </div>
           <Link href={`/session/${today.id}`} data-testid="button-start-today" className="btn-lime focus-ring press mt-4 inline-flex w-fit items-center gap-2 rounded-lg px-8 py-2 text-sm"><Play size={16} fill="currentColor" />{t('ابدأ الآن')}</Link>
         </div>
+      </section>
+
+      <section data-testid="card-home-fit" className="card-dark space-y-3.5 p-4">
+        <div className="flex items-start gap-3">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/15 text-primary"><Sparkles size={19} /></span>
+          <div className="min-w-0">
+            <h2 className="text-sm font-extrabold">{t('تمرين يناسب بيتك اليوم')}</h2>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">{t('اختيار وقتك ومساحتك ومستوى التمرين')}</p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground"><Clock3 size={13} />{t('الوقت المتاح')}</p>
+            <div className="grid grid-cols-2 gap-1.5" role="group" aria-label={t('الوقت المتاح')}>
+              {([10, 20] as const).map((minutes) => (
+                <button key={minutes} type="button" data-testid={`home-fit-duration-${minutes}`} aria-pressed={settings.homeFitMinutes === minutes} onClick={() => updateSettings({ homeFitMinutes: minutes })} className={choiceClass(settings.homeFitMinutes === minutes)}>
+                  {t('حتى')} {minutes} {locale === 'ar' ? 'دقائق' : 'min'}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold text-muted-foreground"><Move size={13} />{t('مستوى التمرين')}</p>
+            <div className="grid grid-cols-2 gap-1.5" role="group" aria-label={t('مستوى التمرين')}>
+              {(['beginner', 'intermediate'] as const).map((level) => (
+                <button key={level} type="button" data-testid={`home-fit-level-${level}`} aria-pressed={settings.homeFitLevel === level} onClick={() => updateSettings({ homeFitLevel: level })} className={choiceClass(settings.homeFitLevel === level)}>
+                  {t(level === 'beginner' ? 'مبتدئ' : 'متوسط')}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2">
+          <button type="button" data-testid="home-fit-toggle-quiet" aria-pressed={settings.homeFitQuiet} onClick={() => updateSettings({ homeFitQuiet: !settings.homeFitQuiet })} className={`${choiceClass(settings.homeFitQuiet)} flex items-center justify-center gap-2`}>
+            <VolumeX size={15} />{t('تمرين هادي')} · {t('بدون قفز')}
+          </button>
+          <button type="button" data-testid="home-fit-toggle-compact" aria-pressed={settings.homeFitCompact} onClick={() => updateSettings({ homeFitCompact: !settings.homeFitCompact })} className={`${choiceClass(settings.homeFitCompact)} flex items-center justify-center gap-2`}>
+            <Move size={15} />{t('مساحة صغيرة')}
+          </button>
+        </div>
+
+        {localizedHomePlan ? (
+          <div className="flex items-center gap-3 rounded-xl border border-border bg-background/50 p-2.5" data-testid="home-fit-recommendation">
+            <SmartImg src={localizedHomePlan.image} alt={localizedHomePlan.name} className="h-20 w-24 shrink-0 rounded-lg" />
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] font-bold text-primary">{t('اختيار ڤايورا لك اليوم')}</p>
+              <h3 className="mt-0.5 text-sm font-extrabold">{localizedHomePlan.name}</h3>
+              <p className="mt-1 text-[11px] text-muted-foreground">{localizedHomePlan.minutes} {locale === 'ar' ? 'دقيقة' : 'min'} · {planExercises(localizedHomePlan).length} {locale === 'ar' ? 'تمارين' : 'exercises'}</p>
+              <Link href={`/session/${localizedHomePlan.id}`} data-testid="button-start-home-fit" className="btn-lime focus-ring press mt-2 inline-flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs"><Play size={13} fill="currentColor" />{t('ابدأ الجلسة')}</Link>
+            </div>
+          </div>
+        ) : (
+          <div className="rounded-xl border border-border bg-background/50 p-3" data-testid="home-fit-no-match">
+            <p className="text-sm font-bold">{t('لا توجد خطة مناسبة لهذه الاختيارات')}</p>
+            <p className="mt-1 text-xs leading-5 text-muted-foreground">{t('يمكنك اختيار 10 دقائق أو إلغاء وضع المساحة الصغيرة.')}</p>
+            <button type="button" data-testid="button-reset-home-fit" onClick={() => updateSettings({ homeFitMinutes: 10, homeFitCompact: false })} className="focus-ring mt-2 rounded-lg py-1 text-xs font-bold text-primary">{t('إعادة ضبط الاختيارات')}</button>
+          </div>
+        )}
       </section>
 
       <section className="card-dark p-3.5" data-testid="card-personal-schedule">

@@ -163,6 +163,26 @@ export function scheduledPlanForDay(schedule: { days: number[]; level: Level; mi
   return options[dayIndex % options.length];
 }
 
+export type HomeFitPreferences = {
+  level: Level;
+  minutes: 10 | 20;
+  quiet: boolean;
+  compact: boolean;
+  recentPlanIds?: string[];
+};
+
+export function recommendHomePlan(preferences: HomeFitPreferences) {
+  const recent = new Set(preferences.recentPlanIds ?? []);
+  const eligible = plans
+    .filter((plan) => plan.level === preferences.level && plan.minutes <= preferences.minutes)
+    .filter((plan) => planExercises(plan).every((exercise) =>
+      (!preferences.quiet || exercise.id !== 'jacks-low') &&
+      (!preferences.compact || exercise.id !== 'lunge'),
+    ))
+    .sort((a, b) => b.minutes - a.minutes);
+  return eligible.find((plan) => !recent.has(plan.id)) ?? eligible[0];
+}
+
 export function formatTime(seconds: number) {
   const safe = Math.max(0, Math.floor(seconds));
   return `${String(Math.floor(safe / 60)).padStart(2, '0')}:${String(safe % 60).padStart(2, '0')}`;

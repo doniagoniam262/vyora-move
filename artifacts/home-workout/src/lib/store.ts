@@ -43,8 +43,22 @@ export function saveSession(s: SavedSession): boolean {
 }
 export function newSessionId() { return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`; }
 
-export type Settings = { restSeconds: number; weeklyGoal: number };
-export const defaultSettings: Settings = { restSeconds: 15, weeklyGoal: 4 };
+export type Settings = {
+  restSeconds: number;
+  weeklyGoal: number;
+  homeFitMinutes: 10 | 20;
+  homeFitLevel: Level;
+  homeFitQuiet: boolean;
+  homeFitCompact: boolean;
+};
+export const defaultSettings: Settings = {
+  restSeconds: 15,
+  weeklyGoal: 4,
+  homeFitMinutes: 10,
+  homeFitLevel: 'beginner',
+  homeFitQuiet: false,
+  homeFitCompact: false,
+};
 export function parseSettings(s: string | null): Settings {
   try {
     const v: unknown = JSON.parse(s ?? '{}');
@@ -52,6 +66,10 @@ export function parseSettings(s: string | null): Settings {
     return {
       restSeconds: [10, 15, 20, 30].includes(Number(v.restSeconds)) ? Number(v.restSeconds) : defaultSettings.restSeconds,
       weeklyGoal: Number.isInteger(v.weeklyGoal) && Number(v.weeklyGoal) >= 1 && Number(v.weeklyGoal) <= 7 ? Number(v.weeklyGoal) : defaultSettings.weeklyGoal,
+      homeFitMinutes: v.homeFitMinutes === 20 ? 20 : 10,
+      homeFitLevel: v.homeFitLevel === 'intermediate' ? 'intermediate' : 'beginner',
+      homeFitQuiet: v.homeFitQuiet === true,
+      homeFitCompact: v.homeFitCompact === true,
     };
   } catch { return defaultSettings; }
 }

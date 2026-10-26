@@ -15,7 +15,7 @@ const translations: Record<string, string> = {
   الرئيسية: 'Home',
   التمارين: 'Exercises',
   الخطط: 'Plans',
-  الفيديو: 'Videos',
+  'دليل الحركة': 'Movement guide',
   التقدم: 'Progress',
   المزيد: 'More',
   'موعد تدريبك في ڤايورا': 'Your VYORA workout reminder',
@@ -65,8 +65,6 @@ const translations: Record<string, string> = {
   'تمارينك اليومية': 'Daily exercises',
   'عرض الكل': 'View all',
   ث: 'sec',
-  'تمارين بالفيديو': 'Video workouts',
-  'مدربات ومدربون وخيارات تناسب كل مستوى': 'Trainers and options for every level',
   'خطط مقترحة': 'Suggested plans',
   'كل الخطط': 'All plans',
   المكتبة: 'Exercise library',
@@ -96,8 +94,6 @@ const translations: Record<string, string> = {
   التكرارات: 'Reps',
   'ملاحظة أمان': 'Safety note',
   'نسخة أسهل': 'Easier option',
-  'شاهدِي تطبيق التمارين بالفيديو': 'See the exercises in video',
-  'فيديوهات مع مدربات ومدربين تناسب الجميع': 'Videos with trainers, for everyone',
   'ابدأ التمرين': 'Start exercise',
   'خطط التدريب': 'Workout plans',
   'حتى 15 دقيقة': 'Up to 15 min',
@@ -156,24 +152,6 @@ const translations: Record<string, string> = {
   'سجلك يبدأ بجلسة': 'Your history starts with one session',
   'لا توجد جلسات محفوظة حتى الآن. أكمل جلسة قصيرة لعرض إحصاءات تقدمك هنا.':
     'No workouts saved yet. Complete a short session to see your progress here.',
-  'تدريب بالفيديو': 'Video training',
-  'مدة الفيديو': 'Duration',
-  'سجل المشاهدة': 'Watch history',
-  'سيظهر سجل المشاهدة هنا بعد تشغيل فيديو.':
-    'Your watch history will appear here after you play a video.',
-  'فيديوهات بشرح عربي مع مدربات ومدربين، بدون الحاجة إلى ترجمة تلقائية. الخطط والتمارين في ڤايورا متاحة للنساء والرجال؛ اختر المستوى والحركة المناسبة لك. الفلتر يحدد المدرب فقط، وليس من يمكنه أداء التمرين.':
-    'These videos feature Arabic instruction by women and men trainers; the clips themselves are in Arabic. VYORA plans and exercises are for women and men. Choose the level and movement that suit you. The filter selects a trainer, not who can do the exercise.',
-  'اختيار المدرب': 'Choose a trainer',
-  'مع مدربة': 'Women trainers',
-  'مع مدرب': 'Men trainers',
-  للجميع: 'All',
-  'تشغيل الفيديو': 'Play video',
-  'فتح على YouTube': 'Open on YouTube',
-  'لا توجد فيديوهات مطابقة.': 'No matching videos found.',
-  'استخدم خيار «الكل» لعرض جميع الفيديوهات.': 'Choose “All” to view every video.',
-  'الفيديوهات مستضافة على YouTube وتحتاج اتصالًا بالإنترنت. اختر «تشغيل الفيديو» لإظهاره هنا، أو افتحه على YouTube. توقف عن التمرين عند الشعور بألم.':
-    'Videos are hosted on YouTube and require an internet connection. Choose “Play video” to watch here, or open it on YouTube. Stop exercising if you feel pain.',
-  'فيديوهات عربية مع مدربات ومدربين': 'Arabic videos with women and men trainers',
   الإعدادات: 'Settings',
   'يرجى تحديد أيام التدريب ومستوى اللياقة والمدة القصوى للجلسة.':
     'Select your training days, fitness level, and maximum session length.',
@@ -198,17 +176,11 @@ const translations: Record<string, string> = {
   'ڤايورا تطبيق للتدريب المنزلي يركز على التقدم التدريجي دون معدات. يضم تمارين بوزن الجسم وخططًا قصيرة ومؤقتًا مدمجًا للجلسات. لا يتطلب إنشاء حساب ولا يعرض إعلانات.':
     'VYORA is a home-workout app focused on steady progress without equipment. It offers bodyweight exercises, short plans, and a built-in workout timer. No account is required, and the app contains no ads.',
   الخصوصية: 'Privacy',
-  'الجلسات والإعدادات وسجل مشاهدة الفيديوهات تُحفظ في متصفحك فقط ولا تُرسل إلى خادم ڤايورا. بعض صور معاينة الفيديو مستضافة على YouTube؛ وعند تشغيل فيديو يتصل التطبيق بالموقع لعرضه، وقد يستقبل الموقع بيانات الاتصال وفق سياسة الخصوصية لديه. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.':
-    'Sessions, settings, and video watch history are stored only in your browser and are not sent to VYORA servers. Some video previews are hosted on YouTube; playing a video connects to YouTube, which may receive connection data under its privacy policy. VYORA provides general fitness content, not medical advice; consult a professional when needed.',
   البيانات: 'Data',
-  'احذف الجلسات والإعدادات وسجل مشاهدة الفيديوهات المحفوظة على هذا الجهاز.':
-    'Delete sessions, settings, and video watch history saved on this device.',
   'مسح كل البيانات': 'Delete all data',
   'الاستمرارية تدعم التقدم': 'Consistency supports progress',
   'كل تدريب خطوة نحو هدفك.': 'Each workout is a step toward your goal.',
   'مسح كل البيانات؟': 'Delete all data?',
-  'سيتم حذف سجل الجلسات وسجل مشاهدة الفيديوهات والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز ولا يمكن التراجع.':
-    'Session history, video watch history, settings, and weekly schedule will be permanently deleted from this device. This cannot be undone.',
   'نعم، امسح': 'Yes, delete',
   إلغاء: 'Cancel',
   'Page not found': 'Page not found',

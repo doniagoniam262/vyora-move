@@ -1,18 +1,14 @@
-import { useState } from 'react';
 import { Link } from 'wouter';
 import {
+  Activity,
   Bell,
-  ChevronLeft,
-  ChevronRight,
   Clock3,
-  Film,
   Move,
   Play,
   Sparkles,
   VolumeX,
 } from 'lucide-react';
 import {
-  asset,
   exercises,
   planById,
   plans,
@@ -24,38 +20,22 @@ import {
 import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
+import { GoalPlanPanel } from '@/components/goal-plan-panel';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
-import { genderGallery } from '@/lib/profile';
 import { useVYORAProfile } from '@/lib/profile-context';
 
 export default function HomePage() {
   const { locale, t } = useLocale();
-  const [brandGalleryIndex, setBrandGalleryIndex] = useState(0);
-  const gender = useVYORAProfile()?.gender ?? 'female';
-  const brandGalleryImages = genderGallery(gender).map((src, index) => {
-    const femaleDescriptions = [
-      ['ملاكمة تتدرب على كيس الملاكمة.', 'A woman training on a punching bag.'],
-      ['ملاكمة تستعد للتدريب.', 'A woman preparing for boxing training.'],
-      ['رياضية تؤدي تمرين السكوات.', 'A woman performing a squat.'],
-      ['رياضية تتمرن للجزء العلوي.', 'A woman training her upper body.'],
-      ['رياضية تؤدي تمرين تمدد.', 'A woman doing a stretching exercise.'],
-    ];
-    const maleDescriptions = [
-      ['متدرب يؤدي تمرين الضغط.', 'A man performing a push-up.'],
-      ['متدرب يؤدي تمرين البلانك.', 'A man holding a plank.'],
-      ['متدرب يؤدي تمرين أرضي.', 'A man doing a floor exercise.'],
-      ['لقطة قريبة ليد تمسك دمبل.', 'Close-up of a hand holding a dumbbell.'],
-    ];
-    const descriptions = gender === 'female' ? femaleDescriptions : maleDescriptions;
-    const [altAr, altEn] = descriptions[index] ?? descriptions[0];
-    return { src, altAr, altEn };
-  });
+  const profile = useVYORAProfile();
   const sessions = useSessions();
   const [settings, updateSettings] = useSettings();
   const [schedule] = useWeeklySchedule();
   const day = new Date().getDay();
-  const rawToday = planById(['ten-minute', 'beginner-plan', 'twenty-minute'][day % 3]) ?? plans[0];
+  const rawToday =
+    (profile?.goal === 'gain-weight'
+      ? planById('gain-weight-plan')
+      : planById(['ten-minute', 'beginner-plan', 'twenty-minute'][day % 3])) ?? plans[0];
   const today = localizePlan(rawToday, locale);
   const daily = [0, 1, 2].map((i) =>
     localizeExercise(exercises[(day * 3 + i * 4 + 2) % exercises.length], locale),
@@ -73,14 +53,14 @@ export default function HomePage() {
     minutes: settings.homeFitMinutes,
     quiet: settings.homeFitQuiet,
     compact: settings.homeFitCompact,
+    goal: profile?.goal,
     recentPlanIds: sessions.slice(0, 2).map((session) => session.planId),
   });
   const localizedHomePlan = homePlan ? localizePlan(homePlan, locale) : undefined;
-  const activeBrandImage = brandGalleryImages[brandGalleryIndex];
-  const moveBrandGallery = (step: number) =>
-    setBrandGalleryIndex(
-      (index) => (index + step + brandGalleryImages.length) % brandGalleryImages.length,
-    );
+  const visiblePlans = plans
+    .filter((plan) => !plan.goal || plan.goal === profile?.goal)
+    .sort((a, b) => Number(b.goal === profile?.goal) - Number(a.goal === profile?.goal))
+    .slice(0, 3);
   const choiceClass = (active: boolean) =>
     `focus-ring press rounded-xl border px-3 py-2 text-xs font-bold transition-colors ${active ? 'border-primary bg-primary/15 text-primary' : 'border-border bg-background/60 text-muted-foreground hover:border-primary/40'}`;
   return (
@@ -103,76 +83,7 @@ export default function HomePage() {
         </Link>
       </div>
 
-      <section
-        className="card-dark overflow-hidden"
-        data-testid="brand-gallery"
-        aria-label={locale === 'ar' ? 'معرض صور ڤايورا' : 'VYORA image gallery'}
-      >
-        <div className="flex items-center justify-between gap-3 px-4 py-3">
-          <h2 className="text-sm font-extrabold">
-            {locale === 'ar' ? 'صور ڤايورا' : 'VYORA gallery'}
-          </h2>
-          <span
-            className="text-xs font-bold text-muted-foreground"
-            dir="ltr"
-            aria-live="polite"
-            data-testid="brand-gallery-counter"
-          >
-            {brandGalleryIndex + 1} / {brandGalleryImages.length}
-          </span>
-        </div>
-        <div className="flex h-[68vh] min-h-[320px] max-h-[620px] items-center justify-center bg-black px-2 py-1">
-          <img
-            src={asset(activeBrandImage.src)}
-            alt={locale === 'ar' ? activeBrandImage.altAr : activeBrandImage.altEn}
-            className="h-full w-full object-contain"
-            loading="eager"
-            decoding="async"
-            data-testid="brand-gallery-image"
-          />
-        </div>
-        <div className="flex items-center justify-between gap-3 px-3 py-2.5">
-          <button
-            type="button"
-            onClick={() => moveBrandGallery(-1)}
-            aria-label={locale === 'ar' ? 'الصورة السابقة' : 'Previous image'}
-            className="focus-ring press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-primary"
-            data-testid="brand-gallery-previous"
-          >
-            <ChevronLeft className={locale === 'ar' ? 'rotate-180' : ''} size={19} />
-          </button>
-          <div
-            className="flex items-center gap-1"
-            role="group"
-            aria-label={locale === 'ar' ? 'اختيار صورة' : 'Choose an image'}
-          >
-            {brandGalleryImages.map((image, index) => (
-              <button
-                key={image.src}
-                type="button"
-                onClick={() => setBrandGalleryIndex(index)}
-                aria-label={`${locale === 'ar' ? 'عرض الصورة' : 'Show image'} ${index + 1}`}
-                aria-pressed={brandGalleryIndex === index}
-                className="focus-ring grid h-7 w-6 place-items-center rounded-full"
-                data-testid={`brand-gallery-dot-${index + 1}`}
-              >
-                <span
-                  className={`h-2 w-2 rounded-full ${brandGalleryIndex === index ? 'bg-primary' : 'bg-muted-foreground/50'}`}
-                />
-              </button>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => moveBrandGallery(1)}
-            aria-label={locale === 'ar' ? 'الصورة التالية' : 'Next image'}
-            className="focus-ring press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border text-primary"
-            data-testid="brand-gallery-next"
-          >
-            <ChevronRight className={locale === 'ar' ? 'rotate-180' : ''} size={19} />
-          </button>
-        </div>
-      </section>
+      <GoalPlanPanel />
 
       <section data-testid="card-today-challenge" className="card-dark relative overflow-hidden">
         <SmartImg src={today.image} alt={today.name} className="absolute inset-0 h-full w-full" />
@@ -471,12 +382,14 @@ export default function HomePage() {
         className="card-dark focus-ring lift flex items-center gap-3 p-3"
       >
         <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/15 text-primary">
-          <Film size={23} />
+          <Activity size={23} />
         </span>
         <span className="min-w-0 flex-1">
-          <b className="block">{t('تمارين بالفيديو')}</b>
+          <b className="block">{locale === 'ar' ? 'دليل الحركة' : 'Movement guide'}</b>
           <span className="mt-1 block text-xs text-muted-foreground">
-            {t('مدربات ومدربون وخيارات تناسب كل مستوى')}
+            {locale === 'ar'
+              ? 'شرح الأداء والعضلات المستهدفة داخل التطبيق'
+              : 'In-app form coaching and target-muscle details'}
           </span>
         </span>
         <Play size={18} className="shrink-0 text-primary" />
@@ -494,7 +407,7 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid gap-2.5 md:grid-cols-3">
-          {plans.map((p) => (
+          {visiblePlans.map((p) => (
             <PlanCard key={p.id} plan={p} />
           ))}
         </div>

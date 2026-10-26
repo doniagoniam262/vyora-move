@@ -14,14 +14,20 @@ Use the user's supplied reference photos that match the selected profile, and cl
 
 **How to apply:** Retain actual interactive pages, real timer and locally saved progress. Cropped reference photos have limited resolution; do not claim they are original high-resolution source files.
 
-Prefer original Arabic-language workout explanations over English videos that depend on automatic subtitles.
+Build movement education as an in-app guide, not a list of generic YouTube videos. Explain primary and secondary muscles, movement cues, breathing, common errors, and safer/easier variations in Arabic and English.
 
-**Why:** The user reported untranslated English videos and delegated the choice of the better solution; native Arabic videos avoid uncertain subtitle availability.
+**Why:** The user explicitly rejected generic YouTube workouts and asked for professional, muscle-specific movement details inside VYORA.
 
-**How to apply:** Keep male and female presenters represented. Verify video metadata before adding a source, and do not describe Arabic titles alone as proof of reviewed spoken content.
+**How to apply:** Keep guidance self-contained and gender-safe. Do not reintroduce the home exercise-photo carousel after it has been removed; use movement diagrams for anatomy guidance.
 
 Differentiate VYORA by recommending workouts around real home constraints such as available time, limited space, and quiet/no-jump needs.
 
 **Why:** The user approved making home-specific training conditions the product's point of difference.
 
 **How to apply:** Prefer practical, locally stored home-workout adaptations over generic gym-app features.
+
+When users select weight gain as a goal, provide a goal-scoped resistance plan and general meal guidance that reflects their selected weekly frequency; avoid medical calorie prescriptions or guaranteed results.
+
+**Why:** The user explicitly asked for a distinct weight-gain option with a tailored training and nutrition plan.
+
+**How to apply:** Keep the plan gradual, include recovery and a clear nutrition disclaimer, and show it only for the matching profile goal.

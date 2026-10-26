@@ -1,5 +1,5 @@
 export type UserGender = 'female' | 'male';
-export type FitnessGoal = 'lose-weight' | 'build-muscle' | 'fitness';
+export type FitnessGoal = 'lose-weight' | 'build-muscle' | 'fitness' | 'gain-weight';
 export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure';
 
 export type VYORAProfile = {
@@ -31,7 +31,8 @@ export function isVYORAProfile(value: unknown): value is VYORAProfile {
     profile.heightCm <= 250 &&
     (profile.goal === 'lose-weight' ||
       profile.goal === 'build-muscle' ||
-      profile.goal === 'fitness') &&
+      profile.goal === 'fitness' ||
+      profile.goal === 'gain-weight') &&
     (profile.bodyType === 'slim' ||
       profile.bodyType === 'medium' ||
       profile.bodyType === 'strong' ||

@@ -32,7 +32,7 @@ import { PlanDetailPage, PlansPage } from '@/pages/plans';
 import { SessionPage } from '@/pages/session';
 import ProgressPage from '@/pages/progress';
 import MorePage from '@/pages/more';
-import VideosPage from '@/pages/videos';
+import MovementGuidePage from '@/pages/movement-guide';
 import OnboardingPage from '@/pages/onboarding';
 import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
@@ -123,7 +123,7 @@ function WorkoutRoutes({
           <Route path="/plans" component={PlansPage} />
           <Route path="/plans/:planId" component={PlanDetailPage} />
           <Route path="/progress" component={ProgressPage} />
-          <Route path="/videos" component={VideosPage} />
+          <Route path="/videos" component={MovementGuidePage} />
           <Route path="/more" component={MorePage} />
           <Route path="/workouts">
             <Redirect to="/exercises" />

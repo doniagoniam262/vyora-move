@@ -1,1 +1,1 @@
-- [VYORA visual direction](vyora-visual-direction.md) — fidelity to the supplied reference, its actual photos, and one identity for women and men.
+- [VYORA product direction](vyora-visual-direction.md) — one gender-aware brand with in-app exercise coaching and goal-specific guidance.

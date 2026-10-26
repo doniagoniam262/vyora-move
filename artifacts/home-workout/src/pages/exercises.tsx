@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'wouter';
 import {
+  Activity,
   ArrowRight,
   Layers,
   Search,
@@ -10,7 +11,6 @@ import {
   SearchX,
   Play,
   Lightbulb,
-  Film,
 } from 'lucide-react';
 import {
   CATEGORIES,
@@ -26,6 +26,8 @@ import { Chip, EmptyState, SmartImg, Tag } from '@/components/vyora';
 import { ExerciseRow } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise } from '@/lib/localized-data';
+import { getMovementInsight } from '@/lib/movement-details';
+import { MuscleMap } from '@/components/muscle-map';
 
 export function ExercisesPage() {
   const { locale, t } = useLocale();
@@ -164,6 +166,7 @@ export function ExerciseDetailPage() {
   const [, nav] = useLocation();
   const rawEx = exerciseById(exerciseId ?? '');
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
+  const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
   if (!ex)
     return (
       <EmptyState
@@ -215,6 +218,47 @@ export function ExerciseDetailPage() {
           <Tag tone="dim">{t(levelLabel(ex.level))}</Tag>
         </div>
       </div>
+      {insight && (
+        <section
+          className="grid gap-3 md:grid-cols-[.9fr_1.1fr]"
+          data-testid="exercise-muscle-focus"
+        >
+          <MuscleMap primary={insight.primary} secondary={insight.secondary} locale={locale} />
+          <div className="card-dark space-y-4 p-4">
+            <div>
+              <h2 className="text-sm font-extrabold">
+                {locale === 'ar' ? 'العضلات المستهدفة' : 'Target muscles'}
+              </h2>
+              <p className="mt-2 text-xs leading-6 text-muted-foreground">
+                <b className="text-foreground">
+                  {locale === 'ar' ? 'أساسية: ' : 'Primary: '}
+                </b>
+                {insight.primaryNames.join(locale === 'ar' ? '، ' : ', ')}
+              </p>
+              <p className="mt-1 text-xs leading-6 text-muted-foreground">
+                <b className="text-foreground">
+                  {locale === 'ar' ? 'مساعدة: ' : 'Secondary: '}
+                </b>
+                {insight.secondaryNames.join(locale === 'ar' ? '، ' : ', ')}
+              </p>
+            </div>
+            <div className="border-t border-border pt-3">
+              <h3 className="text-xs font-bold">{locale === 'ar' ? 'مفاتيح الأداء' : 'Form cues'}</h3>
+              <ul className="mt-2 space-y-2">
+                {insight.cues.map((cue, index) => (
+                  <li key={index} className="text-xs leading-5 text-muted-foreground">
+                    {cue}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="border-t border-border pt-3 text-xs leading-5 text-muted-foreground">
+              <b className="text-foreground">{locale === 'ar' ? 'التنفس: ' : 'Breathing: '}</b>
+              {insight.breathing}
+            </p>
+          </div>
+        </section>
+      )}
       <section className="card-dark p-4">
         <h2 className="text-sm font-extrabold">{t('خطوات الأداء الصحيح')}</h2>
         <ol className="mt-3 space-y-3">
@@ -255,6 +299,21 @@ export function ExerciseDetailPage() {
           </div>
         </div>
       </div>
+      {insight && (
+        <section className="card-dark space-y-3 p-4" data-testid="exercise-common-errors">
+          <h2 className="text-sm font-extrabold">
+            {locale === 'ar' ? 'أخطاء شائعة انتبهي لها' : 'Common form errors'}
+          </h2>
+          <ul className="space-y-2">
+            {insight.mistakes.map((mistake, index) => (
+              <li key={index} className="flex gap-2 text-xs leading-5 text-muted-foreground">
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                {mistake}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <div className="card-dark flex gap-3 border-primary/30 bg-primary/5 p-3 text-xs leading-6">
         <ShieldAlert className="mt-1 shrink-0 text-primary" size={18} />
         <div>
@@ -274,17 +333,19 @@ export function ExerciseDetailPage() {
         </div>
       </div>
       <Link
-        href="/videos"
-        data-testid="link-exercise-videos"
+        href={`/videos#movement-${ex.id}`}
+        data-testid="link-exercise-movement-guide"
         className="card-dark focus-ring lift flex items-center gap-3 p-4"
       >
-        <Film className="shrink-0 text-primary" size={20} />
+        <Activity className="shrink-0 text-primary" size={20} />
         <span className="flex-1">
           <b className="block text-sm">
-            {locale === 'ar' ? 'شاهدِي تطبيق التمارين بالفيديو' : 'See exercises in video'}
+            {locale === 'ar' ? 'افتح دليل الحركة' : 'Open the movement guide'}
           </b>
           <span className="text-xs text-muted-foreground">
-            {t('فيديوهات مع مدربات ومدربين تناسب الجميع')}
+            {locale === 'ar'
+              ? 'راجعي العضلات المستهدفة ومفاتيح الأداء'
+              : 'Review target muscles and movement cues'}
           </span>
         </span>
         <ArrowRight

@@ -187,10 +187,11 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
 
             <section className={`${panel} p-4 sm:p-6`} aria-labelledby="goal-title">
               <SectionTitle icon={<Dumbbell size={18} />} title={text('ما هدفك؟', 'What is your goal?')} subtitle={text('اختر تركيزًا واحدًا كبداية.', 'Pick one focus to start with.')} color={accent} />
-              <div id="field-goal" className="mt-5 grid gap-2 sm:grid-cols-3" role="group" aria-label={text('هدف التمرين', 'Workout goal')}>
+              <div id="field-goal" className="mt-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-4" role="group" aria-label={text('هدف التمرين', 'Workout goal')}>
                 <Choice selected={draft.goal === 'lose-weight'} onClick={() => update('goal', 'lose-weight')} title={text('خسارة الوزن', 'Lose weight')} detail={text('حركة أكثر ولياقة', 'More movement')} testId="button-goal-lose-weight" color={accent} />
                 <Choice selected={draft.goal === 'build-muscle'} onClick={() => update('goal', 'build-muscle')} title={text('بناء العضلات', 'Build muscle')} detail={text('قوة تدريجية', 'Steady strength')} testId="button-goal-build-muscle" color={accent} />
                 <Choice selected={draft.goal === 'fitness'} onClick={() => update('goal', 'fitness')} title={text('لياقة عامة', 'General fitness')} detail={text('نشاط وتوازن', 'Energy and balance')} testId="button-goal-fitness" color={accent} />
+                <Choice selected={draft.goal === 'gain-weight'} onClick={() => update('goal', 'gain-weight')} title={text('زيادة الوزن', 'Gain weight')} detail={text('تدرج في القوة والتغذية', 'Gradual strength and nutrition')} testId="button-goal-gain-weight" color={accent} />
               </div>
               {errors.goal && <ErrorText id="error-goal">{errors.goal}</ErrorText>}
             </section>

@@ -6,7 +6,7 @@ import {
   ShieldCheck,
   Trash2,
   Mountain,
-  Film,
+  Activity,
   ArrowLeft,
   LogOut,
   UserRound,
@@ -120,20 +120,16 @@ export default function MorePage() {
       </section>
       <Link
         href="/videos"
-        data-testid="link-more-videos"
+        data-testid="link-more-movement-guide"
         className="card-dark focus-ring lift flex items-center gap-3 p-3.5"
       >
-        <Film className="text-primary" size={20} />
+        <Activity className="text-primary" size={20} />
         <span className="flex-1">
-          <b className="block text-sm">{t('تمارين بالفيديو')}</b>
+          <b className="block text-sm">{locale === 'ar' ? 'دليل الحركة' : 'Movement guide'}</b>
           <span className="text-xs text-muted-foreground">
             {locale === 'ar'
-              ? profile?.gender === 'male'
-                ? 'فيديوهات مع مدربين'
-                : 'فيديوهات مع مدربات'
-              : profile?.gender === 'male'
-                ? 'Videos with men trainers'
-                : 'Videos with women trainers'}
+              ? 'شرح الأداء والعضلات المستهدفة داخل التطبيق'
+              : 'In-app form coaching and target-muscle details'}
           </span>
         </span>
         <ArrowLeft
@@ -350,15 +346,15 @@ export default function MorePage() {
       <Sec id="privacy" icon={<ShieldCheck size={18} />} title={t('الخصوصية')}>
         <p className="text-sm leading-7 text-muted-foreground">
           {locale === 'ar'
-            ? 'الوزن والطول وأهدافك وبيانات التقدم والإعدادات والمفضلة وسجل المشاهدة تُحفظ محليًا في هذا المتصفح ولا تُرسل إلى واجهة VYORA البرمجية. يتولى Clerk تسجيل الدخول، وقد تستقبل Google بيانات لازمة للمصادقة. تستضيف YouTube الفيديوهات وقد تتلقى بيانات اتصال عند تشغيلها. ڤايورا محتوى عام للياقة وليس نصيحة طبية.'
-            : 'Your weight, height, goals, progress, settings, favorites, and watch history are stored in this browser and are not sent to VYORA’s API. Clerk handles sign-in, and Google may receive data required for authentication. YouTube hosts videos and may receive connection data when you play them. VYORA provides general fitness content, not medical advice.'}
+            ? 'الوزن والطول والأهداف وبيانات التقدم والإعدادات ومفضلات دليل الحركة وسجله تُحفظ محليًا في هذا المتصفح ولا تُرسل إلى واجهة VYORA البرمجية. يتولى Clerk تسجيل الدخول، وقد تستقبل Google بيانات لازمة للمصادقة. ڤايورا محتوى عام للياقة وليس نصيحة طبية.'
+            : 'Your weight, height, goals, progress, settings, and movement-guide favorites and history are stored in this browser and are not sent to VYORA’s API. Clerk handles sign-in, and Google may receive data required for authentication. VYORA provides general fitness content, not medical advice.'}
         </p>
       </Sec>
       <Sec id="data" icon={<Trash2 size={18} />} title={t('البيانات')}>
         <p className="text-sm text-muted-foreground">
           {locale === 'ar'
-            ? 'احذف جلسات التدريب والإعدادات والجدول الأسبوعي والمفضلة وسجل المشاهدة من هذا الجهاز. تُحذف بيانات الملف الشخصي من الزر المنفصل.'
-            : 'Delete workouts, settings, your weekly schedule, favorites, and watch history from this device. Profile data is deleted separately below.'}
+            ? 'احذف جلسات التدريب والإعدادات والجدول الأسبوعي ومفضلات دليل الحركة وسجله من هذا الجهاز. تُحذف بيانات الملف الشخصي من الزر المنفصل.'
+            : 'Delete workouts, settings, your weekly schedule, and movement-guide favorites and history from this device. Profile data is deleted separately below.'}
         </p>
         <button
           onClick={() => setConfirm(true)}
@@ -386,8 +382,8 @@ export default function MorePage() {
         title={locale === 'ar' ? 'مسح بيانات التدريب؟' : 'Clear workout data?'}
         body={
           locale === 'ar'
-            ? 'سيتم حذف سجل الجلسات والمفضلة وسجل المشاهدة والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز. لن تُحذف بيانات الملف الشخصي.'
-            : 'This permanently deletes workout sessions, favorites, watch history, settings, and your weekly schedule from this device. Profile data stays saved.'
+            ? 'سيتم حذف سجل الجلسات ومفضلات دليل الحركة وسجله والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز. لن تُحذف بيانات الملف الشخصي.'
+            : 'This permanently deletes workout sessions, movement-guide favorites and history, settings, and your weekly schedule from this device. Profile data stays saved.'
         }
         confirmLabel={locale === 'ar' ? 'نعم، امسح' : 'Clear data'}
         onCancel={() => setConfirm(false)}

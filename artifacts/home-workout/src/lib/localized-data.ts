@@ -192,6 +192,12 @@ const planText: Record<string, { name: string; description: string; frequency: s
     description: 'An alternative full-body session with a duration suited to intermediate level.',
     frequency: 'Up to 20 minutes',
   },
+  'gain-weight-plan': {
+    name: 'Strength Plan for Weight Gain',
+    description:
+      'Bodyweight resistance with gradual increases in reps or movement difficulty and enough recovery.',
+    frequency: '2–4 strength sessions per week',
+  },
 };
 
 export function localizeExercise(ex: Exercise, locale: Locale): Exercise {

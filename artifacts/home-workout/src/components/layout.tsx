@@ -1,6 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Calendar, Dumbbell, Film, House, LayoutGrid, TrendingUp } from 'lucide-react';
+import { Activity, Calendar, Dumbbell, House, LayoutGrid, TrendingUp } from 'lucide-react';
 import { Logo } from '@/components/vyora';
 import { scheduledPlanForDay } from '@/lib/data';
 import { KEYS, useWeeklySchedule } from '@/lib/store';
@@ -91,9 +91,9 @@ const items = [
   },
   {
     href: '/videos',
-    label: 'الفيديو',
-    Icon: Film,
-    id: 'videos',
+    label: 'دليل الحركة',
+    Icon: Activity,
+    id: 'movement-guide',
     match: (l: string) => l.startsWith('/videos'),
   },
   {

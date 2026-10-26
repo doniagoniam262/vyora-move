@@ -14,13 +14,15 @@ import { Chip, EmptyState, SmartImg, Tag } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
+import { useVYORAProfile } from '@/lib/profile-context';
 
 export function PlansPage() {
   const { locale, t } = useLocale();
+  const profile = useVYORAProfile();
   const [f, setF] = useState<'all' | 'short' | 'long'>('all');
-  const list = plans.filter(
-    (p) => f === 'all' || (f === 'short' ? p.minutes <= 15 : p.minutes > 15),
-  );
+  const list = plans
+    .filter((p) => !p.goal || p.goal === profile?.goal)
+    .filter((p) => f === 'all' || (f === 'short' ? p.minutes <= 15 : p.minutes > 15));
   return (
     <div className="page-enter space-y-5">
       <h1 className="text-xl font-extrabold">{t('خطط التدريب')}</h1>

@@ -1,3 +1,5 @@
+import type { FitnessGoal } from './profile';
+
 export type Category = 'full' | 'upper' | 'lower' | 'abs' | 'warmup' | 'stretch';
 export type Level = 'beginner' | 'intermediate';
 
@@ -25,6 +27,7 @@ export type WorkoutPlan = {
   frequency: string;
   image: string;
   exerciseIds: string[];
+  goal?: FitnessGoal;
 };
 
 export type SavedSession = {
@@ -417,6 +420,27 @@ export const plans: WorkoutPlan[] = [
       'childs-pose',
     ],
   },
+  {
+    id: 'gain-weight-plan',
+    name: 'خطة قوة لزيادة الوزن',
+    description:
+      'تمارين مقاومة بوزن الجسم مع زيادة تدريجية في التكرار أو صعوبة الحركة، وفترات راحة كافية.',
+    level: 'beginner',
+    minutes: 0,
+    frequency: '2–4 جلسات مقاومة أسبوعيًا',
+    image: IMG.squat,
+    exerciseIds: [
+      'march',
+      'squat',
+      'glute-bridge',
+      'incline-push',
+      'lunge',
+      'chair-dip',
+      'plank',
+      'childs-pose',
+    ],
+    goal: 'gain-weight',
+  },
 ];
 
 export const REST_DEFAULT = 15;
@@ -469,12 +493,14 @@ export type HomeFitPreferences = {
   minutes: 10 | 20;
   quiet: boolean;
   compact: boolean;
+  goal?: FitnessGoal;
   recentPlanIds?: string[];
 };
 
 export function recommendHomePlan(preferences: HomeFitPreferences) {
   const recent = new Set(preferences.recentPlanIds ?? []);
   const eligible = plans
+    .filter((plan) => !plan.goal || plan.goal === preferences.goal)
     .filter((plan) => plan.level === preferences.level && plan.minutes <= preferences.minutes)
     .filter((plan) =>
       planExercises(plan).every(

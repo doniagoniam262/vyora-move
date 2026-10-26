@@ -13,21 +13,20 @@ import { EmptyState } from '@/components/vyora';
 import { exerciseById, formatTime, planById } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
-import { localizeVideo, trainingVideos } from '@/lib/videos';
 
 export default function ProgressPage() {
   const { locale, t } = useLocale();
   const sessions = useSessions();
   const [settings] = useSettings();
   const favoriteIds = useVideoFavorites();
-  const videoHistory = useVideoHistory();
-  const favoriteVideos = favoriteIds.flatMap((id) => {
-    const video = trainingVideos.find((item) => item.id === id);
-    return video ? [localizeVideo(video, locale)] : [];
+  const movementHistory = useVideoHistory();
+  const favoriteExercises = favoriteIds.flatMap((id) => {
+    const exercise = exerciseById(id);
+    return exercise ? [localizeExercise(exercise, locale)] : [];
   });
-  const watchedVideos = videoHistory.flatMap((entry) => {
-    const video = trainingVideos.find((item) => item.id === entry.videoId);
-    return video ? [{ ...entry, video: localizeVideo(video, locale) }] : [];
+  const watchedExercises = movementHistory.flatMap((entry) => {
+    const exercise = exerciseById(entry.videoId);
+    return exercise ? [{ ...entry, exercise: localizeExercise(exercise, locale) }] : [];
   });
   const start = weekStart();
   const week = sessions.filter((s) => new Date(s.completedAt) >= start).length;
@@ -166,29 +165,31 @@ export default function ProgressPage() {
           })}
         </ul>
       )}
-      <section className="card-dark space-y-3 p-4" data-testid="section-video-favorites">
+      <section className="card-dark space-y-3 p-4" data-testid="section-movement-favorites">
         <h2 className="flex items-center gap-2 text-sm font-extrabold">
           <Heart size={18} className="text-primary" />{' '}
-          {locale === 'ar' ? 'الفيديوهات المفضلة' : 'Favorite videos'}
+          {locale === 'ar' ? 'الحركات المفضلة' : 'Favorite movements'}
         </h2>
-        {favoriteVideos.length ? (
+        {favoriteExercises.length ? (
           <ul className="space-y-2">
-            {favoriteVideos.map((video) => (
+            {favoriteExercises.map((exercise) => (
               <li
-                key={video.id}
-                data-testid={`row-favorite-video-${video.id}`}
+                key={exercise.id}
+                data-testid={`row-favorite-movement-${exercise.id}`}
                 className="flex items-center gap-3 rounded-xl bg-background/50 p-3"
               >
                 <span className="min-w-0 flex-1">
-                  <b className="block text-sm">{video.title}</b>
-                  <span className="text-xs text-muted-foreground">{video.trainer}</span>
+                  <b className="block text-sm">{exercise.name}</b>
+                  <span className="text-xs text-muted-foreground">
+                    {locale === 'ar' ? 'دليل الأداء واستهداف العضلات' : 'Form and muscle-target guide'}
+                  </span>
                 </span>
                 <Link
-                  href={`/videos#video-${video.id}`}
-                  data-testid={`link-favorite-video-${video.id}`}
+                  href={`/videos#movement-${exercise.id}`}
+                  data-testid={`link-favorite-movement-${exercise.id}`}
                   className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary"
                 >
-                  {locale === 'ar' ? 'عرض الفيديو' : 'View video'}
+                  {locale === 'ar' ? 'فتح الدليل' : 'Open guide'}
                 </Link>
               </li>
             ))}
@@ -196,36 +197,36 @@ export default function ProgressPage() {
         ) : (
           <p className="text-sm text-muted-foreground">
             {locale === 'ar'
-              ? 'لم تحفظي فيديوهات بعد. استخدمي زر القلب في صفحة الفيديوهات.'
-              : 'No videos saved yet. Use the heart button on the videos page.'}
+              ? 'لم تحفظ حركات بعد. أضف حركة من دليل الحركة باستخدام زر القلب.'
+              : 'No movements saved yet. Use the heart button in the movement guide.'}
           </p>
         )}
       </section>
-      <section className="card-dark space-y-3 p-4" data-testid="section-video-history">
+      <section className="card-dark space-y-3 p-4" data-testid="section-movement-history">
         <h2 className="flex items-center gap-2 text-sm font-extrabold">
           <Clock3 size={18} className="text-primary" />{' '}
-          {locale === 'ar' ? 'الفيديوهات التي شاهدتها' : 'Videos you watched'}
+          {locale === 'ar' ? 'سجل دليل الحركة' : 'Movement-guide history'}
         </h2>
-        {watchedVideos.length ? (
+        {watchedExercises.length ? (
           <ul className="space-y-2">
-            {watchedVideos.slice(0, 30).map(({ video, watchedAt }) => (
+            {watchedExercises.slice(0, 30).map(({ exercise, watchedAt }) => (
               <li
-                key={video.id}
-                data-testid={`row-watched-video-${video.id}`}
+                key={exercise.id}
+                data-testid={`row-viewed-movement-${exercise.id}`}
                 className="flex items-center gap-3 rounded-xl bg-background/50 p-3"
               >
                 <span className="min-w-0 flex-1">
-                  <b className="block text-sm">{video.title}</b>
+                  <b className="block text-sm">{exercise.name}</b>
                   <span className="text-xs text-muted-foreground">
                     {fmtDate(watchedAt, locale)}
                   </span>
                 </span>
                 <Link
-                  href={`/videos#video-${video.id}`}
-                  data-testid={`link-watched-video-${video.id}`}
+                  href={`/videos#movement-${exercise.id}`}
+                  data-testid={`link-viewed-movement-${exercise.id}`}
                   className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary"
                 >
-                  {locale === 'ar' ? 'عرض الفيديو' : 'View video'}
+                  {locale === 'ar' ? 'فتح الدليل' : 'Open guide'}
                 </Link>
               </li>
             ))}
@@ -233,8 +234,8 @@ export default function ProgressPage() {
         ) : (
           <p className="text-sm text-muted-foreground">
             {locale === 'ar'
-              ? 'ستظهر هنا الفيديوهات عند بدء تشغيلها.'
-              : 'Videos will appear here when you start watching them.'}
+              ? 'ستظهر هنا الحركات التي تفتحها من دليل الحركة.'
+              : 'Movements you open in the guide will appear here.'}
           </p>
         )}
       </section>

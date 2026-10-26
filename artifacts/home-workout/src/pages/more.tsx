@@ -11,6 +11,9 @@ import {
   LogOut,
   UserRound,
   UserPen,
+  CalendarDays,
+  Apple,
+  CreditCard,
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { clearAllData, useSettings, useWeeklySchedule } from '@/lib/store';
@@ -85,6 +88,46 @@ export default function MorePage() {
   return (
     <div className="page-enter mx-auto max-w-2xl space-y-2.5">
       <h1 className="text-xl font-extrabold">{t('المزيد')}</h1>
+      <div className="grid gap-2 sm:grid-cols-3" aria-label={locale === 'ar' ? 'صفحات ڤايورا' : 'VYORA pages'}>
+        {[
+          {
+            href: '/schedule',
+            Icon: CalendarDays,
+            title: locale === 'ar' ? 'الجدول الأسبوعي' : 'Weekly schedule',
+            detail: locale === 'ar' ? 'خطتك وأوقات التدريب' : 'Your plan and workout times',
+            id: 'schedule',
+          },
+          {
+            href: '/nutrition',
+            Icon: Apple,
+            title: locale === 'ar' ? 'التغذية والوجبات' : 'Nutrition and meals',
+            detail: locale === 'ar' ? 'أفكار يومية حسب الهدف' : 'Daily ideas matched to your goal',
+            id: 'nutrition',
+          },
+          {
+            href: '/subscription',
+            Icon: CreditCard,
+            title: locale === 'ar' ? 'الاشتراك الشهري' : 'Monthly subscription',
+            detail: locale === 'ar' ? 'عرض تفاصيل العضوية' : 'View membership details',
+            id: 'subscription',
+          },
+        ].map(({ href, Icon, title, detail, id }) => (
+          <Link
+            key={id}
+            href={href}
+            data-testid={`link-more-${id}`}
+            className="card-dark focus-ring lift flex min-h-24 items-center gap-3 p-3.5"
+          >
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+              <Icon size={19} />
+            </span>
+            <span className="min-w-0">
+              <b className="block text-sm">{title}</b>
+              <span className="mt-1 block text-xs leading-5 text-muted-foreground">{detail}</span>
+            </span>
+          </Link>
+        ))}
+      </div>
       <section className="card-dark flex flex-wrap items-center gap-3 p-4" data-testid="section-account">
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/15 text-primary">
           <UserRound size={21} />
@@ -247,7 +290,7 @@ export default function MorePage() {
           </div>
           {schedule.days.length > 0 &&
             (() => {
-              const options = scheduledPlanOptions(schedule);
+              const options = scheduledPlanOptions(schedule, profile?.goal);
               return (
                 <div
                   className="mt-3 space-y-1 text-xs leading-5 text-muted-foreground"

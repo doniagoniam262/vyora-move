@@ -34,6 +34,9 @@ import ProgressPage from '@/pages/progress';
 import MorePage from '@/pages/more';
 import MovementGuidePage from '@/pages/movement-guide';
 import OnboardingPage from '@/pages/onboarding';
+import WeeklyPlanPage from '@/pages/weekly-plan';
+import NutritionPage from '@/pages/nutrition';
+import SubscriptionPage from '@/pages/subscription';
 import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
@@ -124,6 +127,9 @@ function WorkoutRoutes({
           <Route path="/plans/:planId" component={PlanDetailPage} />
           <Route path="/progress" component={ProgressPage} />
           <Route path="/videos" component={MovementGuidePage} />
+          <Route path="/schedule" component={WeeklyPlanPage} />
+          <Route path="/nutrition" component={NutritionPage} />
+          <Route path="/subscription" component={SubscriptionPage} />
           <Route path="/more" component={MorePage} />
           <Route path="/workouts">
             <Redirect to="/exercises" />

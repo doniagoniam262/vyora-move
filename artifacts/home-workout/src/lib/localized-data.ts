@@ -149,6 +149,40 @@ const exerciseText: Record<
 };
 
 const planText: Record<string, { name: string; description: string; frequency: string }> = {
+  'lose-weight-plan': {
+    name: 'Gradual Activity Plan',
+    description:
+      'A balanced home session combining movement and light strength work at a pace you can build on.',
+    frequency: '3 days per week',
+  },
+  'lose-weight-intermediate': {
+    name: 'Moderate Activity Plan',
+    description: 'Compound movements at a moderate pace with enough recovery between sessions.',
+    frequency: '3–4 days per week',
+  },
+  'build-muscle-plan': {
+    name: 'Strength and Muscle Plan',
+    description:
+      'Foundational home resistance movements with gradual increases in repetitions or difficulty.',
+    frequency: '3 days per week',
+  },
+  'build-muscle-intermediate': {
+    name: 'Intermediate Resistance Plan',
+    description: 'Full-body strength sessions with varied movements and suitable rest periods.',
+    frequency: '3–4 days per week',
+  },
+  'fitness-plan': {
+    name: 'Balanced Fitness Plan',
+    description:
+      'A gentle mix of warm-up, strength, stability, and stretching to build a regular movement habit.',
+    frequency: '3 days per week',
+  },
+  'fitness-intermediate': {
+    name: 'Intermediate Fitness Plan',
+    description:
+      'A balanced session combining movement, strength, and stability, with rest days where possible.',
+    frequency: '3–4 days per week',
+  },
   'beginner-plan': {
     name: 'Beginner Plan',
     description:
@@ -197,6 +231,11 @@ const planText: Record<string, { name: string; description: string; frequency: s
     description:
       'Bodyweight resistance with gradual increases in reps or movement difficulty and enough recovery.',
     frequency: '2–4 strength sessions per week',
+  },
+  'gain-weight-intermediate': {
+    name: 'Intermediate Strength Plan for Weight Gain',
+    description: 'Progressive resistance at an intermediate level, with recovery days between sessions.',
+    frequency: '3–4 strength sessions per week',
   },
 };
 

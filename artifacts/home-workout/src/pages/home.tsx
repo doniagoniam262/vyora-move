@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import {
   exercises,
-  planById,
   plans,
   planExercises,
   categoryLabel,
@@ -24,6 +23,7 @@ import { GoalPlanPanel } from '@/components/goal-plan-panel';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
 import { useVYORAProfile } from '@/lib/profile-context';
+import { goalWorkoutPlan } from '@/lib/personalization';
 
 export default function HomePage() {
   const { locale, t } = useLocale();
@@ -33,9 +33,7 @@ export default function HomePage() {
   const [schedule] = useWeeklySchedule();
   const day = new Date().getDay();
   const rawToday =
-    (profile?.goal === 'gain-weight'
-      ? planById('gain-weight-plan')
-      : planById(['ten-minute', 'beginner-plan', 'twenty-minute'][day % 3])) ?? plans[0];
+    (profile ? goalWorkoutPlan(profile.goal, schedule.level) : undefined) ?? plans[0];
   const today = localizePlan(rawToday, locale);
   const daily = [0, 1, 2].map((i) =>
     localizeExercise(exercises[(day * 3 + i * 4 + 2) % exercises.length], locale),
@@ -47,7 +45,7 @@ export default function HomePage() {
   const names =
     locale === 'ar' ? ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'] : ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
   const scheduledToday = schedule.days.includes(day);
-  const scheduledPlan = scheduledPlanForDay(schedule, day);
+  const scheduledPlan = scheduledPlanForDay(schedule, day, profile?.goal);
   const homePlan = recommendHomePlan({
     level: settings.homeFitLevel,
     minutes: settings.homeFitMinutes,

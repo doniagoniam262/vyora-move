@@ -421,6 +421,78 @@ export const plans: WorkoutPlan[] = [
     ],
   },
   {
+    id: 'lose-weight-plan',
+    name: 'خطة نشاط وتدرّج',
+    description:
+      'جلسة منزلية متوازنة تجمع الحركة وتمارين القوة الخفيفة، مع وتيرة قابلة للتدرج.',
+    level: 'beginner',
+    minutes: 0,
+    frequency: '3 أيام في الأسبوع',
+    image: IMG.squat,
+    exerciseIds: ['march', 'squat', 'jacks-low', 'plank', 'hamstring'],
+    goal: 'lose-weight',
+  },
+  {
+    id: 'lose-weight-intermediate',
+    name: 'خطة نشاط متوسطة',
+    description:
+      'حركات مركبة بإيقاع متوسط مع وقت كافٍ للتعافي بين الجلسات.',
+    level: 'intermediate',
+    minutes: 0,
+    frequency: '3–4 أيام في الأسبوع',
+    image: IMG.athletes,
+    exerciseIds: ['march', 'squat', 'mountain-climber', 'plank', 'hamstring'],
+    goal: 'lose-weight',
+  },
+  {
+    id: 'build-muscle-plan',
+    name: 'خطة قوة وبناء عضلات',
+    description:
+      'تمارين مقاومة منزلية بحركات أساسية وتدرج هادئ في التكرارات والصعوبة.',
+    level: 'beginner',
+    minutes: 0,
+    frequency: '3 أيام في الأسبوع',
+    image: IMG.push,
+    exerciseIds: ['squat', 'glute-bridge', 'incline-push', 'childs-pose'],
+    goal: 'build-muscle',
+  },
+  {
+    id: 'build-muscle-intermediate',
+    name: 'خطة مقاومة متوسطة',
+    description:
+      'جلسات قوة للجسم كاملًا مع تنويع الحركات وفترات راحة مناسبة.',
+    level: 'intermediate',
+    minutes: 0,
+    frequency: '3–4 أيام في الأسبوع',
+    image: IMG.upper,
+    exerciseIds: ['squat', 'lunge', 'chair-dip', 'childs-pose'],
+    goal: 'build-muscle',
+  },
+  {
+    id: 'fitness-plan',
+    name: 'خطة لياقة متوازنة',
+    description:
+      'مزيج لطيف من الإحماء والقوة والثبات والتمدد لبناء عادة حركة منتظمة.',
+    level: 'beginner',
+    minutes: 0,
+    frequency: '3 أيام في الأسبوع',
+    image: IMG.pair,
+    exerciseIds: ['march', 'shoulder-circles', 'squat', 'incline-push', 'hamstring'],
+    goal: 'fitness',
+  },
+  {
+    id: 'fitness-intermediate',
+    name: 'خطة لياقة متوسطة',
+    description:
+      'جلسة متوازنة تجمع الحركة والقوة والثبات، مع يوم راحة بين الجلسات عند الإمكان.',
+    level: 'intermediate',
+    minutes: 0,
+    frequency: '3–4 أيام في الأسبوع',
+    image: IMG.athletes,
+    exerciseIds: ['march', 'lunge', 'chair-dip', 'plank', 'hamstring'],
+    goal: 'fitness',
+  },
+  {
     id: 'gain-weight-plan',
     name: 'خطة قوة لزيادة الوزن',
     description:
@@ -429,16 +501,19 @@ export const plans: WorkoutPlan[] = [
     minutes: 0,
     frequency: '2–4 جلسات مقاومة أسبوعيًا',
     image: IMG.squat,
-    exerciseIds: [
-      'march',
-      'squat',
-      'glute-bridge',
-      'incline-push',
-      'lunge',
-      'chair-dip',
-      'plank',
-      'childs-pose',
-    ],
+    exerciseIds: ['squat', 'glute-bridge', 'incline-push', 'childs-pose'],
+    goal: 'gain-weight',
+  },
+  {
+    id: 'gain-weight-intermediate',
+    name: 'خطة قوة متوسطة لزيادة الوزن',
+    description:
+      'تمارين مقاومة متدرجة بمستوى متوسط، مع أيام راحة للتعافي بين الجلسات.',
+    level: 'intermediate',
+    minutes: 0,
+    frequency: '3–4 جلسات مقاومة أسبوعيًا',
+    image: IMG.push,
+    exerciseIds: ['squat', 'glute-bridge', 'incline-push', 'childs-pose'],
     goal: 'gain-weight',
   },
 ];
@@ -463,7 +538,22 @@ plans.forEach((p) => {
 });
 export const planById = (id: string) => plans.find((p) => p.id === id);
 
-export function scheduledPlanOptions(schedule: { level: Level; minutes: 10 | 20 }) {
+export function scheduledPlanOptions(
+  schedule: { level: Level; minutes: 10 | 20 },
+  goal?: FitnessGoal,
+) {
+  if (goal) {
+    const matching = plans
+      .filter((plan) => plan.goal === goal)
+      .sort((a, b) => {
+        const aLevel = a.level === schedule.level ? 0 : 1;
+        const bLevel = b.level === schedule.level ? 0 : 1;
+        return aLevel - bLevel || a.minutes - b.minutes;
+      });
+    const fit = matching.find((plan) => plan.minutes <= schedule.minutes);
+    const selected = fit ?? matching[0];
+    return selected ? [selected] : [];
+  }
   const ids =
     schedule.level === 'beginner'
       ? schedule.minutes === 10
@@ -478,13 +568,14 @@ export function scheduledPlanOptions(schedule: { level: Level; minutes: 10 | 20 
 export function scheduledPlanForDay(
   schedule: { days: number[]; level: Level; minutes: 10 | 20 },
   day: number,
+  goal?: FitnessGoal,
 ) {
   const orderedDays = [...new Set(schedule.days)]
     .filter((d) => d >= 0 && d <= 6)
     .sort((a, b) => ((a + 1) % 7) - ((b + 1) % 7));
   const dayIndex = orderedDays.indexOf(day);
   if (dayIndex < 0) return undefined;
-  const options = scheduledPlanOptions(schedule);
+  const options = scheduledPlanOptions(schedule, goal);
   return options[dayIndex % options.length];
 }
 

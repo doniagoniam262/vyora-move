@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { ImageOff } from 'lucide-react';
-import { asset } from '@/lib/data';
+import { useEffect, useRef, type ReactNode } from 'react';
+import { MotionIllustration } from '@/components/motion-illustration';
 import { useLocale } from '@/lib/locale';
-import { genderSafeImage } from '@/lib/profile';
-import { useVYORAProfile } from '@/lib/profile-context';
 
 export function LogoMark({ size = 36 }: { size?: number }) {
   return (
@@ -57,43 +54,33 @@ export function SmartImg({
   testId?: string;
   label?: string;
 }) {
-  const [state, setState] = useState<'loading' | 'ok' | 'error'>('loading');
-  const ref = useRef<HTMLImageElement>(null);
-  const profile = useVYORAProfile();
-  const safeSrc = profile ? genderSafeImage(src, profile.gender) : src;
-  useEffect(() => {
-    setState('loading');
-    if (ref.current?.complete && ref.current.naturalWidth > 0) setState('ok');
-  }, [safeSrc]);
+  const variantFor = (key: string) => {
+    if (key.includes('squat') || key.includes('سكوات')) return 'squat';
+    if (key.includes('march') || key.includes('step') || key.includes('مشي') || key.includes('جاك'))
+      return 'step';
+    if (key.includes('plank') || key.includes('crunch') || key.includes('abs') || key.includes('بلانك') || key.includes('كرنش'))
+      return 'plank';
+    if (key.includes('bridge') || key.includes('glute') || key.includes('جسر')) return 'bridge';
+    if (key.includes('lunge') || key.includes('اندفاع')) return 'lunge';
+    if (key.includes('stretch') || key.includes('child') || key.includes('hamstring') || key.includes('تمدد'))
+      return 'stretch';
+    if (key.includes('push') || key.includes('upper') || key.includes('press') || key.includes('ضغط') || key.includes('غطس'))
+      return 'press';
+    return undefined;
+  };
+  const variant = variantFor(alt.toLowerCase()) ?? variantFor(src.toLowerCase()) ?? 'reach';
+  const absolute = className.split(/\s+/).includes('absolute');
   return (
     <div
-      className={`${className.split(/\s+/).includes('absolute') ? 'absolute' : 'relative'} overflow-hidden bg-muted ${className}`}
+      className={`${absolute ? 'absolute' : 'relative'} overflow-hidden rounded-xl bg-muted ${className}`}
       data-testid={testId}
     >
-      {state === 'loading' && <div className="shimmer absolute inset-0" aria-hidden="true" />}
-      {state === 'error' ? (
-        <div
-          role="img"
-          aria-label={alt}
-          className="absolute inset-0 grid place-items-center bg-gradient-to-br from-[#1b1f1a] to-[#0d0f0d] text-muted-foreground"
-          data-testid="img-fallback"
-        >
-          <span className="flex flex-col items-center gap-1 text-xs">
-            <ImageOff size={22} />
-            {label ?? alt}
-          </span>
-        </div>
-      ) : (
-        <img
-          ref={ref}
-          src={asset(safeSrc)}
-          alt={alt}
-          loading="lazy"
-          onLoad={() => setState('ok')}
-          onError={() => setState('error')}
-          className={`h-full w-full object-cover transition-opacity duration-500 ${state === 'ok' ? 'opacity-100' : 'opacity-0'}`}
-        />
-      )}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,hsl(var(--primary)/.12),transparent_60%)]" aria-hidden="true" />
+      <MotionIllustration
+        variant={variant}
+        label={label ?? alt}
+        className="relative z-10 h-full w-full p-2 text-foreground/85"
+      />
     </div>
   );
 }

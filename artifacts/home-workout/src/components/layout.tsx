@@ -8,10 +8,12 @@ import { useToast } from '@/hooks/use-toast';
 import { useLocale } from '@/lib/locale';
 import { Languages } from 'lucide-react';
 import { localizePlan } from '@/lib/localized-data';
+import { useVYORAProfile } from '@/lib/profile-context';
 
 function TrainingReminder() {
   const { t, locale } = useLocale();
   const [schedule] = useWeeklySchedule();
+  const profile = useVYORAProfile();
   const { toast } = useToast();
   const firedToday = useRef('');
 
@@ -40,7 +42,7 @@ function TrainingReminder() {
         /* in-memory guard remains active */
       }
 
-      const plan = scheduledPlanForDay(schedule, now.getDay());
+      const plan = scheduledPlanForDay(schedule, now.getDay(), profile?.goal);
       const message = plan
         ? `${locale === 'ar' ? 'تدريبك اليوم' : 'Today’s workout'}: ${localizePlan(plan, locale).name}. ${locale === 'ar' ? 'افتح ڤايورا وابدأ في الوقت المناسب لك.' : 'Open VYORA and start when it suits you.'}`
         : locale === 'ar'
@@ -68,7 +70,7 @@ function TrainingReminder() {
     checkReminder();
     const timer = window.setInterval(checkReminder, 15_000);
     return () => window.clearInterval(timer);
-  }, [schedule, toast, locale, t]);
+  }, [schedule, toast, locale, t, profile?.goal]);
 
   return null;
 }

@@ -1,1 +1,1 @@
-- [VYORA product direction](vyora-visual-direction.md) — one gender-aware brand with in-app exercise coaching and goal-specific guidance.
+- [VYORA product direction](vyora-visual-direction.md) — one gender-aware brand, custom movement art, goal-based training and nutrition, and honest billing.

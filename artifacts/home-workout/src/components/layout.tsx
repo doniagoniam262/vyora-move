@@ -1,7 +1,55 @@
-import type { ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
 import { Calendar, Dumbbell, Film, House, LayoutGrid, TrendingUp } from 'lucide-react';
 import { Logo } from '@/components/vyora';
+import { scheduledPlanForDay } from '@/lib/data';
+import { KEYS, useWeeklySchedule } from '@/lib/store';
+import { useToast } from '@/hooks/use-toast';
+
+function TrainingReminder() {
+  const [schedule] = useWeeklySchedule();
+  const { toast } = useToast();
+  const firedToday = useRef('');
+
+  useEffect(() => {
+    if (!schedule.reminderEnabled || schedule.days.length === 0) return;
+    const checkReminder = () => {
+      const now = new Date();
+      if (!schedule.days.includes(now.getDay())) return;
+      const [hour, minute] = schedule.reminderTime.split(':').map(Number);
+      const currentMinute = now.getHours() * 60 + now.getMinutes();
+      const targetMinute = hour * 60 + minute;
+      if (currentMinute < targetMinute || currentMinute > targetMinute + 59) return;
+
+      const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+      const reminderKey = `${dateKey}-${schedule.reminderTime}`;
+      if (firedToday.current === reminderKey) return;
+      try { if (localStorage.getItem(KEYS.reminderLast) === reminderKey) return; } catch { /* session ref still prevents repeats */ }
+      firedToday.current = reminderKey;
+      try { localStorage.setItem(KEYS.reminderLast, reminderKey); } catch { /* in-memory guard remains active */ }
+
+      const plan = scheduledPlanForDay(schedule, now.getDay());
+      const message = plan ? `تدريبك اليوم: ${plan.name}. افتح ڤايورا وابدأ في الوقت المناسب لك.` : 'حان موعد تمرينك حسب جدول ڤايورا.';
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          const notice = new Notification('موعد تدريبك في ڤايورا', { body: message, tag: `vyora-${reminderKey}` });
+          if (plan) notice.onclick = () => {
+            window.focus();
+            window.location.assign(`${import.meta.env.BASE_URL}session/${plan.id}`);
+          };
+          return;
+        } catch { /* fall back to an in-app reminder */ }
+      }
+      toast({ title: 'موعد تمرينك', description: message });
+    };
+
+    checkReminder();
+    const timer = window.setInterval(checkReminder, 15_000);
+    return () => window.clearInterval(timer);
+  }, [schedule, toast]);
+
+  return null;
+}
 
 const items = [
   { href: '/', label: 'الرئيسية', Icon: House, id: 'home', match: (l: string) => l === '/' },
@@ -17,6 +65,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
   const inSession = loc.startsWith('/session');
   return (
     <div className="min-h-[100dvh]" dir="rtl">
+      <TrainingReminder />
       <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:right-3 focus:top-3 focus:z-[70] focus:rounded-lg focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground">تخطَّ إلى المحتوى</a>
       <aside className="fixed inset-y-0 right-0 z-30 hidden w-64 flex-col border-l border-border bg-[#0a0b0a] p-5 md:flex">
         <Link href="/" data-testid="link-brand-home" className="focus-ring rounded-xl py-2"><Logo full /></Link>

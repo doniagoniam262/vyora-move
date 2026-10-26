@@ -1,7 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import type { Level, SavedSession } from './data';
 
-export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
+export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', reminderLast: 'vyora-reminder-last-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
 const EVT = 'vyora-storage';
 
 function raw(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } }
@@ -61,8 +61,8 @@ export function useSettings(): [Settings, (patch: Partial<Settings>) => void] {
   return [s, (patch) => write(KEYS.settings, JSON.stringify({ ...parseSettings(raw(KEYS.settings)), ...patch }))];
 }
 
-export type WeeklySchedule = { days: number[]; level: Level; minutes: 10 | 20 };
-export const defaultWeeklySchedule: WeeklySchedule = { days: [], level: 'beginner', minutes: 10 };
+export type WeeklySchedule = { days: number[]; level: Level; minutes: 10 | 20; reminderEnabled: boolean; reminderTime: string };
+export const defaultWeeklySchedule: WeeklySchedule = { days: [], level: 'beginner', minutes: 10, reminderEnabled: false, reminderTime: '18:00' };
 
 export function parseWeeklySchedule(s: string | null): WeeklySchedule {
   try {
@@ -75,6 +75,8 @@ export function parseWeeklySchedule(s: string | null): WeeklySchedule {
       days,
       level: v.level === 'intermediate' ? 'intermediate' : 'beginner',
       minutes: v.minutes === 20 ? 20 : 10,
+      reminderEnabled: v.reminderEnabled === true,
+      reminderTime: typeof v.reminderTime === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(v.reminderTime) ? v.reminderTime : defaultWeeklySchedule.reminderTime,
     };
   } catch { return defaultWeeklySchedule; }
 }

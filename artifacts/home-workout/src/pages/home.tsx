@@ -1,6 +1,6 @@
 import { Link } from 'wouter';
 import { Bell, Film, Play } from 'lucide-react';
-import { exercises, planById, plans, planExercises, categoryLabel } from '@/lib/data';
+import { exercises, planById, plans, planExercises, categoryLabel, scheduledPlanForDay } from '@/lib/data';
 import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
@@ -18,8 +18,7 @@ export default function HomePage() {
   const pct = Math.min(100, (weekCount / settings.weeklyGoal) * 100);
   const names = ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'];
   const scheduledToday = schedule.days.includes(day);
-  const scheduledPlanId = schedule.level === 'intermediate' ? (schedule.minutes === 20 ? 'twenty-minute' : 'intermediate-10') : (schedule.minutes === 20 ? 'beginner-plan' : 'ten-minute');
-  const scheduledPlan = planById(scheduledPlanId);
+  const scheduledPlan = scheduledPlanForDay(schedule, day);
   return (
     <div className="page-enter space-y-3.5">
       <div className="flex items-start justify-between">

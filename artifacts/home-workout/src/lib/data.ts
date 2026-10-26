@@ -118,10 +118,18 @@ export const plans: WorkoutPlan[] = [
     exerciseIds: ['march', 'squat', 'incline-push', 'glute-bridge', 'plank', 'childs-pose'] },
   { id: 'ten-minute', name: 'خطة 10 دقائق', description: 'جلسة سريعة لأيام الازدحام: حركات مركبة بإيقاع ثابت.', level: 'beginner', minutes: 0, frequency: 'يوميًا إن رغبت', image: IMG.man,
     exerciseIds: ['march', 'jacks-low', 'squat', 'crunch', 'plank', 'hamstring'] },
+  { id: 'beginner-10-b', name: 'جلسة مبتدئين متنوعة', description: 'جلسة قصيرة بديلة للمبتدئين بحركات مختلفة وبدون معدات.', level: 'beginner', minutes: 0, frequency: 'حتى 10 دقائق', image: IMG.push,
+    exerciseIds: ['march', 'glute-bridge', 'incline-push', 'crunch', 'hamstring'] },
+  { id: 'beginner-20-b', name: 'خطة مبتدئين متنوعة', description: 'جلسة أطول قليلًا بحركات متنوعة تناسب المستوى المبتدئ.', level: 'beginner', minutes: 0, frequency: 'حتى 20 دقيقة', image: IMG.squat,
+    exerciseIds: ['march', 'squat', 'glute-bridge', 'incline-push', 'crunch', 'plank', 'hamstring'] },
   { id: 'intermediate-10', name: 'جلسة متوسطة قصيرة', description: 'جلسة مختصرة بإيقاع متوسط مع حركات ثابتة؛ وقتها الفعلي أقل من 10 دقائق.', level: 'intermediate', minutes: 0, frequency: 'حتى 10 دقائق', image: IMG.athletes,
     exerciseIds: ['march', 'squat', 'mountain-climber', 'plank', 'hamstring'] },
+  { id: 'intermediate-10-b', name: 'جلسة متوسطة متنوعة', description: 'جلسة قصيرة بديلة للمستوى المتوسط مع تركيز على حركات مختلفة.', level: 'intermediate', minutes: 0, frequency: 'حتى 10 دقائق', image: IMG.upper,
+    exerciseIds: ['march', 'lunge', 'chair-dip', 'crunch', 'childs-pose'] },
   { id: 'twenty-minute', name: 'خطة 20 دقيقة', description: 'جلسة أطول للجسم كاملًا لمن اعتاد الحركة، مع إحماء وتمدد.', level: 'intermediate', minutes: 0, frequency: '4 أيام في الأسبوع', image: IMG.athletes,
     exerciseIds: ['march', 'shoulder-circles', 'lunge', 'squat', 'chair-dip', 'mountain-climber', 'bicycle', 'plank', 'hamstring', 'childs-pose'] },
+  { id: 'intermediate-20-b', name: 'خطة متوسطة متنوعة', description: 'جلسة بديلة للجسم كاملًا مع وقت مناسب للمستوى المتوسط.', level: 'intermediate', minutes: 0, frequency: 'حتى 20 دقيقة', image: IMG.pair,
+    exerciseIds: ['march', 'squat', 'lunge', 'glute-bridge', 'chair-dip', 'bicycle', 'plank', 'childs-pose'] },
 ];
 
 export const REST_DEFAULT = 15;
@@ -139,6 +147,21 @@ export function estimateSeconds(list: Exercise[], rest = REST_DEFAULT) {
 // minutes are derived from the real timed content so labels stay honest
 plans.forEach((p) => { p.minutes = Math.max(1, Math.round(estimateSeconds(planExercises(p)) / 60)); });
 export const planById = (id: string) => plans.find((p) => p.id === id);
+
+export function scheduledPlanOptions(schedule: { level: Level; minutes: 10 | 20 }) {
+  const ids = schedule.level === 'beginner'
+    ? (schedule.minutes === 10 ? ['ten-minute', 'beginner-10-b'] : ['beginner-plan', 'beginner-20-b'])
+    : (schedule.minutes === 10 ? ['intermediate-10', 'intermediate-10-b'] : ['twenty-minute', 'intermediate-20-b']);
+  return ids.map(planById).filter((plan): plan is WorkoutPlan => !!plan);
+}
+
+export function scheduledPlanForDay(schedule: { days: number[]; level: Level; minutes: 10 | 20 }, day: number) {
+  const orderedDays = [...new Set(schedule.days)].filter((d) => d >= 0 && d <= 6).sort((a, b) => ((a + 1) % 7) - ((b + 1) % 7));
+  const dayIndex = orderedDays.indexOf(day);
+  if (dayIndex < 0) return undefined;
+  const options = scheduledPlanOptions(schedule);
+  return options[dayIndex % options.length];
+}
 
 export function formatTime(seconds: number) {
   const safe = Math.max(0, Math.floor(seconds));

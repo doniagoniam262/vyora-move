@@ -4,13 +4,32 @@ import { Link } from 'wouter';
 import { clearAllData, useSettings, useWeeklySchedule } from '@/lib/store';
 import { Chip, Logo, Modal, Tag } from '@/components/vyora';
 import { useToast } from '@/hooks/use-toast';
-import { LEVELS, planById } from '@/lib/data';
+import { LEVELS, scheduledPlanOptions } from '@/lib/data';
 
 export default function MorePage() {
   const [settings, update] = useSettings();
   const [schedule, setSchedule] = useWeeklySchedule();
   const [confirm, setConfirm] = useState(false);
   const { toast } = useToast();
+  const toggleReminder = async () => {
+    if (schedule.reminderEnabled) {
+      setSchedule({ ...schedule, reminderEnabled: false });
+      toast({ title: 'تم إيقاف تذكير التدريب' });
+      return;
+    }
+    let granted = false;
+    if (typeof window !== 'undefined' && 'Notification' in window) {
+      try {
+        const permission = Notification.permission === 'default' ? await Notification.requestPermission() : Notification.permission;
+        granted = permission === 'granted';
+      } catch { granted = false; }
+    }
+    setSchedule({ ...schedule, reminderEnabled: true });
+    toast({
+      title: 'تم تفعيل تذكير التدريب',
+      description: granted ? `سيظهر تذكير في أيام جدولك عند ${schedule.reminderTime}.` : 'سيظهر التذكير داخل ڤايورا عند فتح التطبيق في موعده.',
+    });
+  };
   const Sec = ({ id, icon, title, children }: { id: string; icon: React.ReactNode; title: string; children: React.ReactNode }) => (
     <section id={id} data-testid={`section-${id}`} className="card-dark scroll-mt-20 p-4"><h2 className="flex items-center gap-2 text-sm font-extrabold"><span className="text-primary">{icon}</span>{title}</h2><div className="mt-3">{children}</div></section>
   );
@@ -41,11 +60,20 @@ export default function MorePage() {
           <p className="mt-4 text-xs font-bold text-muted-foreground">الوقت الأقصى للجلسة</p>
           <div className="mt-2 flex gap-2">{([10, 20] as const).map((minutes) => <Chip key={minutes} testId={`schedule-duration-${minutes}`} active={schedule.minutes === minutes} onClick={() => setSchedule({ ...schedule, minutes })}>{minutes} دقائق</Chip>)}</div>
           {schedule.days.length > 0 && (() => {
-            const planId = schedule.level === 'intermediate' ? (schedule.minutes === 20 ? 'twenty-minute' : 'intermediate-10') : (schedule.minutes === 20 ? 'beginner-plan' : 'ten-minute');
-            const plan = planById(planId);
-            return plan ? <p className="mt-3 text-xs leading-5 text-muted-foreground" data-testid="schedule-plan-summary">الخطة المقترحة: <b className="text-foreground">{plan.name}</b> · مدة الجلسة الفعلية نحو {plan.minutes} دقائق.</p> : null;
+            const options = scheduledPlanOptions(schedule);
+            return <div className="mt-3 space-y-1 text-xs leading-5 text-muted-foreground" data-testid="schedule-plan-summary">
+              <p>{schedule.days.length > 1 ? 'يتناوب جدولك بين:' : 'خطة يومك:'} {options.map((plan) => <b key={plan.id} className="text-foreground"> {plan.name} (نحو {plan.minutes} د)</b>)}</p>
+            </div>;
           })()}
-          <p className="mt-3 text-[11px] leading-5 text-muted-foreground">الجدول تذكير وتنظيم فقط؛ لا يغيّر بيانات تقدمك. يمكنك تعديل اختياراتك في أي وقت.</p>
+          <div className="mt-4 flex items-center justify-between gap-3 rounded-lg bg-muted/60 p-3">
+            <div><p className="text-xs font-bold">تذكير في يوم التدريب</p><p className="mt-1 text-[11px] text-muted-foreground">يعمل وقت فتح التطبيق فقط.</p></div>
+            <button type="button" role="switch" aria-checked={schedule.reminderEnabled} aria-label="تذكير التدريب" data-testid="toggle-training-reminder" disabled={schedule.days.length === 0 && !schedule.reminderEnabled} onClick={toggleReminder} className={`focus-ring relative h-7 w-12 shrink-0 rounded-full transition-colors ${schedule.reminderEnabled ? 'bg-primary' : 'bg-border'}`}><span className={`absolute top-1 h-5 w-5 rounded-full bg-white transition-all ${schedule.reminderEnabled ? 'right-1' : 'right-6'}`} /></button>
+          </div>
+          <label className="mt-3 flex items-center justify-between gap-3 text-xs font-bold">
+            وقت التذكير
+            <input type="time" aria-label="وقت التذكير" data-testid="input-reminder-time" value={schedule.reminderTime} onChange={(event) => setSchedule({ ...schedule, reminderTime: event.target.value })} className="rounded-lg border border-border bg-background px-3 py-2 text-sm font-normal" />
+          </label>
+          <p className="mt-3 text-[11px] leading-5 text-muted-foreground">يعمل التنبيه طالما ڤايورا مفتوح في المتصفح؛ إذا أُغلق، لا يضمن الموقع إرسال إشعار. الجدول لا يغيّر بيانات تقدمك، ويمكنك تعديل اختياراتك في أي وقت.</p>
         </div>
         <p className="text-sm font-bold">الراحة بين الجولات</p>
         <div className="mt-2 flex flex-wrap gap-2">{[10, 15, 20, 30].map((v) => <Chip key={v} testId={`setting-rest-${v}`} active={settings.restSeconds === v} onClick={() => update({ restSeconds: v })}>{v} ثانية</Chip>)}</div>

@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+@layer theme, base, clerk, components, utilities;
 @import 'tailwindcss';
+@import '@clerk/themes/shadcn.css';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
@@ -34,20 +36,42 @@
   --input: 120 4% 17%;
   --card: 150 10% 7.5%;
   --card-foreground: 90 12% 94%;
-  --primary: 98 88% 64%;
+  --primary: 330 84% 67%;
   --primary-foreground: 120 20% 6%;
   --secondary: 120 3% 15%;
   --secondary-foreground: 90 12% 94%;
   --muted: 120 3% 13%;
   --muted-foreground: 110 5% 64%;
-  --accent: 98 85% 71%;
+  --accent: 330 84% 73%;
   --accent-foreground: 120 20% 6%;
   --destructive: 4 80% 62%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 98 85% 71%;
+  --ring: 330 84% 73%;
   --radius: 1.1rem;
   --app-font-sans: 'Cairo', 'Tajawal', 'Space Grotesk', sans-serif;
   --app-font-mono: 'Space Grotesk', monospace;
+}
+
+html[data-gender='female'] {
+  --background: 330 15% 5%;
+  --border: 330 10% 17%;
+  --card: 330 12% 8%;
+  --primary: 330 84% 67%;
+  --primary-foreground: 330 24% 7%;
+  --accent: 330 84% 73%;
+  --accent-foreground: 330 24% 7%;
+  --ring: 330 84% 73%;
+}
+
+html[data-gender='male'] {
+  --background: 222 36% 5%;
+  --border: 220 24% 18%;
+  --card: 222 30% 8%;
+  --primary: 214 88% 64%;
+  --primary-foreground: 222 42% 7%;
+  --accent: 214 88% 70%;
+  --accent-foreground: 222 42% 7%;
+  --ring: 214 88% 70%;
 }
 
 * { box-sizing: border-box; }

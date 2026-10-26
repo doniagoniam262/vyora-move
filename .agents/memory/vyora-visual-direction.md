@@ -2,13 +2,13 @@
 name: VYORA visual direction
 description: User's visual fidelity and inclusive-audience requirements.
 ---
-VYORA is for women and men together, with one unified identity and training plans selected by fitness level.
+VYORA is one product for women and men, but users choose their gender in onboarding. After selection, use a pink theme and women-only athlete imagery for female profiles, or a dark-blue theme and men-only athlete imagery for male profiles.
 
-**Why:** The user explicitly requested a shared identity and diverse sports photography of men and women.
+**Why:** The user explicitly requested separate pink/female and dark-blue/male experiences and no opposite-gender figures in the selected profile.
 
-**How to apply:** Do not split the product into gendered themes or restrict plans by gender.
+**How to apply:** Keep one VYORA brand and shared fitness plans, but filter every visible athlete image and video presenter to the selected profile. Never infer gender from account data.
 
-Use the actual photos in the user's supplied design reference, and closely reproduce its visual design rather than inventing a loosely inspired alternative.
+Use the user's supplied reference photos that match the selected profile, and closely reproduce the requested visual direction rather than inventing a loosely inspired alternative. Avoid mixed-gender photos after profile selection.
 
 **Why:** The user explicitly said “حط نفس الصور ال انا بعتهالك” and emphasized that the reference must become a functioning application, not a displayed screenshot.
 

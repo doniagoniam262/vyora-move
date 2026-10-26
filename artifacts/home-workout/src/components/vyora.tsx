@@ -2,12 +2,14 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ImageOff } from 'lucide-react';
 import { asset } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
+import { genderSafeImage } from '@/lib/profile';
+import { useVYORAProfile } from '@/lib/profile-context';
 
 export function LogoMark({ size = 36 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
-      <path d="M8 14h14l10 26 10-26h14L38 52H26z" fill="#A4F477" />
-      <path d="M2 30l22-4v6L2 36z" fill="#A4F477" opacity=".55" />
+    <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" className="text-primary">
+      <path d="M8 14h14l10 26 10-26h14L38 52H26z" fill="currentColor" />
+      <path d="M2 30l22-4v6L2 36z" fill="currentColor" opacity=".55" />
     </svg>
   );
 }
@@ -57,10 +59,12 @@ export function SmartImg({
 }) {
   const [state, setState] = useState<'loading' | 'ok' | 'error'>('loading');
   const ref = useRef<HTMLImageElement>(null);
+  const profile = useVYORAProfile();
+  const safeSrc = profile ? genderSafeImage(src, profile.gender) : src;
   useEffect(() => {
     setState('loading');
     if (ref.current?.complete && ref.current.naturalWidth > 0) setState('ok');
-  }, [src]);
+  }, [safeSrc]);
   return (
     <div
       className={`${className.split(/\s+/).includes('absolute') ? 'absolute' : 'relative'} overflow-hidden bg-muted ${className}`}
@@ -82,7 +86,7 @@ export function SmartImg({
       ) : (
         <img
           ref={ref}
-          src={asset(src)}
+          src={asset(safeSrc)}
           alt={alt}
           loading="lazy"
           onLoad={() => setState('ok')}

@@ -1,5 +1,17 @@
 import { useState } from 'react';
-import { Info, Settings, ShieldCheck, Trash2, Mountain, Film, ArrowLeft } from 'lucide-react';
+import { useClerk, useUser } from '@clerk/react';
+import {
+  Info,
+  Settings,
+  ShieldCheck,
+  Trash2,
+  Mountain,
+  Film,
+  ArrowLeft,
+  LogOut,
+  UserRound,
+  UserPen,
+} from 'lucide-react';
 import { Link } from 'wouter';
 import { clearAllData, useSettings, useWeeklySchedule } from '@/lib/store';
 import { Chip, Logo, Modal, Tag } from '@/components/vyora';
@@ -7,13 +19,20 @@ import { useToast } from '@/hooks/use-toast';
 import { LEVELS, scheduledPlanOptions } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizePlan } from '@/lib/localized-data';
+import { clearVYORAProfile } from '@/lib/profile';
+import { useVYORAProfile } from '@/lib/profile-context';
 
 export default function MorePage() {
   const { locale, t, setLocale } = useLocale();
+  const { user } = useUser();
+  const { signOut } = useClerk();
+  const profile = useVYORAProfile();
   const [settings, update] = useSettings();
   const [schedule, setSchedule] = useWeeklySchedule();
   const [confirm, setConfirm] = useState(false);
+  const [confirmProfile, setConfirmProfile] = useState(false);
   const { toast } = useToast();
+  const appBasePath = import.meta.env.BASE_URL.replace(/\/$/, '');
   const toggleReminder = async () => {
     if (schedule.reminderEnabled) {
       setSchedule({ ...schedule, reminderEnabled: false });
@@ -66,6 +85,39 @@ export default function MorePage() {
   return (
     <div className="page-enter mx-auto max-w-2xl space-y-2.5">
       <h1 className="text-xl font-extrabold">{t('المزيد')}</h1>
+      <section className="card-dark flex flex-wrap items-center gap-3 p-4" data-testid="section-account">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/15 text-primary">
+          <UserRound size={21} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs text-muted-foreground">{locale === 'ar' ? 'الحساب' : 'Account'}</p>
+          <p className="truncate text-sm font-bold">
+            {user?.fullName || user?.primaryEmailAddress?.emailAddress || 'VYORA'}
+          </p>
+          <p className="mt-1 text-[11px] text-muted-foreground">
+            {locale === 'ar'
+              ? 'قياساتك واختياراتك محفوظة محليًا على هذا الجهاز.'
+              : 'Your measurements and choices are saved locally on this device.'}
+          </p>
+        </div>
+        <Link
+          href="/profile"
+          data-testid="link-edit-profile"
+          className="focus-ring press inline-flex min-h-10 items-center gap-2 rounded-xl border border-border px-3 text-xs font-bold hover:border-primary/50"
+        >
+          <UserPen size={15} />
+          {locale === 'ar' ? 'تعديل الملف' : 'Edit profile'}
+        </Link>
+        <button
+          type="button"
+          data-testid="button-sign-out"
+          onClick={() => void signOut({ redirectUrl: appBasePath || '/' })}
+          className="focus-ring press inline-flex min-h-10 items-center gap-2 rounded-xl border border-border px-3 text-xs font-bold text-muted-foreground hover:border-destructive/50 hover:text-destructive"
+        >
+          <LogOut size={15} />
+          {locale === 'ar' ? 'تسجيل الخروج' : 'Sign out'}
+        </button>
+      </section>
       <Link
         href="/videos"
         data-testid="link-more-videos"
@@ -75,7 +127,13 @@ export default function MorePage() {
         <span className="flex-1">
           <b className="block text-sm">{t('تمارين بالفيديو')}</b>
           <span className="text-xs text-muted-foreground">
-            {t('فيديوهات عربية مع مدربات ومدربين')}
+            {locale === 'ar'
+              ? profile?.gender === 'male'
+                ? 'فيديوهات مع مدربين'
+                : 'فيديوهات مع مدربات'
+              : profile?.gender === 'male'
+                ? 'Videos with men trainers'
+                : 'Videos with women trainers'}
           </span>
         </span>
         <ArrowLeft
@@ -284,30 +342,38 @@ export default function MorePage() {
       <Sec id="about" icon={<Info size={18} />} title={t('عن ڤايورا')}>
         <Logo full />
         <p className="mt-4 text-sm leading-7 text-muted-foreground">
-          {t(
-            'ڤايورا تطبيق للتدريب المنزلي يركز على التقدم التدريجي دون معدات. يضم تمارين بوزن الجسم وخططًا قصيرة ومؤقتًا مدمجًا للجلسات. لا يتطلب إنشاء حساب ولا يعرض إعلانات.',
-          )}
+          {locale === 'ar'
+            ? 'ڤايورا تطبيق للتدريب المنزلي يركز على التقدم التدريجي دون معدات. يضم تمارين بوزن الجسم وخططًا قصيرة ومؤقتًا للجلسات، ويستخدم تسجيل الدخول عبر Google لإعداد ملف التدريب.'
+            : 'VYORA is a home-workout app focused on gradual progress without equipment. It includes bodyweight exercises, short plans, and a session timer, with Google sign-in for your training profile.'}
         </p>
       </Sec>
       <Sec id="privacy" icon={<ShieldCheck size={18} />} title={t('الخصوصية')}>
         <p className="text-sm leading-7 text-muted-foreground">
           {locale === 'ar'
-            ? 'الجلسات والإعدادات والمفضلة وسجل مشاهدة الفيديوهات تُحفظ في مساحة التخزين المحلية بمتصفحك ولا تُرسل إلى خادم ڤايورا. تستضيف YouTube صور معاينة الفيديو، وقد تتلقى بيانات اتصال عند تحميل الصور أو تشغيل الفيديو وفق سياسة الخصوصية لديها. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.'
-            : 'Workout sessions, settings, favorites, and video watch history are stored locally in this browser and are not sent to VYORA’s server. YouTube hosts video previews and may receive connection data when images or videos load, according to its privacy policy. VYORA provides general fitness content, not medical advice; consult a professional when needed.'}
+            ? 'الوزن والطول وأهدافك وبيانات التقدم والإعدادات والمفضلة وسجل المشاهدة تُحفظ محليًا في هذا المتصفح ولا تُرسل إلى واجهة VYORA البرمجية. يتولى Clerk تسجيل الدخول، وقد تستقبل Google بيانات لازمة للمصادقة. تستضيف YouTube الفيديوهات وقد تتلقى بيانات اتصال عند تشغيلها. ڤايورا محتوى عام للياقة وليس نصيحة طبية.'
+            : 'Your weight, height, goals, progress, settings, favorites, and watch history are stored in this browser and are not sent to VYORA’s API. Clerk handles sign-in, and Google may receive data required for authentication. YouTube hosts videos and may receive connection data when you play them. VYORA provides general fitness content, not medical advice.'}
         </p>
       </Sec>
       <Sec id="data" icon={<Trash2 size={18} />} title={t('البيانات')}>
         <p className="text-sm text-muted-foreground">
           {locale === 'ar'
-            ? 'احذف الجلسات والإعدادات والجدول الأسبوعي والمفضلة وسجل المشاهدة المحفوظة على هذا الجهاز.'
-            : 'Delete sessions, settings, your weekly schedule, favorites, and watch history saved on this device.'}
+            ? 'احذف جلسات التدريب والإعدادات والجدول الأسبوعي والمفضلة وسجل المشاهدة من هذا الجهاز. تُحذف بيانات الملف الشخصي من الزر المنفصل.'
+            : 'Delete workouts, settings, your weekly schedule, favorites, and watch history from this device. Profile data is deleted separately below.'}
         </p>
         <button
           onClick={() => setConfirm(true)}
           data-testid="button-clear-data"
           className="focus-ring press mt-4 rounded-xl border border-destructive/50 px-5 py-2.5 text-sm font-bold text-destructive hover:bg-destructive/10"
         >
-          {t('مسح كل البيانات')}
+          {locale === 'ar' ? 'مسح بيانات التدريب' : 'Clear workout data'}
+        </button>
+        <button
+          type="button"
+          onClick={() => setConfirmProfile(true)}
+          data-testid="button-delete-profile"
+          className="focus-ring press mt-3 block rounded-xl border border-destructive/50 px-5 py-2.5 text-sm font-bold text-destructive hover:bg-destructive/10"
+        >
+          {locale === 'ar' ? 'حذف بيانات الملف الشخصي' : 'Delete profile data'}
         </button>
       </Sec>
       <div className="flex flex-col items-center gap-1 py-3 text-center">
@@ -317,18 +383,43 @@ export default function MorePage() {
       </div>
       <Modal
         open={confirm}
-        title={t('مسح كل البيانات؟')}
+        title={locale === 'ar' ? 'مسح بيانات التدريب؟' : 'Clear workout data?'}
         body={
           locale === 'ar'
-            ? 'سيتم حذف سجل الجلسات والمفضلة وسجل المشاهدة والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز ولا يمكن التراجع.'
-            : 'This permanently deletes workout sessions, favorites, watch history, settings, and your weekly schedule from this device. This cannot be undone.'
+            ? 'سيتم حذف سجل الجلسات والمفضلة وسجل المشاهدة والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز. لن تُحذف بيانات الملف الشخصي.'
+            : 'This permanently deletes workout sessions, favorites, watch history, settings, and your weekly schedule from this device. Profile data stays saved.'
         }
-        confirmLabel={t('نعم، امسح')}
+        confirmLabel={locale === 'ar' ? 'نعم، امسح' : 'Clear data'}
         onCancel={() => setConfirm(false)}
         onConfirm={() => {
           clearAllData();
           setConfirm(false);
           toast({ title: locale === 'ar' ? 'تم مسح البيانات' : 'Data deleted' });
+        }}
+      />
+      <Modal
+        open={confirmProfile}
+        title={locale === 'ar' ? 'حذف بيانات الملف؟' : 'Delete profile data?'}
+        body={
+          locale === 'ar'
+            ? 'سيتم حذف الوزن والطول والهدف وباقي اختيارات الملف من هذا الجهاز. سيبقى سجل التمارين كما هو، وستحتاج إلى إعداد الملف مرة أخرى.'
+            : 'This removes your weight, height, goal, and other profile choices from this device. Workout history stays. You will need to set up your profile again.'
+        }
+        confirmLabel={locale === 'ar' ? 'نعم، احذف الملف' : 'Delete profile'}
+        onCancel={() => setConfirmProfile(false)}
+        onConfirm={() => {
+          if (!user?.id || !clearVYORAProfile(user.id)) {
+            toast({
+              title:
+                locale === 'ar'
+                  ? 'تعذر حذف بيانات الملف من هذا الجهاز.'
+                  : 'Profile data could not be removed from this device.',
+            });
+            return;
+          }
+          setConfirmProfile(false);
+          toast({ title: locale === 'ar' ? 'تم حذف بيانات الملف' : 'Profile data deleted' });
+          window.location.assign(import.meta.env.BASE_URL || '/');
         }}
       />
     </div>

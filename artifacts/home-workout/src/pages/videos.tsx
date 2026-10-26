@@ -1,22 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Clock3, ExternalLink, Film, Heart, History, Play, ShieldCheck, Video } from 'lucide-react';
 import { Chip, EmptyState, Tag } from '@/components/vyora';
-import { formatVideoDuration, trainingVideos, type TrainerFilter } from '@/lib/videos';
+import { formatVideoDuration, trainingVideos } from '@/lib/videos';
 import { asset } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizeVideo } from '@/lib/videos';
+import { genderSafeImage } from '@/lib/profile';
+import { useVYORAProfile } from '@/lib/profile-context';
 import {
   recordVideoWatch,
   toggleVideoFavorite,
   useVideoFavorites,
   useVideoHistory,
 } from '@/lib/store';
-
-const filters: { id: TrainerFilter; label: string }[] = [
-  { id: 'all', label: 'الكل' },
-  { id: 'women', label: 'مع مدربة' },
-  { id: 'men', label: 'مع مدرب' },
-];
 
 function VideoCard({
   video: sourceVideo,
@@ -28,8 +24,11 @@ function VideoCard({
   onToggleFavorite: () => void;
 }) {
   const { locale, t } = useLocale();
+  const profile = useVYORAProfile();
+  const safePoster = genderSafeImage(sourceVideo.image, profile?.gender ?? 'female');
   const video = localizeVideo(sourceVideo, locale);
   const [playing, setPlaying] = useState(false);
+  const [thumbnailFailed, setThumbnailFailed] = useState(false);
   return (
     <article
       id={`video-${video.id}`}
@@ -59,22 +58,22 @@ function VideoCard({
             aria-label={`${locale === 'ar' ? 'تشغيل فيديو' : 'Play video'} ${video.title}`}
             data-testid={`button-play-video-${video.id}`}
           >
-            <img
-              src={
-                video.thumbnailSource === 'local'
-                  ? asset(video.image)
-                  : `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`
-              }
-              alt=""
-              loading="lazy"
-              onError={(event) => {
-                const image = event.currentTarget;
-                if (image.dataset.fallback) return;
-                image.dataset.fallback = 'true';
-                image.src = asset(video.image);
-              }}
-              className="absolute inset-0 h-full w-full object-cover opacity-65 transition-opacity group-hover:opacity-80"
-            />
+            {thumbnailFailed ? (
+              <span className="absolute inset-0 grid place-items-center bg-card text-muted-foreground">
+                <span className="flex flex-col items-center gap-2 text-xs">
+                  <Film size={24} />
+                  {locale === 'ar' ? 'معاينة الفيديو غير متاحة' : 'Video preview unavailable'}
+                </span>
+              </span>
+            ) : (
+              <img
+                src={asset(safePoster)}
+                alt=""
+                loading="lazy"
+                onError={() => setThumbnailFailed(true)}
+                className="absolute inset-0 h-full w-full object-cover opacity-65 transition-opacity group-hover:opacity-80"
+              />
+            )}
             <span className="absolute inset-0 bg-black/25" />
             <span className="relative grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform group-hover:scale-105">
               <Play size={22} fill="currentColor" />
@@ -152,21 +151,38 @@ function VideoCard({
 
 export default function VideosPage() {
   const { locale, t } = useLocale();
-  const [filter, setFilter] = useState<TrainerFilter>('all');
+  const profile = useVYORAProfile();
+  const trainerGroup = profile?.gender === 'male' ? 'men' : 'women';
   const videoHistory = useVideoHistory();
+  const matchingHistory = useMemo(
+    () =>
+      videoHistory.filter((entry) =>
+        trainingVideos.some(
+          (video) => video.id === entry.videoId && video.trainerGroup === trainerGroup,
+        ),
+      ),
+    [trainerGroup, videoHistory],
+  );
   const recentVideos = useMemo(
     () =>
-      videoHistory.slice(0, 5).flatMap((entry) => {
+      matchingHistory.slice(0, 5).flatMap((entry) => {
         const video = trainingVideos.find((item) => item.id === entry.videoId);
         return video ? [{ entry, video: localizeVideo(video, locale) }] : [];
       }),
-    [videoHistory, locale],
+    [matchingHistory, locale],
   );
   const [collection, setCollection] = useState<'all' | 'favorites' | 'watched'>('all');
   const favorites = useVideoFavorites();
+  const matchingFavorites = useMemo(
+    () =>
+      favorites.filter((id) =>
+        trainingVideos.some((video) => video.id === id && video.trainerGroup === trainerGroup),
+      ),
+    [favorites, trainerGroup],
+  );
   const watchedIds = useMemo(
-    () => new Set(videoHistory.map((entry) => entry.videoId)),
-    [videoHistory],
+    () => new Set(matchingHistory.map((entry) => entry.videoId)),
+    [matchingHistory],
   );
   useEffect(() => {
     try {
@@ -181,11 +197,13 @@ export default function VideosPage() {
     () =>
       trainingVideos.filter(
         (video) =>
-          (filter === 'all' || video.trainerGroup === filter) &&
+          video.trainerGroup === trainerGroup &&
           (collection === 'all' ||
-            (collection === 'favorites' ? favorites.includes(video.id) : watchedIds.has(video.id))),
+            (collection === 'favorites'
+              ? matchingFavorites.includes(video.id)
+              : watchedIds.has(video.id))),
       ),
-    [collection, favorites, filter, watchedIds],
+    [collection, matchingFavorites, trainerGroup, watchedIds],
   );
 
   return (
@@ -202,8 +220,8 @@ export default function VideosPage() {
         </div>
         <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
           {locale === 'ar'
-            ? 'فيديوهات بشرح عربي مع مدربات ومدربين، بدون الحاجة إلى ترجمة تلقائية. الخطط والتمارين في ڤايورا متاحة للنساء والرجال؛ اختر المستوى والحركة المناسبة لك. الفلتر يحدد المدرب فقط، وليس من يمكنه أداء التمرين.'
-            : 'These existing clips feature spoken Arabic instruction; the clips themselves have not been translated. VYORA plans and exercises are for women and men. Choose the level and movement that suit you. The filter selects a trainer, not who can do the exercise.'}
+            ? 'فيديوهات بمدربات فقط أو مدربين فقط حسب اختيارك. المقاطع من YouTube؛ قد يظهر في الفيديو الأصلي أشخاص آخرون غير المدرب.'
+            : 'Videos are filtered to women trainers or men trainers to match your profile. YouTube clips may include other people beyond the trainer.'}
         </p>
       </header>
 
@@ -227,7 +245,6 @@ export default function VideosPage() {
                 <button
                   type="button"
                   onClick={() => {
-                    setFilter('all');
                     setCollection('all');
                     window.setTimeout(
                       () =>
@@ -258,26 +275,6 @@ export default function VideosPage() {
         )}
       </section>
 
-      <div className="flex flex-wrap gap-2" role="group" aria-label={t('اختيار المدرب')}>
-        {filters.map((item) => (
-          <Chip
-            key={item.id}
-            testId={`filter-videos-${item.id}`}
-            active={filter === item.id}
-            onClick={() => setFilter(item.id)}
-          >
-            {locale === 'ar'
-              ? item.label
-              : (
-                  { all: 'All', women: 'Women trainers', men: 'Men trainers' } as Record<
-                    string,
-                    string
-                  >
-                )[item.id]}
-          </Chip>
-        ))}
-      </div>
-
       <div
         className="flex flex-wrap gap-2"
         role="group"
@@ -295,14 +292,14 @@ export default function VideosPage() {
           active={collection === 'favorites'}
           onClick={() => setCollection('favorites')}
         >
-          {locale === 'ar' ? 'المفضلة' : 'Favorites'} ({favorites.length})
+          {locale === 'ar' ? 'المفضلة' : 'Favorites'} ({matchingFavorites.length})
         </Chip>
         <Chip
           testId="filter-videos-collection-watched"
           active={collection === 'watched'}
           onClick={() => setCollection('watched')}
         >
-          {locale === 'ar' ? 'شوهدت' : 'Watched'} ({videoHistory.length})
+          {locale === 'ar' ? 'شوهدت' : 'Watched'} ({matchingHistory.length})
         </Chip>
       </div>
 

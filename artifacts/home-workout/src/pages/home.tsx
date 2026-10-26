@@ -26,48 +26,31 @@ import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
-
-const brandGalleryImages = [
-  {
-    src: 'images/vyora-launch-poster.jpg',
-    altAr: 'بوستر ڤايورا الكامل مع صورة رياضيين وشعار MOVE BEYOND LIMITS.',
-    altEn: 'Full VYORA poster with athletes and the MOVE BEYOND LIMITS slogan.',
-  },
-  {
-    src: 'images/brand-boxing-pink.jpg',
-    altAr: 'رياضية تتدرب على كيس الملاكمة مع شعار ڤايورا.',
-    altEn: 'A woman training on a punching bag with the VYORA logo.',
-  },
-  {
-    src: 'images/brand-boxing-ember.jpg',
-    altAr: 'ملاكمة ترتدي قفازات حمراء تحت شعار ڤايورا.',
-    altEn: 'A boxer wearing red gloves beneath the VYORA logo.',
-  },
-  {
-    src: 'images/brand-dumbbell-detail.jpg',
-    altAr: 'لقطة قريبة ليد تمسك دمبل في صالة رياضية.',
-    altEn: 'Close-up of a hand holding a dumbbell in a gym.',
-  },
-  {
-    src: 'images/brand-squat-team.jpg',
-    altAr: 'رجل وامرأة يؤديان تمرين السكوات في صالة رياضية.',
-    altEn: 'A man and woman doing squats in a gym.',
-  },
-  {
-    src: 'images/brand-training-pair.jpg',
-    altAr: 'رجل وامرأة يتدربان بالأوزان معًا.',
-    altEn: 'A man and woman training with dumbbells together.',
-  },
-  {
-    src: 'images/brand-squat-coaching.jpg',
-    altAr: 'مدرب يوجّه متدربة أثناء تمرين السكوات بالبار.',
-    altEn: 'A trainer guiding a woman through a barbell squat.',
-  },
-] as const;
+import { genderGallery } from '@/lib/profile';
+import { useVYORAProfile } from '@/lib/profile-context';
 
 export default function HomePage() {
   const { locale, t } = useLocale();
   const [brandGalleryIndex, setBrandGalleryIndex] = useState(0);
+  const gender = useVYORAProfile()?.gender ?? 'female';
+  const brandGalleryImages = genderGallery(gender).map((src, index) => {
+    const femaleDescriptions = [
+      ['ملاكمة تتدرب على كيس الملاكمة.', 'A woman training on a punching bag.'],
+      ['ملاكمة تستعد للتدريب.', 'A woman preparing for boxing training.'],
+      ['رياضية تؤدي تمرين السكوات.', 'A woman performing a squat.'],
+      ['رياضية تتمرن للجزء العلوي.', 'A woman training her upper body.'],
+      ['رياضية تؤدي تمرين تمدد.', 'A woman doing a stretching exercise.'],
+    ];
+    const maleDescriptions = [
+      ['متدرب يؤدي تمرين الضغط.', 'A man performing a push-up.'],
+      ['متدرب يؤدي تمرين البلانك.', 'A man holding a plank.'],
+      ['متدرب يؤدي تمرين أرضي.', 'A man doing a floor exercise.'],
+      ['لقطة قريبة ليد تمسك دمبل.', 'Close-up of a hand holding a dumbbell.'],
+    ];
+    const descriptions = gender === 'female' ? femaleDescriptions : maleDescriptions;
+    const [altAr, altEn] = descriptions[index] ?? descriptions[0];
+    return { src, altAr, altEn };
+  });
   const sessions = useSessions();
   const [settings, updateSettings] = useSettings();
   const [schedule] = useWeeklySchedule();

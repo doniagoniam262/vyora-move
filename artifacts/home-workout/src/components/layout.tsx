@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
-import { Calendar, Dumbbell, House, LayoutGrid, TrendingUp } from 'lucide-react';
+import { Calendar, Dumbbell, Film, House, LayoutGrid, TrendingUp } from 'lucide-react';
 import { Logo } from '@/components/vyora';
 
 const items = [
   { href: '/', label: 'الرئيسية', Icon: House, id: 'home', match: (l: string) => l === '/' },
   { href: '/exercises', label: 'التمارين', Icon: Dumbbell, id: 'exercises', match: (l: string) => l.startsWith('/exercises') || l.startsWith('/workouts') },
   { href: '/plans', label: 'الخطط', Icon: Calendar, id: 'plans', match: (l: string) => l.startsWith('/plans') },
+  { href: '/videos', label: 'الفيديو', Icon: Film, id: 'videos', match: (l: string) => l.startsWith('/videos') },
   { href: '/progress', label: 'التقدم', Icon: TrendingUp, id: 'progress', match: (l: string) => l.startsWith('/progress') || l.startsWith('/history') },
   { href: '/more', label: 'المزيد', Icon: LayoutGrid, id: 'more', match: (l: string) => l.startsWith('/more') },
 ];
@@ -39,7 +40,7 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       </main>
       {!inSession && (
         <nav aria-label="التنقل السفلي" className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-[#0a0b0a]/95 px-2 pb-[max(.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur md:hidden">
-          <ul className="mx-auto grid max-w-md grid-cols-5">
+            <ul className="mx-auto grid max-w-lg grid-cols-6">
             {items.map(({ href, label, Icon, id, match }) => {
               const on = match(loc);
               return (

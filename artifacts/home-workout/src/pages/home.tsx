@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { Bell, Play } from 'lucide-react';
+import { Bell, Film, Play } from 'lucide-react';
 import { exercises, planById, plans, planExercises, categoryLabel } from '@/lib/data';
 import { useSessions, useSettings, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
@@ -21,8 +21,8 @@ export default function HomePage() {
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-muted-foreground">مرحبًا،</p>
-          <h1 className="text-3xl font-extrabold">يا بطل</h1>
-          <p className="mt-1 text-sm text-muted-foreground">ابدأ خطوتك نحو جسم أكثر نشاطًا.</p>
+          <h1 className="text-3xl font-extrabold">مرحبًا بك</h1>
+          <p className="mt-1 text-sm text-muted-foreground">خطوة جديدة نحو جسم أكثر نشاطًا.</p>
         </div>
         <Link href="/progress" data-testid="link-home-notifications" aria-label="تقدمك" className="focus-ring press grid h-11 w-11 place-items-center rounded-full border border-border bg-card"><Bell size={18} /></Link>
       </div>
@@ -39,6 +39,15 @@ export default function HomePage() {
           <Link href={`/session/${today.id}`} data-testid="button-start-today" className="btn-lime focus-ring press mt-6 inline-flex w-fit items-center gap-2 rounded-xl px-8 py-3"><Play size={16} fill="currentColor" />ابدأ الآن</Link>
         </div>
       </section>
+
+      <Link href="/videos" data-testid="card-home-videos" className="card-dark focus-ring lift flex items-center gap-4 p-4">
+        <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/15 text-primary"><Film size={23} /></span>
+        <span className="min-w-0 flex-1">
+          <b className="block">تمارين بالفيديو</b>
+          <span className="mt-1 block text-xs text-muted-foreground">مدربات ومدربون وخيارات تناسب كل مستوى</span>
+        </span>
+        <Play size={18} className="shrink-0 text-primary" />
+      </Link>
 
       <section>
         <div className="mb-3 flex items-center justify-between"><h2 className="text-lg font-extrabold">تمارينك اليومية</h2><Link href="/exercises" data-testid="link-home-all-exercises" className="focus-ring text-xs font-bold text-primary">عرض الكل</Link></div>

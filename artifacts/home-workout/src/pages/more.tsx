@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Info, Settings, ShieldCheck, Trash2, Mountain } from 'lucide-react';
+import { Info, Settings, ShieldCheck, Trash2, Mountain, Film, ArrowLeft } from 'lucide-react';
+import { Link } from 'wouter';
 import { clearAllData, useSettings } from '@/lib/store';
 import { Chip, Logo, Modal } from '@/components/vyora';
 import { useToast } from '@/hooks/use-toast';
@@ -14,6 +15,11 @@ export default function MorePage() {
   return (
     <div className="page-enter mx-auto max-w-2xl space-y-4">
       <h1 className="text-3xl font-extrabold">المزيد</h1>
+      <Link href="/videos" data-testid="link-more-videos" className="card-dark focus-ring lift flex items-center gap-3 p-4">
+        <Film className="text-primary" size={20} />
+        <span className="flex-1"><b className="block text-sm">تمارين بالفيديو</b><span className="text-xs text-muted-foreground">فيديوهات عربية وإنجليزية مع مدربات ومدربين</span></span>
+        <ArrowLeft size={16} className="text-muted-foreground" />
+      </Link>
       <Sec id="settings" icon={<Settings size={18} />} title="الإعدادات">
         <p className="text-sm font-bold">الراحة بين الجولات</p>
         <div className="mt-2 flex flex-wrap gap-2">{[10, 15, 20, 30].map((v) => <Chip key={v} testId={`setting-rest-${v}`} active={settings.restSeconds === v} onClick={() => update({ restSeconds: v })}>{v} ثانية</Chip>)}</div>
@@ -26,7 +32,7 @@ export default function MorePage() {
         <p className="mt-4 text-sm leading-7 text-muted-foreground">ڤايورا مدرّب منزلي لمن يريد تقدمًا واقعيًا بدون معدات: تمارين بوزن الجسم، خطط قصيرة، ومؤقت يرافقك. لا حسابات ولا إعلانات.</p>
       </Sec>
       <Sec id="privacy" icon={<ShieldCheck size={18} />} title="الخصوصية">
-        <p className="text-sm leading-7 text-muted-foreground">كل بياناتك (الجلسات والإعدادات) تُحفظ في متصفحك فقط ولا تُرسل إلى أي خادم. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.</p>
+        <p className="text-sm leading-7 text-muted-foreground">الجلسات والإعدادات تُحفظ في متصفحك فقط ولا تُرسل إلى خادم ڤايورا. صور معاينة الفيديو مستضافة على YouTube؛ وعند تشغيل فيديو يتصل التطبيق بالموقع لعرضه، وقد يستقبل الموقع بيانات الاتصال وفق سياسة الخصوصية لديه. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.</p>
       </Sec>
       <Sec id="data" icon={<Trash2 size={18} />} title="البيانات">
         <p className="text-sm text-muted-foreground">احذف كل الجلسات والإعدادات المحفوظة على هذا الجهاز.</p>

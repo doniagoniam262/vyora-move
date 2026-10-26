@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'wouter';
-import { ArrowRight, Layers, Search, ShieldAlert, Timer, SearchX, Play, Lightbulb } from 'lucide-react';
+import { ArrowRight, Layers, Search, ShieldAlert, Timer, SearchX, Play, Lightbulb, Film } from 'lucide-react';
 import { CATEGORIES, LEVELS, categoryLabel, exerciseById, exercises, levelLabel, type Category, type Level } from '@/lib/data';
 import { Chip, EmptyState, SmartImg, Tag } from '@/components/vyora';
 import { ExerciseRow } from '@/components/cards';
@@ -63,6 +63,11 @@ export function ExerciseDetailPage() {
       </div>
       <div className="card-dark flex gap-3 border-primary/20 p-4 text-sm leading-7"><ShieldAlert className="mt-1 shrink-0 text-primary" size={18} /><div><b>ملاحظة أمان</b><p data-testid="text-safety" className="text-muted-foreground">{ex.safety}</p></div></div>
       <div className="card-dark flex gap-3 p-4 text-sm leading-7"><Lightbulb className="mt-1 shrink-0 text-primary" size={18} /><div><b>نسخة أسهل</b><p data-testid="text-easier" className="text-muted-foreground">{ex.easier}</p></div></div>
+      <Link href="/videos" data-testid="link-exercise-videos" className="card-dark focus-ring lift flex items-center gap-3 p-4">
+        <Film className="shrink-0 text-primary" size={20} />
+        <span className="flex-1"><b className="block text-sm">شاهدِي تطبيق التمارين بالفيديو</b><span className="text-xs text-muted-foreground">فيديوهات مع مدربات ومدربين تناسب الجميع</span></span>
+        <ArrowRight size={16} className="text-muted-foreground" />
+      </Link>
       <Link href={`/session/${ex.id}`} data-testid="button-start-exercise" className="btn-lime focus-ring press flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-lg"><Play size={18} fill="currentColor" />ابدأ التمرين</Link>
     </div>
   );

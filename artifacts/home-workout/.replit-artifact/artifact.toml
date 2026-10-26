@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "تِمرين البيت"
+description = "A welcoming Arabic RTL home-workout app for choosing short routines by level and available time, following exercises with timers, and tracking completed sessions locally."
+version = "1.0.0"
+id = "artifacts/home-workout"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21503
+
+[services.development]
+run = "pnpm --filter @workspace/home-workout run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/home-workout", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/home-workout/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21503"
+BASE_PATH = "/"

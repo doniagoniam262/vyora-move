@@ -1,7 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import type { Level, SavedSession } from './data';
 
-export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', reminderLast: 'vyora-reminder-last-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
+export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', videoHistory: 'vyora-video-history-v1', reminderLast: 'vyora-reminder-last-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
 const EVT = 'vyora-storage';
 
 function raw(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } }
@@ -34,6 +34,33 @@ export function useSessions(): SavedSession[] {
   const a = useRaw(KEYS.sessions); const b = useRaw(KEYS.legacyHistory);
   return useMemo(() => parseSessions(a, b), [a, b]);
 }
+
+export type VideoWatchEntry = { videoId: string; watchedAt: string };
+
+export function parseVideoHistory(s: string | null): VideoWatchEntry[] {
+  const latest = new Map<string, VideoWatchEntry>();
+  for (const entry of arr(s)) {
+    if (!isRec(entry) || typeof entry.videoId !== 'string' || !/^[\w-]{1,128}$/.test(entry.videoId) || typeof entry.watchedAt !== 'string') continue;
+    const timestamp = Date.parse(entry.watchedAt);
+    if (!Number.isFinite(timestamp)) continue;
+    const previous = latest.get(entry.videoId);
+    if (!previous || timestamp > Date.parse(previous.watchedAt)) latest.set(entry.videoId, { videoId: entry.videoId, watchedAt: entry.watchedAt });
+  }
+  return [...latest.values()].sort((a, b) => Date.parse(b.watchedAt) - Date.parse(a.watchedAt)).slice(0, 50);
+}
+
+export function useVideoHistory(): VideoWatchEntry[] {
+  const stored = useRaw(KEYS.videoHistory);
+  return useMemo(() => parseVideoHistory(stored), [stored]);
+}
+
+export function recordVideoWatch(videoId: string) {
+  if (!/^[\w-]{1,128}$/.test(videoId)) return;
+  const entry: VideoWatchEntry = { videoId, watchedAt: new Date().toISOString() };
+  const history = parseVideoHistory(raw(KEYS.videoHistory)).filter((item) => item.videoId !== videoId);
+  write(KEYS.videoHistory, JSON.stringify([entry, ...history].slice(0, 50)));
+}
+
 /** Writes a session once per id. Returns false if it already existed. */
 export function saveSession(s: SavedSession): boolean {
   const list = parseSessions(raw(KEYS.sessions), raw(KEYS.legacyHistory));

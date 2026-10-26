@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { ImageOff } from 'lucide-react';
 import { asset } from '@/lib/data';
+import { useLocale } from '@/lib/locale';
 
 export function LogoMark({ size = 36 }: { size?: number }) {
   return (
@@ -12,6 +13,7 @@ export function LogoMark({ size = 36 }: { size?: number }) {
 }
 
 export function Logo({ full = false }: { full?: boolean }) {
+  const { isArabic } = useLocale();
   return (
     <span className="flex items-center gap-3" data-testid="brand-logo">
       <LogoMark />
@@ -21,7 +23,7 @@ export function Logo({ full = false }: { full?: boolean }) {
           <span className="text-sm font-bold text-primary">ڤايورا</span>
         </span>
         <span className="latin mt-1 block text-[9px] font-medium tracking-[.2em] text-muted-foreground" dir="ltr">MOVE BEYOND LIMITS.</span>
-        {full && <span className="mt-2 block text-xs text-muted-foreground">تدريبك في بيتك.. لنسخة أقوى من نفسك.</span>}
+        {full && <span className="mt-2 block text-xs text-muted-foreground">{isArabic ? 'تدريبك في بيتك.. لنسخة أقوى من نفسك.' : 'Training at home, for a stronger you.'}</span>}
       </span>
     </span>
   );
@@ -56,6 +58,7 @@ export function Tag({ children, tone = 'lime' }: { children: ReactNode; tone?: '
 }
 
 export function Modal({ open, title, body, confirmLabel, onConfirm, onCancel }: { open: boolean; title: string; body: string; confirmLabel: string; onConfirm: () => void; onCancel: () => void }) {
+  const { isArabic } = useLocale();
   const cancelRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -71,7 +74,7 @@ export function Modal({ open, title, body, confirmLabel, onConfirm, onCancel }: 
         <h2 id="modal-title" className="text-xl font-bold">{title}</h2>
         <p className="mt-2 text-sm leading-7 text-muted-foreground">{body}</p>
         <div className="mt-6 grid grid-cols-2 gap-3">
-          <button ref={cancelRef} onClick={onCancel} data-testid="button-modal-cancel" className="focus-ring press rounded-xl border border-border py-3 text-sm font-bold">تراجع</button>
+          <button ref={cancelRef} onClick={onCancel} data-testid="button-modal-cancel" className="focus-ring press rounded-xl border border-border py-3 text-sm font-bold">{isArabic ? 'تراجع' : 'Cancel'}</button>
           <button onClick={onConfirm} data-testid="button-modal-confirm" className="focus-ring press rounded-xl bg-destructive py-3 text-sm font-bold text-destructive-foreground">{confirmLabel}</button>
         </div>
       </div>

@@ -105,7 +105,7 @@ export function weekDays(sessions: SavedSession[], now = new Date()) {
     return { date: from, count, today: from.toDateString() === now.toDateString() };
   });
 }
-export function fmtDate(iso: string) {
+export function fmtDate(iso: string, locale: 'ar' | 'en' = 'ar') {
   const d = new Date(iso);
-  return Number.isNaN(d.getTime()) ? 'تاريخ غير محدد' : new Intl.DateTimeFormat('ar-u-nu-latn', { weekday: 'long', day: 'numeric', month: 'long' }).format(d);
+  return Number.isNaN(d.getTime()) ? (locale === 'ar' ? 'تاريخ غير محدد' : 'Date unavailable') : new Intl.DateTimeFormat(locale === 'ar' ? 'ar-u-nu-latn' : 'en', { weekday: 'long', day: 'numeric', month: 'long' }).format(d);
 }

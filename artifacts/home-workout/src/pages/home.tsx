@@ -1,13 +1,14 @@
 import { Link } from 'wouter';
 import { Bell, Film, Play } from 'lucide-react';
 import { exercises, planById, plans, planExercises, categoryLabel } from '@/lib/data';
-import { useSessions, useSettings, weekDays, weekStart } from '@/lib/store';
+import { useSessions, useSettings, useWeeklySchedule, weekDays, weekStart } from '@/lib/store';
 import { SmartImg, Logo } from '@/components/vyora';
 import { PlanCard } from '@/components/cards';
 
 export default function HomePage() {
   const sessions = useSessions();
   const [settings] = useSettings();
+  const [schedule] = useWeeklySchedule();
   const day = new Date().getDay();
   const today = planById(['ten-minute', 'beginner-plan', 'twenty-minute'][day % 3]) ?? plans[0];
   const daily = [0, 1, 2].map((i) => exercises[(day * 3 + i * 4 + 2) % exercises.length]);
@@ -16,6 +17,9 @@ export default function HomePage() {
   const days = weekDays(sessions);
   const pct = Math.min(100, (weekCount / settings.weeklyGoal) * 100);
   const names = ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'];
+  const scheduledToday = schedule.days.includes(day);
+  const scheduledPlanId = schedule.level === 'intermediate' ? (schedule.minutes === 20 ? 'twenty-minute' : 'intermediate-10') : (schedule.minutes === 20 ? 'beginner-plan' : 'ten-minute');
+  const scheduledPlan = planById(scheduledPlanId);
   return (
     <div className="page-enter space-y-3.5">
       <div className="flex items-start justify-between">
@@ -38,6 +42,24 @@ export default function HomePage() {
           </div>
           <Link href={`/session/${today.id}`} data-testid="button-start-today" className="btn-lime focus-ring press mt-4 inline-flex w-fit items-center gap-2 rounded-lg px-8 py-2 text-sm"><Play size={16} fill="currentColor" />ابدأ الآن</Link>
         </div>
+      </section>
+
+      <section className="card-dark p-3.5" data-testid="card-personal-schedule">
+        <div className="flex items-center justify-between gap-3">
+          <div><h2 className="text-sm font-extrabold">جدولك الأسبوعي</h2><p className="mt-0.5 text-[11px] text-muted-foreground">{schedule.days.length ? `${schedule.days.length} أيام تدريب · ${schedule.level === 'beginner' ? 'مبتدئ' : 'متوسط'} · حتى ${schedule.minutes} دقيقة` : 'حدّد أيامك ومستواك لاقتراح خطة مناسبة.'}</p></div>
+          <Link href="/more" data-testid="link-edit-schedule" className="focus-ring rounded-lg px-2 py-1.5 text-xs font-bold text-primary">{schedule.days.length ? 'تعديل' : 'إعداد الجدول'}</Link>
+        </div>
+        <div className="mt-3 grid grid-cols-7 gap-1.5" aria-label="أيام جدول التدريب">
+          {[{ day: 0, label: 'ح' }, { day: 1, label: 'ن' }, { day: 2, label: 'ث' }, { day: 3, label: 'ر' }, { day: 4, label: 'خ' }, { day: 5, label: 'ج' }, { day: 6, label: 'س' }].map(({ day: weekday, label }) => {
+            const selected = schedule.days.includes(weekday);
+            return <span key={weekday} data-testid={`home-schedule-day-${weekday}`} title={selected ? 'يوم تدريب' : 'راحة'} className={`rounded-lg py-1.5 text-center text-[11px] font-bold ${selected ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}>{label}</span>;
+          })}
+        </div>
+        {scheduledToday && scheduledPlan
+          ? <Link href={`/session/${scheduledPlan.id}`} data-testid="button-start-scheduled" className="btn-lime focus-ring press mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2.5 text-sm"><Play size={15} fill="currentColor" />تمرين اليوم · {scheduledPlan.name} · حوالي {scheduledPlan.minutes} دقائق</Link>
+          : schedule.days.length > 0
+            ? <p className="mt-3 text-xs text-muted-foreground" data-testid="text-schedule-rest">{schedule.days.includes((day + 1) % 7) ? 'موعدك القادم غدًا.' : 'اليوم راحة حسب جدولك. خذ وقتك واستأنف في يوم التدريب القادم.'}</p>
+            : null}
       </section>
 
       <section data-testid="card-weekly-progress" className="card-dark p-3.5">

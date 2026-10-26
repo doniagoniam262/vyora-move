@@ -1,7 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
-import type { SavedSession } from './data';
+import type { Level, SavedSession } from './data';
 
-export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
+export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
 const EVT = 'vyora-storage';
 
 function raw(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } }
@@ -59,6 +59,30 @@ export function useSettings(): [Settings, (patch: Partial<Settings>) => void] {
   const r = useRaw(KEYS.settings);
   const s = useMemo(() => parseSettings(r), [r]);
   return [s, (patch) => write(KEYS.settings, JSON.stringify({ ...parseSettings(raw(KEYS.settings)), ...patch }))];
+}
+
+export type WeeklySchedule = { days: number[]; level: Level; minutes: 10 | 20 };
+export const defaultWeeklySchedule: WeeklySchedule = { days: [], level: 'beginner', minutes: 10 };
+
+export function parseWeeklySchedule(s: string | null): WeeklySchedule {
+  try {
+    const v: unknown = JSON.parse(s ?? '{}');
+    if (!isRec(v)) return defaultWeeklySchedule;
+    const days = Array.isArray(v.days)
+      ? [...new Set(v.days.filter((day): day is number => Number.isInteger(day) && day >= 0 && day <= 6))]
+      : [];
+    return {
+      days,
+      level: v.level === 'intermediate' ? 'intermediate' : 'beginner',
+      minutes: v.minutes === 20 ? 20 : 10,
+    };
+  } catch { return defaultWeeklySchedule; }
+}
+
+export function useWeeklySchedule(): [WeeklySchedule, (next: WeeklySchedule) => void] {
+  const stored = useRaw(KEYS.schedule);
+  const schedule = useMemo(() => parseWeeklySchedule(stored), [stored]);
+  return [schedule, (next) => write(KEYS.schedule, JSON.stringify(parseWeeklySchedule(JSON.stringify(next))))];
 }
 export function clearAllData() {
   try { Object.values(KEYS).forEach((k) => localStorage.removeItem(k)); } catch { /* ignore */ }

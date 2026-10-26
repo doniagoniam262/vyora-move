@@ -118,6 +118,8 @@ export const plans: WorkoutPlan[] = [
     exerciseIds: ['march', 'squat', 'incline-push', 'glute-bridge', 'plank', 'childs-pose'] },
   { id: 'ten-minute', name: 'خطة 10 دقائق', description: 'جلسة سريعة لأيام الازدحام: حركات مركبة بإيقاع ثابت.', level: 'beginner', minutes: 0, frequency: 'يوميًا إن رغبت', image: IMG.man,
     exerciseIds: ['march', 'jacks-low', 'squat', 'crunch', 'plank', 'hamstring'] },
+  { id: 'intermediate-10', name: 'جلسة متوسطة قصيرة', description: 'جلسة مختصرة بإيقاع متوسط مع حركات ثابتة؛ وقتها الفعلي أقل من 10 دقائق.', level: 'intermediate', minutes: 0, frequency: 'حتى 10 دقائق', image: IMG.athletes,
+    exerciseIds: ['march', 'squat', 'mountain-climber', 'plank', 'hamstring'] },
   { id: 'twenty-minute', name: 'خطة 20 دقيقة', description: 'جلسة أطول للجسم كاملًا لمن اعتاد الحركة، مع إحماء وتمدد.', level: 'intermediate', minutes: 0, frequency: '4 أيام في الأسبوع', image: IMG.athletes,
     exerciseIds: ['march', 'shoulder-circles', 'lunge', 'squat', 'chair-dip', 'mountain-climber', 'bicycle', 'plank', 'hamstring', 'childs-pose'] },
 ];

@@ -4,8 +4,15 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import { HistoryPage, HomePage, SessionPage, SiteLayout, WorkoutsPage } from '@/pages/app-pages';
+import { SiteLayout } from '@/components/layout';
+import HomePage from '@/pages/home';
+import { ExerciseDetailPage, ExercisesPage } from '@/pages/exercises';
+import { PlanDetailPage, PlansPage } from '@/pages/plans';
+import { SessionPage } from '@/pages/session';
+import ProgressPage from '@/pages/progress';
+import MorePage from '@/pages/more';
 import {
+  Redirect,
   Route,
   Switch,
   useLocation,
@@ -20,9 +27,15 @@ function Router() {
       <RoutedErrorBoundary>
         <Switch>
           <Route path="/" component={HomePage} />
-          <Route path="/workouts" component={WorkoutsPage} />
+          <Route path="/exercises" component={ExercisesPage} />
+          <Route path="/exercises/:exerciseId" component={ExerciseDetailPage} />
           <Route path="/session/:workoutId" component={SessionPage} />
-          <Route path="/history" component={HistoryPage} />
+          <Route path="/plans" component={PlansPage} />
+          <Route path="/plans/:planId" component={PlanDetailPage} />
+          <Route path="/progress" component={ProgressPage} />
+          <Route path="/more" component={MorePage} />
+          <Route path="/workouts"><Redirect to="/exercises" /></Route>
+          <Route path="/history"><Redirect to="/progress" /></Route>
           <Route component={NotFound} />
         </Switch>
       </RoutedErrorBoundary>

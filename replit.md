@@ -1,6 +1,6 @@
-# [Project name]
+# VYORA | ڤايورا
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+تطبيق ويب عربي RTL للتدريب المنزلي، يوفّر مكتبة تمارين وخططًا متدرجة ومؤقتًا فعليًا ومتابعة تقدم محفوظة على الجهاز.
 
 ## Run & Operate
 
@@ -22,23 +22,38 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/home-workout/src/lib/data.ts` — مكتبة التمارين والخطط ومحتواها.
+- `artifacts/home-workout/src/lib/store.ts` — التخزين المحلي، الإعدادات، وترحيل السجل القديم.
+- `artifacts/home-workout/src/pages/` — الصفحات ومسار الجلسة والمؤقت.
+- `artifacts/home-workout/src/index.css` — هوية VYORA البصرية والمتغيرات العامة.
+- `artifacts/home-workout/public/images/` — الصور الرياضية المحلية المستخدمة في التطبيق.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- النسخة الأولى تعمل بالكامل دون خادم أو حساب مستخدم؛ الجلسات والإعدادات تُحفظ في `localStorage`.
+- مدة كل خطة مشتقة من الجولات ومدد التمارين وفترات الراحة بدل عرض رقم تجريبي ثابت.
+- يحتفظ التطبيق بتوافق مع روابط `/workouts` و`/history` القديمة، ويرحّل سجلات النسخة السابقة عند قراءتها.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- صفحة رئيسية بتحدي يومي، مؤشر أسبوعي، وتمارين وخطط مقترحة.
+- مكتبة تمارين قابلة للبحث والتصفية مع صفحات تفاصيل.
+- خطط للمبتدئين و10 دقائق و20 دقيقة.
+- مؤقت جلسة فعلي مع الإيقاف والاستكمال وإعادة الجولة والانتقال التالي.
+- تقدم وإحصائيات محسوبة من الجلسات المحفوظة فعليًا.
+- إعدادات وخصوصية ومسح للبيانات بعد التأكيد.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- الاسم والهوية: `VYORA | ڤايورا`، والشعار `MOVE BEYOND LIMITS.`
+- العبارة العربية: `تدريبك في بيتك.. لنسخة أقوى من نفسك.`
+- واجهة عربية RTL داكنة قريبة من المرجع المرفق، مع أخضر ليموني `#A4F477`.
+- لا تضف ذكاءً اصطناعيًا أو تسجيل دخول أو دفعًا أو خدمات مدفوعة في النسخة الأولى.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- لا تكتب سجل جلسة مباشرة من أكثر من مسار؛ `saveSession` يمنع التكرار بالمعرّف.
+- الصور محلية، ويجب تمرير مساراتها عبر مكوّن الصورة حتى تظل متوافقة مع مسار المعاينة.
 
 ## Pointers
 

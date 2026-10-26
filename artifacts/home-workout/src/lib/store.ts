@@ -1,7 +1,7 @@
 import { useMemo, useSyncExternalStore } from 'react';
 import type { Level, SavedSession } from './data';
 
-export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', videoHistory: 'vyora-video-history-v1', reminderLast: 'vyora-reminder-last-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
+export const KEYS = { sessions: 'vyora-sessions-v1', settings: 'vyora-settings-v1', schedule: 'vyora-schedule-v1', videoFavorites: 'vyora-video-favorites-v1', videoHistory: 'vyora-video-history-v1', reminderLast: 'vyora-reminder-last-v1', legacyHistory: 'tamreen-history-v1', legacySelection: 'tamreen-selection-v1' };
 const EVT = 'vyora-storage';
 
 function raw(k: string): string | null { try { return localStorage.getItem(k); } catch { return null; } }
@@ -40,11 +40,13 @@ export type VideoWatchEntry = { videoId: string; watchedAt: string };
 export function parseVideoHistory(s: string | null): VideoWatchEntry[] {
   const latest = new Map<string, VideoWatchEntry>();
   for (const entry of arr(s)) {
-    if (!isRec(entry) || typeof entry.videoId !== 'string' || !/^[\w-]{1,128}$/.test(entry.videoId) || typeof entry.watchedAt !== 'string') continue;
-    const timestamp = Date.parse(entry.watchedAt);
+    if (!isRec(entry) || typeof entry.videoId !== 'string' || !/^[\w-]{1,128}$/.test(entry.videoId)) continue;
+    const watchedAt = typeof entry.watchedAt === 'string' ? entry.watchedAt : typeof entry.viewedAt === 'string' ? entry.viewedAt : null;
+    if (!watchedAt) continue;
+    const timestamp = Date.parse(watchedAt);
     if (!Number.isFinite(timestamp)) continue;
     const previous = latest.get(entry.videoId);
-    if (!previous || timestamp > Date.parse(previous.watchedAt)) latest.set(entry.videoId, { videoId: entry.videoId, watchedAt: entry.watchedAt });
+    if (!previous || timestamp > Date.parse(previous.watchedAt)) latest.set(entry.videoId, { videoId: entry.videoId, watchedAt });
   }
   return [...latest.values()].sort((a, b) => Date.parse(b.watchedAt) - Date.parse(a.watchedAt)).slice(0, 50);
 }
@@ -106,6 +108,20 @@ export function useSettings(): [Settings, (patch: Partial<Settings>) => void] {
   return [s, (patch) => write(KEYS.settings, JSON.stringify({ ...parseSettings(raw(KEYS.settings)), ...patch }))];
 }
 
+function parseVideoFavorites(s: string | null): string[] {
+  return [...new Set(arr(s).filter((id): id is string => typeof id === 'string' && /^[\w-]{1,128}$/.test(id)))];
+}
+export function useVideoFavorites(): string[] {
+  const value = useRaw(KEYS.videoFavorites);
+  return useMemo(() => parseVideoFavorites(value), [value]);
+}
+export function toggleVideoFavorite(videoId: string): boolean {
+  if (!/^[\w-]{1,128}$/.test(videoId)) return false;
+  const favorites = parseVideoFavorites(raw(KEYS.videoFavorites));
+  const isFavorite = favorites.includes(videoId);
+  write(KEYS.videoFavorites, JSON.stringify(isFavorite ? favorites.filter((id) => id !== videoId) : [...favorites, videoId]));
+  return !isFavorite;
+}
 export type WeeklySchedule = { days: number[]; level: Level; minutes: 10 | 20; reminderEnabled: boolean; reminderTime: string };
 export const defaultWeeklySchedule: WeeklySchedule = { days: [], level: 'beginner', minutes: 10, reminderEnabled: false, reminderTime: '18:00' };
 

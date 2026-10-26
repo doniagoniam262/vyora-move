@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react';
-import { Clock3, ExternalLink, Film, History, Play, ShieldCheck, Video } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { Clock3, ExternalLink, Film, Heart, History, Play, ShieldCheck, Video } from 'lucide-react';
 import { Chip, EmptyState, Tag } from '@/components/vyora';
 import { formatVideoDuration, trainingVideos, type TrainerFilter } from '@/lib/videos';
 import { asset } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizeVideo } from '@/lib/videos';
-import { recordVideoWatch, useVideoHistory } from '@/lib/store';
+import { recordVideoWatch, toggleVideoFavorite, useVideoFavorites, useVideoHistory } from '@/lib/store';
 
 const filters: { id: TrainerFilter; label: string }[] = [
   { id: 'all', label: 'الكل' },
@@ -13,9 +13,17 @@ const filters: { id: TrainerFilter; label: string }[] = [
   { id: 'men', label: 'مع مدرب' },
 ];
 
-function VideoCard({ video }: { video: (typeof trainingVideos)[number] }) {
+function VideoCard({
+  video: sourceVideo,
+  favorite,
+  onToggleFavorite,
+}: {
+  video: (typeof trainingVideos)[number];
+  favorite: boolean;
+  onToggleFavorite: () => void;
+}) {
   const { locale, t } = useLocale();
-  video = localizeVideo(video, locale);
+  const video = localizeVideo(sourceVideo, locale);
   const [playing, setPlaying] = useState(false);
   return (
     <article id={`video-${video.id}`} className="card-dark scroll-mt-24 overflow-hidden" data-testid={`card-video-${video.id}`}>
@@ -79,16 +87,29 @@ function VideoCard({ video }: { video: (typeof trainingVideos)[number] }) {
           <p className="mt-1 text-xs text-muted-foreground">{video.trainer}</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">{video.description}</p>
         </div>
-        <a
-          href={`https://www.youtube.com/watch?v=${video.videoId}`}
-          target="_blank"
-          rel="noreferrer"
-          onClick={() => recordVideoWatch(video.id)}
-          className="focus-ring inline-flex items-center gap-2 rounded-lg py-1 text-xs font-bold text-primary"
-          data-testid={`link-youtube-${video.id}`}
-        >
-          {t('فتح على YouTube')} <ExternalLink size={14} />
-        </a>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={onToggleFavorite}
+            aria-pressed={favorite}
+            aria-label={`${favorite ? t('إزالة من المفضلة') : t('أضف للمفضلة')}: ${video.title}`}
+            className={`focus-ring inline-flex items-center gap-2 rounded-lg py-1 text-xs font-bold ${favorite ? 'text-primary' : 'text-muted-foreground'}`}
+            data-testid={`button-favorite-${video.id}`}
+          >
+            <Heart size={16} fill={favorite ? 'currentColor' : 'none'} />
+            {favorite ? t('في المفضلة') : t('أضف للمفضلة')}
+          </button>
+          <a
+            href={`https://www.youtube.com/watch?v=${video.videoId}`}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => recordVideoWatch(video.id)}
+            className="focus-ring inline-flex items-center gap-2 rounded-lg py-1 text-xs font-bold text-primary"
+            data-testid={`link-youtube-${video.id}`}
+          >
+            {t('فتح على YouTube')} <ExternalLink size={14} />
+          </a>
+        </div>
       </div>
     </article>
   );
@@ -105,9 +126,21 @@ export default function VideosPage() {
     }),
     [videoHistory, locale],
   );
+  const [collection, setCollection] = useState<'all' | 'favorites' | 'watched'>('all');
+  const favorites = useVideoFavorites();
+  const watchedIds = useMemo(() => new Set(videoHistory.map((entry) => entry.videoId)), [videoHistory]);
+  useEffect(() => {
+    try {
+      const targetId = decodeURIComponent(window.location.hash.slice(1));
+      if (targetId) document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch { /* Ignore malformed fragment identifiers. */ }
+  }, []);
   const visible = useMemo(
-    () => trainingVideos.filter((video) => filter === 'all' || video.trainerGroup === filter),
-    [filter],
+    () => trainingVideos.filter((video) =>
+      (filter === 'all' || video.trainerGroup === filter)
+      && (collection === 'all' || (collection === 'favorites' ? favorites.includes(video.id) : watchedIds.has(video.id))),
+    ),
+    [collection, favorites, filter, watchedIds],
   );
 
   return (
@@ -143,6 +176,7 @@ export default function VideosPage() {
                   type="button"
                   onClick={() => {
                     setFilter('all');
+                    setCollection('all');
                     window.setTimeout(() => document.getElementById(`video-${video.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
                   }}
                   className="focus-ring flex w-full items-center justify-between gap-3 rounded-xl border border-border bg-background/40 p-3 text-start transition-colors hover:border-primary/50"
@@ -171,17 +205,37 @@ export default function VideosPage() {
         ))}
       </div>
 
+      <div className="flex flex-wrap gap-2" role="group" aria-label={locale === 'ar' ? 'قائمة الفيديوهات' : 'Video collections'}>
+        <Chip testId="filter-videos-collection-all" active={collection === 'all'} onClick={() => setCollection('all')}>{locale === 'ar' ? 'كل الفيديوهات' : 'All videos'}</Chip>
+        <Chip testId="filter-videos-collection-favorites" active={collection === 'favorites'} onClick={() => setCollection('favorites')}>{locale === 'ar' ? 'المفضلة' : 'Favorites'} ({favorites.length})</Chip>
+        <Chip testId="filter-videos-collection-watched" active={collection === 'watched'} onClick={() => setCollection('watched')}>{locale === 'ar' ? 'شوهدت' : 'Watched'} ({videoHistory.length})</Chip>
+      </div>
+
       <div className="grid gap-4 md:grid-cols-2">
-        {visible.map((video) => <VideoCard key={video.id} video={video} />)}
+        {visible.map((video) => (
+          <VideoCard
+            key={video.id}
+            video={video}
+            favorite={favorites.includes(video.id)}
+            onToggleFavorite={() => toggleVideoFavorite(video.id)}
+          />
+        ))}
       </div>
 
       {visible.length === 0 && (
-        <EmptyState testId="empty-videos" icon={<Video size={26} />} title={t('لا توجد فيديوهات هنا')} body={t('اختر عرض كل الفيديوهات لمشاهدة المزيد.')} />
+        <EmptyState
+          testId="empty-videos"
+          icon={<Video size={26} />}
+          title={collection === 'favorites' ? (locale === 'ar' ? 'لا توجد فيديوهات مفضلة بعد' : 'No favorite videos yet') : collection === 'watched' ? (locale === 'ar' ? 'لم تشاهدي فيديوهات بعد' : 'No watched videos yet') : t('لا توجد فيديوهات هنا')}
+          body={collection === 'all' ? t('اختر عرض كل الفيديوهات لمشاهدة المزيد.') : (locale === 'ar' ? 'يمكنك العودة إلى كل الفيديوهات لحفظ فيديو أو بدء مشاهدته.' : 'Return to all videos to save or start watching one.')}
+        />
       )}
 
       <aside className="card-dark flex gap-3 p-4 text-xs leading-6 text-muted-foreground">
         <ShieldCheck size={18} className="mt-1 shrink-0 text-primary" />
-        <p>{locale === 'ar' ? 'الفيديوهات مستضافة على YouTube وتحتاج اتصالًا بالإنترنت. يُسجَّل المقطع في سجل المشاهدة عند بدء تشغيله أو فتحه على YouTube، وليس عند اكتماله. توقف عن التمرين عند الشعور بألم.' : 'Videos are hosted on YouTube and require an internet connection. A video is added to watch history when you start it here or open it on YouTube, not when it finishes. Stop exercising if you feel pain.'}</p>
+        <p>{locale === 'ar'
+          ? 'المفضلة وسجل المشاهدة محفوظان في مساحة التخزين المحلية لهذا المتصفح ولا يُرسلان إلى خادم ڤايورا. تستضيف YouTube صور المعاينة والفيديو وقد تتلقى بيانات اتصال عند تحميلها. يُسجَّل الفيديو عند بدء تشغيله هنا أو فتحه على YouTube، وليس عند اكتماله. الفيديوهات تحتاج اتصالًا بالإنترنت؛ أوقفي التمرين عند الشعور بألم.'
+          : 'Favorites and watch history are stored only in this browser and are not sent to VYORA’s server. YouTube hosts previews and videos and may receive connection data when they load. A video is recorded when you start it here or open it on YouTube, not when it finishes. Videos require an internet connection; stop exercising if you feel pain.'}</p>
       </aside>
     </div>
   );

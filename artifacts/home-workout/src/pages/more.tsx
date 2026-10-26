@@ -94,14 +94,16 @@ export default function MorePage() {
          <p className="mt-4 text-sm leading-7 text-muted-foreground">{t('ڤايورا مدرّب منزلي لمن يريد تقدمًا واقعيًا بدون معدات: تمارين بوزن الجسم، خطط قصيرة، ومؤقت يرافقك. لا حسابات ولا إعلانات.')}</p>
       </Sec>
        <Sec id="privacy" icon={<ShieldCheck size={18} />} title={t('الخصوصية')}>
-          <p className="text-sm leading-7 text-muted-foreground">{t('الجلسات والإعدادات وسجل مشاهدة الفيديوهات تُحفظ في متصفحك فقط ولا تُرسل إلى خادم ڤايورا. صور معاينة الفيديو مستضافة على YouTube؛ وعند تشغيل فيديو يتصل التطبيق بالموقع لعرضه، وقد يستقبل الموقع بيانات الاتصال وفق سياسة الخصوصية لديه. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.')}</p>
-      </Sec>
-       <Sec id="data" icon={<Trash2 size={18} />} title={t('البيانات')}>
-          <p className="text-sm text-muted-foreground">{t('احذف الجلسات والإعدادات وسجل مشاهدة الفيديوهات المحفوظة على هذا الجهاز.')}</p>
-         <button onClick={() => setConfirm(true)} data-testid="button-clear-data" className="focus-ring press mt-4 rounded-xl border border-destructive/50 px-5 py-2.5 text-sm font-bold text-destructive hover:bg-destructive/10">{t('مسح كل البيانات')}</button>
-      </Sec>
-       <div className="flex flex-col items-center gap-1 py-3 text-center"><Mountain className="text-primary" /><p className="text-sm font-bold">{t('الاستمرارية هي سر النجاح')}</p><p className="text-xs text-muted-foreground">{t('كل يوم أقرب لهدفك.')}</p></div>
-        <Modal open={confirm} title={t('مسح كل البيانات؟')} body={t('سيتم حذف سجل الجلسات وسجل مشاهدة الفيديوهات والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز ولا يمكن التراجع.')} confirmLabel={t('نعم، امسح')} onCancel={() => setConfirm(false)} onConfirm={() => { clearAllData(); setConfirm(false); toast({ title: locale === 'ar' ? 'تم مسح البيانات' : 'Data deleted' }); }} />
+          <p className="text-sm leading-7 text-muted-foreground">{locale === 'ar'
+            ? 'الجلسات والإعدادات والمفضلة وسجل مشاهدة الفيديوهات تُحفظ في مساحة التخزين المحلية بمتصفحك ولا تُرسل إلى خادم ڤايورا. تستضيف YouTube صور معاينة الفيديو، وقد تتلقى بيانات اتصال عند تحميل الصور أو تشغيل الفيديو وفق سياسة الخصوصية لديها. ڤايورا محتوى عام للياقة ولا يقدّم نصيحة طبية؛ استشر مختصًا عند الحاجة.'
+            : 'Workout sessions, settings, favorites, and video watch history are stored locally in this browser and are not sent to VYORA’s server. YouTube hosts video previews and may receive connection data when images or videos load, according to its privacy policy. VYORA provides general fitness content, not medical advice; consult a professional when needed.'}</p>
+       </Sec>
+        <Sec id="data" icon={<Trash2 size={18} />} title={t('البيانات')}>
+           <p className="text-sm text-muted-foreground">{locale === 'ar' ? 'احذف الجلسات والإعدادات والجدول الأسبوعي والمفضلة وسجل المشاهدة المحفوظة على هذا الجهاز.' : 'Delete sessions, settings, your weekly schedule, favorites, and watch history saved on this device.'}</p>
+          <button onClick={() => setConfirm(true)} data-testid="button-clear-data" className="focus-ring press mt-4 rounded-xl border border-destructive/50 px-5 py-2.5 text-sm font-bold text-destructive hover:bg-destructive/10">{t('مسح كل البيانات')}</button>
+       </Sec>
+        <div className="flex flex-col items-center gap-1 py-3 text-center"><Mountain className="text-primary" /><p className="text-sm font-bold">{t('الاستمرارية هي سر النجاح')}</p><p className="text-xs text-muted-foreground">{t('كل يوم أقرب لهدفك.')}</p></div>
+         <Modal open={confirm} title={t('مسح كل البيانات؟')} body={locale === 'ar' ? 'سيتم حذف سجل الجلسات والمفضلة وسجل المشاهدة والإعدادات والجدول الأسبوعي نهائيًا من هذا الجهاز ولا يمكن التراجع.' : 'This permanently deletes workout sessions, favorites, watch history, settings, and your weekly schedule from this device. This cannot be undone.'} confirmLabel={t('نعم، امسح')} onCancel={() => setConfirm(false)} onConfirm={() => { clearAllData(); setConfirm(false); toast({ title: locale === 'ar' ? 'تم مسح البيانات' : 'Data deleted' }); }} />
     </div>
   );
 }

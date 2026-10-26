@@ -1,15 +1,26 @@
 import { Link } from 'wouter';
-import { Check, History } from 'lucide-react';
-import { useSessions, useSettings, fmtDate, weekDays, weekStart } from '@/lib/store';
+import { Check, Clock3, Heart, History } from 'lucide-react';
+import { useSessions, useSettings, fmtDate, useVideoFavorites, useVideoHistory, weekDays, weekStart } from '@/lib/store';
 import { EmptyState } from '@/components/vyora';
 import { exerciseById, formatTime, planById } from '@/lib/data';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
+import { localizeVideo, trainingVideos } from '@/lib/videos';
 
 export default function ProgressPage() {
   const { locale, t } = useLocale();
   const sessions = useSessions();
   const [settings] = useSettings();
+  const favoriteIds = useVideoFavorites();
+  const videoHistory = useVideoHistory();
+  const favoriteVideos = favoriteIds.flatMap((id) => {
+    const video = trainingVideos.find((item) => item.id === id);
+    return video ? [localizeVideo(video, locale)] : [];
+  });
+  const watchedVideos = videoHistory.flatMap((entry) => {
+    const video = trainingVideos.find((item) => item.id === entry.videoId);
+    return video ? [{ ...entry, video: localizeVideo(video, locale) }] : [];
+  });
   const start = weekStart();
   const week = sessions.filter((s) => new Date(s.completedAt) >= start).length;
   const totalSec = sessions.reduce((a, s) => a + s.durationSeconds, 0);
@@ -39,6 +50,28 @@ export default function ProgressPage() {
       <h2 className="pt-1 text-sm font-extrabold">{t('آخر التمارين المكتملة')}</h2>
       {sessions.length === 0 ? <EmptyState testId="empty-history" icon={<History size={26} />} title={t('سجلك يبدأ بجلسة')} body={t('لا جلسات محفوظة بعد. أكمل جلسة قصيرة وستظهر هنا بإحصاءات حقيقية.')}><Link href="/plans" data-testid="link-progress-plans" className="btn-lime focus-ring rounded-xl px-6 py-2.5 text-sm">{t('اختر خطة')}</Link></EmptyState>
         : <ul className="space-y-2.5">{sessions.slice(0, 30).map((s) => { const savedPlan = planById(s.planId); const savedExercise = exerciseById(s.planId); const sessionTitle = locale === 'en' ? savedPlan ? localizePlan(savedPlan, locale).name : savedExercise ? localizeExercise(savedExercise, locale).name : s.planName : s.planName; return <li key={s.id} data-testid={`row-session-${s.id}`} className="card-dark flex items-center gap-3 p-3.5"><span className="grid h-8 w-8 place-items-center rounded-full bg-primary/15 text-primary"><Check size={16} /></span><span className="flex-1"><b className="block text-sm">{sessionTitle}</b><span className="text-[11px] text-muted-foreground">{fmtDate(s.completedAt, locale)} · {s.completedCount} {locale === 'ar' ? 'تمارين' : 'exercises'}</span></span><span className="num text-sm font-bold">{formatTime(s.durationSeconds)}</span></li>; })}</ul>}
+      <section className="card-dark space-y-3 p-4" data-testid="section-video-favorites">
+        <h2 className="flex items-center gap-2 text-sm font-extrabold"><Heart size={18} className="text-primary" /> {locale === 'ar' ? 'الفيديوهات المفضلة' : 'Favorite videos'}</h2>
+        {favoriteVideos.length ? (
+          <ul className="space-y-2">{favoriteVideos.map((video) => (
+            <li key={video.id} data-testid={`row-favorite-video-${video.id}`} className="flex items-center gap-3 rounded-xl bg-background/50 p-3">
+              <span className="min-w-0 flex-1"><b className="block text-sm">{video.title}</b><span className="text-xs text-muted-foreground">{video.trainer}</span></span>
+              <Link href={`/videos#video-${video.id}`} data-testid={`link-favorite-video-${video.id}`} className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary">{locale === 'ar' ? 'عرض الفيديو' : 'View video'}</Link>
+            </li>
+          ))}</ul>
+        ) : <p className="text-sm text-muted-foreground">{locale === 'ar' ? 'لم تحفظي فيديوهات بعد. استخدمي زر القلب في صفحة الفيديوهات.' : 'No videos saved yet. Use the heart button on the videos page.'}</p>}
+      </section>
+      <section className="card-dark space-y-3 p-4" data-testid="section-video-history">
+        <h2 className="flex items-center gap-2 text-sm font-extrabold"><Clock3 size={18} className="text-primary" /> {locale === 'ar' ? 'الفيديوهات التي شاهدتها' : 'Videos you watched'}</h2>
+        {watchedVideos.length ? (
+          <ul className="space-y-2">{watchedVideos.slice(0, 30).map(({ video, watchedAt }) => (
+            <li key={video.id} data-testid={`row-watched-video-${video.id}`} className="flex items-center gap-3 rounded-xl bg-background/50 p-3">
+              <span className="min-w-0 flex-1"><b className="block text-sm">{video.title}</b><span className="text-xs text-muted-foreground">{fmtDate(watchedAt, locale)}</span></span>
+              <Link href={`/videos#video-${video.id}`} data-testid={`link-watched-video-${video.id}`} className="focus-ring rounded-lg px-3 py-2 text-xs font-bold text-primary">{locale === 'ar' ? 'عرض الفيديو' : 'View video'}</Link>
+            </li>
+          ))}</ul>
+        ) : <p className="text-sm text-muted-foreground">{locale === 'ar' ? 'ستظهر هنا الفيديوهات عند بدء تشغيلها.' : 'Videos will appear here when you start watching them.'}</p>}
+      </section>
     </div>
   );
 }

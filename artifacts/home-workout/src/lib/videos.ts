@@ -7,7 +7,7 @@ export type TrainingVideo = {
   videoId: string;
   trainer: string;
   trainerGroup: Exclude<TrainerFilter, 'all'> | 'mixed';
-  language: 'العربية' | 'English';
+  language: 'العربية';
   level: 'مبتدئ' | 'متوسط';
   image: string;
 };
@@ -25,14 +25,14 @@ export const trainingVideos: TrainingVideo[] = [
     image: 'images/stretch.jpg',
   },
   {
-    id: 'jared-beginner-full-body',
-    title: 'تمرين جسم كامل بدون معدات',
-    description: 'جلسة للمبتدئين يقودها مختص علاج طبيعي، مع خيارات للتمرين في البيت.',
-    videoId: '7GkMHPe_OXw',
-    trainer: 'Jared · Tone and Tighten',
+    id: 'bar-warrior-home-guide',
+    title: 'شرح تمارين الكاليسثنكس في المنزل',
+    description: 'شرح عربي للتدريب المنزلي بوزن الجسم. اختر التدرج الملائم لقدرتك، وتجاوز أي حركة متقدمة لا تناسبك.',
+    videoId: 'HG1vjeHWG1A',
+    trainer: 'Bar Warrior · شرح بالعربية',
     trainerGroup: 'men',
-    language: 'English',
-    level: 'مبتدئ',
+    language: 'العربية',
+    level: 'متوسط',
     image: 'images/plank.jpg',
   },
   {
@@ -51,20 +51,20 @@ export const trainingVideos: TrainingVideo[] = [
     title: '5 تمارين لكامل الجسم بدون معدات',
     description: 'فيديو عربي قصير للمبتدئين، ويمكن للجميع متابعة الحركات حسب مستواهم.',
     videoId: 'FaWVHKU_I5Y',
-    trainer: 'تمرين منزلي',
-    trainerGroup: 'mixed',
+    trainer: 'د. إبراهيم الدخيل',
+    trainerGroup: 'men',
     language: 'العربية',
     level: 'مبتدئ',
     image: 'images/hero-squat.jpg',
   },
   {
-    id: 'joanna-form-guide',
-    title: 'تعليم السكوات والاندفاع والضغط والبلانك',
-    description: 'شرح تفصيلي لأربع حركات أساسية مع المدربة المعتمدة Joanna Soh.',
-    videoId: 'bI2qDaLrKCg',
-    trainer: 'Joanna Soh',
+    id: 'farah-neck-shoulder-stretch',
+    title: 'إطالات الرقبة والكتفين',
+    description: 'حركات إطالة مع شرح عربي من المدربة فرح بكار. تحرك في نطاق مريح دون ضغط على الرقبة، وتوقف إذا ظهر ألم.',
+    videoId: '64oux1TtQzY',
+    trainer: 'فرح بكار · العربي 2',
     trainerGroup: 'women',
-    language: 'English',
+    language: 'العربية',
     level: 'مبتدئ',
     image: 'images/lunges.jpg',
   },

@@ -13,3 +13,9 @@ Use the actual photos in the user's supplied design reference, and closely repro
 **Why:** The user explicitly said “حط نفس الصور ال انا بعتهالك” and emphasized that the reference must become a functioning application, not a displayed screenshot.
 
 **How to apply:** Retain actual interactive pages, real timer and locally saved progress. Cropped reference photos have limited resolution; do not claim they are original high-resolution source files.
+
+Prefer original Arabic-language workout explanations over English videos that depend on automatic subtitles.
+
+**Why:** The user reported untranslated English videos and delegated the choice of the better solution; native Arabic videos avoid uncertain subtitle availability.
+
+**How to apply:** Keep male and female presenters represented. Verify video metadata before adding a source, and do not describe Arabic titles alone as proof of reviewed spoken content.

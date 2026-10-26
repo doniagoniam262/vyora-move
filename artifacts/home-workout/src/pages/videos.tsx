@@ -99,7 +99,7 @@ export default function VideosPage() {
           </div>
         </div>
         <p className="max-w-2xl text-sm leading-7 text-muted-foreground">
-          استعرض فيديوهات مع مدربات ومدربين، أو اختر محتوى مناسبًا للجميع. الخطط والتمارين في ڤايورا متاحة للنساء والرجال؛ حدّد المستوى والحركة المناسبة لك.
+          فيديوهات بشرح عربي مع مدربات ومدربين، بدون الحاجة إلى ترجمة تلقائية. الخطط والتمارين في ڤايورا متاحة للنساء والرجال؛ اختر المستوى والحركة المناسبة لك. الفلتر يحدد المدرب فقط، وليس من يمكنه أداء التمرين.
         </p>
       </header>
 
@@ -116,12 +116,12 @@ export default function VideosPage() {
       </div>
 
       {visible.length === 0 && (
-        <EmptyState testId="empty-videos" icon={<Video size={26} />} title="لا توجد فيديوهات هنا" body="اختاري عرض كل الفيديوهات لمشاهدة المزيد." />
+        <EmptyState testId="empty-videos" icon={<Video size={26} />} title="لا توجد فيديوهات هنا" body="اختر عرض كل الفيديوهات لمشاهدة المزيد." />
       )}
 
       <aside className="card-dark flex gap-3 p-4 text-xs leading-6 text-muted-foreground">
         <ShieldCheck size={18} className="mt-1 shrink-0 text-primary" />
-        <p>الفيديوهات مستضافة على YouTube وتحتاج اتصالًا بالإنترنت. اختاري «تشغيل الفيديو» لإظهاره هنا، أو افتحيه على YouTube. أوقفي التمرين عند الشعور بألم.</p>
+        <p>الفيديوهات مستضافة على YouTube وتحتاج اتصالًا بالإنترنت. اختر «تشغيل الفيديو» لإظهاره هنا، أو افتحه على YouTube. توقف عن التمرين عند الشعور بألم.</p>
       </aside>
     </div>
   );

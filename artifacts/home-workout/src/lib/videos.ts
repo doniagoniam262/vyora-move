@@ -8,6 +8,7 @@ export type TrainingVideo = {
   durationSeconds: number;
   trainer: string;
   trainerGroup: Exclude<TrainerFilter, 'all'> | 'mixed';
+  hasEnglishAudioTrack?: boolean;
   language: string;
   level: string;
   image: string;
@@ -59,6 +60,7 @@ export const trainingVideos: TrainingVideo[] = [
     durationSeconds: 411,
     trainer: 'د. إبراهيم الدخيل',
     trainerGroup: 'men',
+    hasEnglishAudioTrack: true,
     language: 'العربية',
     level: 'مبتدئ',
     image: 'images/hero-squat.jpg',
@@ -163,5 +165,7 @@ const englishTrainers: Record<string, string> = {
 export function localizeVideo(video: TrainingVideo, locale: 'ar' | 'en'): TrainingVideo {
   const copy = englishVideoCopy[video.id];
   const level = video.level === 'مبتدئ' ? 'Beginner' : video.level === 'متوسط' ? 'Intermediate' : 'Not specified';
-  return locale === 'en' && copy ? { ...video, ...copy, trainer: englishTrainers[video.id] ?? video.trainer, language: 'Arabic', level } : video;
+  return locale === 'en' && copy
+    ? { ...video, ...copy, trainer: englishTrainers[video.id] ?? video.trainer, language: 'Arabic', level }
+    : video;
 }

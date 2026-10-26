@@ -31,7 +31,7 @@ function VideoCard({
         {playing ? (
           <iframe
             className="h-full w-full"
-            src={`https://www.youtube-nocookie.com/embed/${video.videoId}?autoplay=1&rel=0`}
+            src={`https://www.youtube-nocookie.com/embed/${video.videoId}?autoplay=1&rel=0${sourceVideo.hasEnglishAudioTrack ? '&cc_load_policy=1&cc_lang_pref=ar&hl=ar' : ''}`}
             title={video.title}
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -69,6 +69,13 @@ function VideoCard({
           </button>
         )}
       </div>
+      {sourceVideo.hasEnglishAudioTrack && (
+        <p className="border-t border-border bg-background/40 px-4 py-3 text-xs leading-6 text-muted-foreground" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+          {locale === 'ar'
+            ? 'يتوفر للمقطع مسار صوتي بالإنجليزية. تُطلب الترجمة العربية من مشغّل YouTube؛ شغّليها أو أوقفيها من زر CC داخل الفيديو. إذا لم تظهر، افتحي المصدر واختاري الترجمة التلقائية إلى العربية من إعدادات الترجمة.'
+            : 'This video provides an English audio track. Arabic captions are requested from YouTube; use the player’s CC button to turn them on or off. If they do not appear, open the source and choose Arabic auto-translate in the caption settings.'}
+        </p>
+      )}
       <div className="space-y-3 p-4">
         <div className="flex flex-wrap gap-1.5">
           <Tag tone="dim">
@@ -80,6 +87,7 @@ function VideoCard({
           </Tag>
           <Tag>{video.level}</Tag>
           <Tag tone="dim">{video.language}</Tag>
+          {sourceVideo.hasEnglishAudioTrack && <Tag tone="dim">{locale === 'ar' ? 'صوت إنجليزي متاح' : 'English audio available'}</Tag>}
           {video.trainerGroup === 'mixed' && <Tag tone="dim">للجميع</Tag>}
         </div>
         <div>

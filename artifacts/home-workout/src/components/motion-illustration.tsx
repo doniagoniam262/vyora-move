@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useId, type CSSProperties } from 'react';
 import { useVYORAProfile } from '@/lib/profile-context';
 
 export type MotionVariant =
@@ -46,12 +46,17 @@ export function MotionIllustration({
 }: MotionIllustrationProps) {
   const profile = useVYORAProfile();
   const femaleFigure = profile?.gender === 'female';
+  const gradientId = useId().replaceAll(':', '');
   const themeStyle: CSSProperties = {
     '--motion-accent': 'hsl(var(--primary))',
-    '--motion-soft': 'hsl(var(--primary) / .15)',
+    '--motion-soft': 'hsl(var(--primary) / .2)',
   } as CSSProperties;
   const pose = poses[variant];
   const [headX, headY] = pose.head.split(' ').map(Number);
+  const torsoStart = pose.torso.match(/^M([\d.]+)\s+([\d.]+)/);
+  const neck = torsoStart && Math.abs(Number(torsoStart[1]) - headX) < 30
+    ? `M${headX} ${headY + 9} Q${headX} ${headY + 15} ${torsoStart[1]} ${torsoStart[2]}`
+    : undefined;
   const ariaLabel = label ?? exercise ?? 'Movement illustration';
   return (
     <svg
@@ -62,30 +67,68 @@ export function MotionIllustration({
       style={themeStyle}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ellipse cx="111" cy="137" rx="72" ry="9" fill="var(--motion-soft)" />
-      <path d="M35 133h150" stroke="currentColor" strokeOpacity=".12" strokeWidth="2" strokeLinecap="round" />
-      {femaleFigure ? (
-        <path
-          d={`M${headX - 9} ${headY - 1} Q${headX - 13} ${headY - 13} ${headX - 2} ${headY - 14} Q${headX + 6} ${headY - 13} ${headX + 7} ${headY - 7} M${headX - 8} ${headY + 1} Q${headX - 20} ${headY + 4} ${headX - 17} ${headY + 17}`}
-          fill="none"
-          stroke="var(--motion-accent)"
-          strokeWidth="5"
-          strokeLinecap="round"
-        />
-      ) : (
-        <path
-          d={`M${headX - 10} ${headY - 3} Q${headX - 8} ${headY - 15} ${headX + 4} ${headY - 12} Q${headX + 10} ${headY - 9} ${headX + 9} ${headY - 3}Z`}
-          fill="var(--motion-accent)"
-          opacity=".9"
-        />
+      <defs>
+        <linearGradient id={`${gradientId}-skin`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#f5d5b8" />
+          <stop offset=".55" stopColor="#d79b78" />
+          <stop offset="1" stopColor="#a96855" />
+        </linearGradient>
+        <linearGradient id={`${gradientId}-kit`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="hsl(var(--primary))" />
+          <stop offset=".55" stopColor="#35c8bd" />
+          <stop offset="1" stopColor="#8d78e8" />
+        </linearGradient>
+        <linearGradient id={`${gradientId}-leggings`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#333844" />
+          <stop offset=".48" stopColor="#181b24" />
+          <stop offset="1" stopColor="#39404d" />
+        </linearGradient>
+        <linearGradient id={`${gradientId}-hair`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#332b35" />
+          <stop offset="1" stopColor="#0c1018" />
+        </linearGradient>
+        <radialGradient id={`${gradientId}-halo`}>
+          <stop offset="0" stopColor="hsl(var(--primary) / .24)" />
+          <stop offset="1" stopColor="hsl(var(--primary) / 0)" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="111" cy="137" rx="83" ry="15" fill={`url(#${gradientId}-halo)`} />
+      <ellipse cx="111" cy="137" rx="62" ry="5" fill="#06080d" opacity=".48" />
+      <path d="M35 137h150" stroke="white" strokeOpacity=".1" strokeWidth="1" strokeLinecap="round" />
+
+      <g className="motion-athlete__legs">
+        <path d={pose.legs} fill="none" stroke={`url(#${gradientId}-leggings)`} strokeWidth={femaleFigure ? 17 : 21} strokeLinecap="round" strokeLinejoin="round" />
+        <path d={pose.legs} fill="none" stroke="white" strokeOpacity=".22" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={pose.legs} fill="none" stroke="hsl(var(--primary) / .45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="1 18" />
+      </g>
+
+      <g className="motion-athlete__arms">
+        <path d={pose.arms} fill="none" stroke={`url(#${gradientId}-skin)`} strokeWidth={femaleFigure ? 10 : 13} strokeLinecap="round" strokeLinejoin="round" />
+        <path d={pose.arms} fill="none" stroke="white" strokeOpacity=".28" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </g>
+
+      {neck && <path d={neck} fill="none" stroke={`url(#${gradientId}-skin)`} strokeWidth={femaleFigure ? 11 : 13} strokeLinecap="round" />}
+      <path d={pose.torso} fill="none" stroke={`url(#${gradientId}-skin)`} strokeWidth={femaleFigure ? 28 : 32} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={pose.torso} fill="none" stroke={`url(#${gradientId}-kit)`} strokeWidth={femaleFigure ? 23 : 27} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={pose.torso} fill="none" stroke="white" strokeOpacity=".28" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="1 7" />
+      <path d={`M${headX - 8} ${headY + 9} Q${headX} ${headY + 14} ${headX + 8} ${headY + 9}`} fill="none" stroke={`url(#${gradientId}-skin)`} strokeWidth="5" strokeLinecap="round" />
+      <circle cx={headX} cy={headY} r={femaleFigure ? 10.5 : 12} fill={`url(#${gradientId}-skin)`} />
+      <path
+        d={femaleFigure
+          ? `M${headX - 10} ${headY - 1} Q${headX - 12} ${headY - 15} ${headX + 1} ${headY - 14} Q${headX + 11} ${headY - 12} ${headX + 9} ${headY - 1} Q${headX + 3} ${headY - 8} ${headX - 7} ${headY - 5} M${headX + 7} ${headY + 2} Q${headX + 18} ${headY + 8} ${headX + 13} ${headY + 19}`
+          : `M${headX - 11} ${headY - 2} Q${headX - 10} ${headY - 15} ${headX + 2} ${headY - 14} Q${headX + 11} ${headY - 11} ${headX + 10} ${headY - 2} Q${headX + 2} ${headY - 8} ${headX - 7} ${headY - 5}Z`}
+        fill={femaleFigure ? 'none' : `url(#${gradientId}-hair)`}
+        stroke={femaleFigure ? `url(#${gradientId}-hair)` : 'none'}
+        strokeWidth={femaleFigure ? 5 : 1}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {femaleFigure && (
+        <circle cx={headX + 13} cy={headY + 19} r="2.2" fill="hsl(var(--primary))" />
       )}
-      <circle cx={headX} cy={headY} r={femaleFigure ? 11 : 13} fill="var(--motion-accent)" />
-      <path d={pose.torso} fill="none" stroke="var(--motion-accent)" strokeWidth={femaleFigure ? 12 : 17} strokeLinecap="round" strokeLinejoin="round" />
-      <path d={pose.arms} fill="none" stroke="var(--motion-accent)" strokeWidth={femaleFigure ? 7 : 9} strokeLinecap="round" strokeLinejoin="round" />
-      <path d={pose.legs} fill="none" stroke="currentColor" strokeWidth={femaleFigure ? 7.5 : 10} strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M61 34c9-11 22-17 37-17" fill="none" stroke="var(--motion-accent)" strokeOpacity=".35" strokeWidth="2" strokeLinecap="round" />
-      <circle cx="57" cy="42" r="3" fill="var(--motion-accent)" opacity=".55" />
-      <circle cx="171" cy="39" r="4" fill="var(--motion-accent)" opacity=".28" />
+      <path d="M61 34c9-11 22-17 37-17" fill="none" stroke="white" strokeOpacity=".2" strokeWidth="1.2" strokeLinecap="round" />
+      <circle cx="57" cy="42" r="3" fill="#37d9cf" opacity=".7" />
+      <circle cx="171" cy="39" r="4" fill="#d0a5ff" opacity=".45" />
     </svg>
   );
 }

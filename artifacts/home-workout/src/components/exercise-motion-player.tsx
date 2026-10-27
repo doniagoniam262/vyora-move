@@ -80,19 +80,19 @@ export function ExerciseMotionPlayer({
       className="movement-demo overflow-hidden rounded-[1.4rem] border border-border bg-card"
       dir={isArabic ? 'rtl' : 'ltr'}
       data-testid={`exercise-motion-player-${exercise.id}`}
-      aria-label={isArabic ? `عرض حركي: ${exercise.name}` : `Movement demo: ${exercise.name}`}
+      aria-label={isArabic ? `عرض حركة: ${exercise.name}` : `Movement animation: ${exercise.name}`}
     >
       <header className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[.16em] text-primary">
-            {isArabic ? 'عرض حركي داخل التطبيق' : 'In-app movement demo'}
+            {isArabic ? 'حركة توضيحية داخل التطبيق' : 'Guided movement'}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
-            {isArabic ? 'رسم توضيحي صامت · يتكرر عند التشغيل' : 'Silent vector sequence · loops while playing'}
+            {isArabic ? 'حركة متحركة · تتكرر بسلاسة عند التشغيل' : 'Smooth in-app animation · loops while playing'}
           </p>
         </div>
         <span className="latin rounded-full border border-border px-2.5 py-1 text-[9px] tracking-[.12em] text-muted-foreground" dir="ltr">
-          VYORA · DEMO
+          VYORA MOVE
         </span>
       </header>
 
@@ -148,8 +148,8 @@ export function ExerciseMotionPlayer({
           >
             {playing ? <Pause size={15} /> : <Play size={15} />}
             {playing
-              ? (isArabic ? 'إيقاف الحركة' : 'Pause demo')
-              : (isArabic ? 'تشغيل الحركة' : 'Play demo')}
+              ? (isArabic ? 'إيقاف الحركة' : 'Pause movement')
+              : (isArabic ? 'تشغيل الحركة' : 'Play movement')}
           </button>
           <button
             type="button"

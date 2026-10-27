@@ -1,1 +1,1 @@
-- [VYORA product direction](vyora-visual-direction.md) — gender-aware colors, static gradient fitness cards with no characters, goal-based training/nutrition, and honest billing.
+- [VYORA product direction](vyora-visual-direction.md) — gradient browsing cards, gender-matched internal movement characters, goal-based nutrition, adult energy estimates, and honest billing.

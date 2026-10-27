@@ -1,8 +1,10 @@
 import { ArrowDown, CheckCircle2, ListChecks } from 'lucide-react';
 import type { Exercise } from '@/lib/data';
 import { FitnessVisual } from './fitness-visual';
+import { AthleteMovement } from './athlete-movement';
+import { useVYORAProfile } from '@/lib/profile-context';
 
-/** Exercise coaching cards, intentionally static: no player or character animation. */
+/** Internal gender-aware motion alongside the complete written technique guide. */
 export function ExerciseMotionPlayer({
   exercise,
   locale,
@@ -11,7 +13,17 @@ export function ExerciseMotionPlayer({
   locale: 'ar' | 'en';
 }) {
   const isArabic = locale === 'ar';
+  const profile = useVYORAProfile();
   return (
+    <div className="space-y-4">
+      {profile && (
+        <>
+          <AthleteMovement exerciseId={exercise.id} gender={profile.gender} locale={locale} />
+          <p className="px-1 text-[11px] leading-6 text-muted-foreground" data-testid="movement-illustration-note">
+            {isArabic ? 'عرض جانبي توضيحي مبسّط، وليس تصويرًا حيًا أو تقييمًا للأداء. بعض الحركات الجانبية والدورانات لا تظهر كاملة؛ اتبع خطوات التمرين والشرح العضلي، وتوقف عند الألم.' : 'A simplified side-view illustration, not filmed video or a form assessment. Some sideways movements and rotations cannot be fully shown; follow the written steps and muscle guidance, and stop for pain.'}
+          </p>
+        </>
+      )}
     <section
       className="overflow-hidden rounded-[1.4rem] border border-border bg-card shadow-[0_16px_48px_rgba(0,0,0,.12)]"
       dir={isArabic ? 'rtl' : 'ltr'}
@@ -41,5 +53,6 @@ export function ExerciseMotionPlayer({
         ))}
       </ol>
     </section>
+    </div>
   );
 }

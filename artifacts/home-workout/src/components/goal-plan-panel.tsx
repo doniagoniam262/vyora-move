@@ -91,8 +91,8 @@ export function GoalPlanPanel() {
             {isArabic ? 'نموذج وجبات يومي' : 'Sample daily meals'}
           </div>
           <ul className="mt-2 space-y-2">
-            {meals.map(([title, description]) => (
-              <li key={title} className="flex gap-2 text-xs leading-5">
+            {meals.map(([title, description], index) => (
+              <li key={`${index}-${title}`} className="flex gap-2 text-xs leading-5">
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
                 <span>
                   <b>{title}:</b> <span className="text-muted-foreground">{description}</span>

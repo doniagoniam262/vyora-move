@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowRight, Check, Dumbbell, HeartPulse, Scale, UserRound, R
 import { Link } from 'wouter';
 import { useLocale } from '@/lib/locale';
 import type { UserGender, VYORAProfile } from '@/lib/profile';
+import { activityLevels } from '@/lib/energy';
+import { EnergySummary } from '@/components/energy-summary';
 
 type Props = {
   initialProfile: VYORAProfile | null;
@@ -17,9 +19,11 @@ type ProfileDraft = {
   bodyType: VYORAProfile['bodyType'] | '';
   sessionsPerWeek: number;
   gender: UserGender | '';
+  ageYears: string;
+  activityLevel: VYORAProfile['activityLevel'] | '';
 };
 
-type FieldErrors = Partial<Record<'weightKg' | 'heightCm' | 'goal' | 'bodyType' | 'sessionsPerWeek' | 'gender', string>>;
+type FieldErrors = Partial<Record<'weightKg' | 'heightCm' | 'goal' | 'bodyType' | 'sessionsPerWeek' | 'gender' | 'ageYears', string>>;
 
 const blankDraft: ProfileDraft = {
   weightKg: '',
@@ -28,20 +32,26 @@ const blankDraft: ProfileDraft = {
   bodyType: '',
   sessionsPerWeek: 3,
   gender: '',
+  ageYears: '',
+  activityLevel: '',
 };
+
+function draftFromProfile(profile: VYORAProfile): ProfileDraft {
+  const legacyFemaleBuild = profile.gender === 'female' && ['slim', 'medium', 'strong'].includes(profile.bodyType);
+  return {
+    weightKg: String(profile.weightKg), heightCm: String(profile.heightCm), goal: profile.goal,
+    bodyType: legacyFemaleBuild ? 'unsure' : profile.bodyType,
+    sessionsPerWeek: profile.sessionsPerWeek, gender: profile.gender,
+    ageYears: profile.ageYears === undefined ? '' : String(profile.ageYears),
+    activityLevel: profile.activityLevel ?? '',
+  };
+}
 
 export default function OnboardingPage({ initialProfile, onComplete, onGenderChange }: Props) {
   const { isArabic } = useLocale();
   const [draft, setDraft] = useState<ProfileDraft>(() =>
     initialProfile
-      ? {
-          weightKg: String(initialProfile.weightKg),
-          heightCm: String(initialProfile.heightCm),
-          goal: initialProfile.goal,
-          bodyType: initialProfile.bodyType,
-          sessionsPerWeek: initialProfile.sessionsPerWeek,
-          gender: initialProfile.gender,
-        }
+      ? draftFromProfile(initialProfile)
       : blankDraft,
   );
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -52,14 +62,7 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
 
   useEffect(() => {
     if (!initialProfile) return;
-    setDraft({
-      weightKg: String(initialProfile.weightKg),
-      heightCm: String(initialProfile.heightCm),
-      goal: initialProfile.goal,
-      bodyType: initialProfile.bodyType,
-      sessionsPerWeek: initialProfile.sessionsPerWeek,
-      gender: initialProfile.gender,
-    });
+    setDraft(draftFromProfile(initialProfile));
   }, [initialProfile]);
 
   const text = (ar: string, en: string) => isArabic ? ar : en;
@@ -68,7 +71,8 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
     if (attempted) setErrors((current) => ({ ...current, [key]: undefined }));
   };
   const chooseGender = (gender: UserGender) => {
-    update('gender', gender);
+    setDraft(current => ({ ...current, gender, bodyType: current.gender === gender ? current.bodyType : '' }));
+    if (attempted) setErrors(current => ({ ...current, gender: undefined, bodyType: undefined }));
     onGenderChange(gender);
   };
 
@@ -85,6 +89,8 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
     if (!Number.isInteger(draft.sessionsPerWeek) || draft.sessionsPerWeek < 1 || draft.sessionsPerWeek > 7)
       next.sessionsPerWeek = text('اختر من جلسة واحدة إلى 7 جلسات.', 'Choose between 1 and 7 sessions.');
     if (!draft.gender) next.gender = text('اختر النوع لإكمال الإعداد.', 'Choose your gender to finish setup.');
+    if (draft.ageYears.trim() && (!Number.isInteger(Number(draft.ageYears)) || Number(draft.ageYears) < 18 || Number(draft.ageYears) > 100))
+      next.ageYears = text('الحاسبة للبالغين: استخدم عمرًا صحيحًا من 18 إلى 100، أو اتركه فارغًا.', 'This calculator is for adults: enter a whole age from 18 to 100, or leave it blank.');
     return next;
   };
 
@@ -105,6 +111,8 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
       bodyType: draft.bodyType as VYORAProfile['bodyType'],
       sessionsPerWeek: draft.sessionsPerWeek,
       gender: draft.gender as UserGender,
+      ...(draft.ageYears.trim() ? { ageYears: Number(draft.ageYears) } : {}),
+      ...(draft.activityLevel ? { activityLevel: draft.activityLevel } : {}),
     });
   };
 
@@ -132,10 +140,10 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
           <aside className="lg:sticky lg:top-8 lg:self-start">
             <div className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-bold tracking-[.12em]" style={{ borderColor: `${accent}35`, color: accent, backgroundColor: `${accent}0d` }}>
               <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: accent }} />
-              {text('خطوة البداية', 'YOUR STARTING POINT')}
+              {initialProfile ? text('الملف الشخصي', 'YOUR PROFILE') : text('خطوة البداية', 'YOUR STARTING POINT')}
             </div>
             <h1 className="mt-5 max-w-lg text-4xl font-bold leading-[1.12] tracking-[-.045em] sm:text-5xl">
-              {text('خلّينا نضبط خطتك على يومك.', 'Let’s shape a plan around your life.')}
+              {initialProfile ? text('بياناتك وخطتك في مكان واحد.', 'Your profile and your plan, together.') : text('خلّينا نضبط خطتك على يومك.', 'Let’s shape a plan around your life.')}
             </h1>
             <p className="mt-4 max-w-md text-sm leading-7 text-[#9aa09b]">
               {text('بعض التفاصيل تساعد ڤايورا على اقتراح جدول منزلي عملي. تقدر تعدّلها لاحقًا.', 'A few details help VYORA suggest a practical home routine. You can change them later.')}
@@ -163,12 +171,12 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl text-[#abb2ac]" style={{ backgroundColor: `${accent}12` }}><UserRound size={18} /></span>
                 <div>
                   <h2 id="gender-title" className="text-base font-bold">{text('اختيار النوع', 'Choose your gender')}</h2>
-                  <p className="mt-1 text-xs leading-5 text-[#858d87]">{text('يحدد لون الواجهة والصور الظاهرة في التطبيق.', 'This sets the app theme and the athlete photos you see.')}</p>
+                  <p className="mt-1 text-xs leading-5 text-[#858d87]">{text('يحدد لون الواجهة وشخصية دليل الحركة داخل التطبيق.', 'This sets the app theme and the character in the in-app movement guide.')}</p>
                 </div>
               </div>
               <div id="field-gender" className="grid grid-cols-2 gap-2.5" role="group" aria-label={text('اختيار النوع', 'Choose your gender')}>
-                <GenderOption selected={draft.gender === 'female'} color="#f184b6" onClick={() => chooseGender('female')} label={text('أنثى', 'Female')} sub={text('واجهة وردية وصور رياضيات', 'Pink theme and women athletes')} testId="button-theme-female" />
-                <GenderOption selected={draft.gender === 'male'} color="#6c9cff" onClick={() => chooseGender('male')} label={text('ذكر', 'Male')} sub={text('واجهة زرقاء وصور رياضيين', 'Blue theme and men athletes')} testId="button-theme-male" />
+                <GenderOption selected={draft.gender === 'female'} color="#f184b6" onClick={() => chooseGender('female')} label={text('أنثى · Female', 'Female')} sub={text('واجهة وردية وشخصية بنت ثابتة', 'Pink theme and one consistent female character')} testId="button-theme-female" />
+                <GenderOption selected={draft.gender === 'male'} color="#6c9cff" onClick={() => chooseGender('male')} label={text('ذكر · Male', 'Male')} sub={text('واجهة زرقاء وشخصية ولد ثابتة', 'Blue theme and one consistent male character')} testId="button-theme-male" />
               </div>
               {errors.gender && <ErrorText id="error-gender">{errors.gender}</ErrorText>}
             </section>
@@ -183,6 +191,19 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
                   <input id="field-heightCm" data-testid="input-height-cm" type="number" min="100" max="250" step="1" inputMode="numeric" autoComplete="off" value={draft.heightCm} onChange={(event) => update('heightCm', event.target.value)} placeholder="170" aria-invalid={!!errors.heightCm} aria-describedby={errors.heightCm ? 'error-height' : undefined} className={inputClass(errors.heightCm)} />
                 </Field>
               </div>
+               <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                 <Field label={text('العمر — اختياري لحساب السعرات', 'Age — optional for energy estimate')} unit={text('سنة', 'years')} error={errors.ageYears} errorId="error-age" fieldId="field-ageYears">
+                   <input id="field-ageYears" data-testid="input-age-years" type="number" min="18" max="100" step="1" inputMode="numeric" value={draft.ageYears} onChange={event => update('ageYears', event.target.value)} placeholder="25" aria-invalid={!!errors.ageYears} aria-describedby={errors.ageYears ? 'error-age' : undefined} className={inputClass(errors.ageYears)} />
+                 </Field>
+                 <div>
+                   <label htmlFor="field-activityLevel" className="mb-2 block text-xs font-bold text-[#c2c7c1]">{text('نشاطك اليومي — اختياري', 'Daily activity — optional')}</label>
+                   <select id="field-activityLevel" data-testid="select-activity-level" value={draft.activityLevel} onChange={event => update('activityLevel', event.target.value as ProfileDraft['activityLevel'])} className={inputClass()}>
+                     <option value="">{text('اختر مستوى النشاط', 'Choose activity level')}</option>
+                     {Object.entries(activityLevels).map(([value, entry]) => <option key={value} value={value}>{entry[isArabic ? 'ar' : 'en']}</option>)}
+                   </select>
+                 </div>
+               </div>
+               <EnergySummary locale={isArabic ? 'ar' : 'en'} profile={{ weightKg: Number(draft.weightKg), heightCm: Number(draft.heightCm), gender: draft.gender || undefined, ageYears: draft.ageYears ? Number(draft.ageYears) : undefined, activityLevel: draft.activityLevel || undefined }} />
               {initialProfile &&
                 Number(draft.weightKg) >= 25 &&
                 Number(draft.weightKg) <= 300 &&
@@ -218,13 +239,18 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
             </section>
 
             <section className={`${panel} p-4 sm:p-6`} aria-labelledby="body-title">
-              <SectionTitle icon={<Ruler size={18} />} title={text('كيف تصف بنية جسمك؟', 'How would you describe your build?')} subtitle={text('وصف ذاتي اختياري للتوجيه العام، وليس تقييمًا أو تشخيصًا.', 'A self-described guide for general personalization, not an assessment or diagnosis.')} color={accent} />
+              <SectionTitle icon={<Ruler size={18} />} title={text(feminine ? 'ما شكل جسمك؟' : 'كيف تصف بنية جسمك؟', feminine ? 'How would you describe your body shape?' : 'How would you describe your build?')} subtitle={text('وصف ذاتي وليس تقييمًا صحيًا. لا يحدد السعرات ولا يعني حرق الدهون من موضع بعينه.', 'A self-description, not a health assessment. It does not determine calories or imply targeted fat loss.')} color={accent} />
               <div id="field-bodyType" className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label={text('وصف بنية الجسم', 'Body build description')}>
-                {([
-                  ['slim', text(feminine ? 'نحيفة' : 'نحيف', 'Slim')],
-                  ['medium', text(feminine ? 'متوسطة' : 'متوسط', 'Medium')],
-                  ['strong', text(feminine ? 'قوية' : 'قوي', 'Strong')],
-                  ['unsure', text(feminine ? 'غير متأكدة' : 'غير متأكد', 'Not sure')],
+                {(feminine ? [
+                  ['apple', text('تفاحة', 'Apple')],
+                  ['pear', text('كمثرى', 'Pear')],
+                  ['hourglass', text('ساعة رملية', 'Hourglass')],
+                  ['unsure', text('غير متأكدة', 'Not sure')],
+                ] as const : [
+                  ['slim', text('نحيف', 'Slim')],
+                  ['medium', text('متوسط', 'Medium')],
+                  ['strong', text('قوي', 'Strong')],
+                  ['unsure', text('غير متأكد', 'Not sure')],
                 ] as const).map(([value, label]) => (
                   <button
                     key={value}
@@ -274,7 +300,7 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
               className="focus-ring press flex min-h-[54px] w-full items-center justify-center gap-3 rounded-xl px-6 text-sm font-extrabold text-[#111511] transition-transform hover:-translate-y-0.5"
               style={{ backgroundColor: accent }}
             >
-              {text('حفظ ومتابعة', 'Save and continue')}
+              {initialProfile ? text('حفظ التعديلات', 'Save changes') : text('حفظ ومتابعة', 'Save and continue')}
               {isArabic ? <ArrowLeft size={17} /> : <ArrowRight size={17} />}
             </button>
             <p className="pb-4 text-center text-[10px] leading-5 text-[#727a74]">

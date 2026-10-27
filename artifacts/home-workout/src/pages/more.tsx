@@ -389,8 +389,8 @@ export default function MorePage() {
       <Sec id="privacy" icon={<ShieldCheck size={18} />} title={t('الخصوصية')}>
         <p className="text-sm leading-7 text-muted-foreground">
           {locale === 'ar'
-            ? 'الوزن والطول والأهداف وبيانات التقدم والإعدادات ومفضلات دليل الحركة وسجله تُحفظ محليًا في هذا المتصفح ولا تُرسل إلى واجهة VYORA البرمجية. يتولى Clerk تسجيل الدخول، وقد تستقبل Google بيانات لازمة للمصادقة. ڤايورا محتوى عام للياقة وليس نصيحة طبية.'
-            : 'Your weight, height, goals, progress, settings, and movement-guide favorites and history are stored in this browser and are not sent to VYORA’s API. Clerk handles sign-in, and Google may receive data required for authentication. VYORA provides general fitness content, not medical advice.'}
+            ? 'الوزن والطول والنوع وشكل الجسم والأهداف، والعمر ومستوى النشاط إن أدخلتهما، وبيانات التقدم والإعدادات ومفضلات دليل الحركة وسجله تُحفظ محليًا في هذا المتصفح ولا تُرسل إلى واجهة VYORA البرمجية. تقدير السعرات يُحسب على جهازك. يتولى Clerk تسجيل الدخول، وقد تستقبل Google بيانات لازمة للمصادقة. ڤايورا محتوى عام للياقة وليس نصيحة طبية.'
+            : 'Your weight, height, gender, body shape, goals, optional age and activity level, progress, settings, and movement-guide favorites and history are stored in this browser and are not sent to VYORA’s API. Energy estimates are calculated on your device. Clerk handles sign-in, and Google may receive data required for authentication. VYORA provides general fitness content, not medical advice.'}
         </p>
       </Sec>
       <Sec id="data" icon={<Trash2 size={18} />} title={t('البيانات')}>

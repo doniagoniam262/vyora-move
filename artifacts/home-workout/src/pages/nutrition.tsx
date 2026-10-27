@@ -1,7 +1,11 @@
 import { useMemo } from 'react';
-import { Apple, ArrowUpRight, CheckCircle2, Leaf, Sparkles, Utensils } from 'lucide-react';
+import { Apple, ArrowUpRight, CheckCircle2, Clock3, Leaf, Sparkles, Utensils } from 'lucide-react';
+import { Link } from 'wouter';
 import { useLocale } from '@/lib/locale';
 import { useVYORAProfile } from '@/lib/profile-context';
+import { useWeeklySchedule } from '@/lib/store';
+import { EnergySummary } from '@/components/energy-summary';
+import { suggestedTrainingDays } from '@/lib/personalization';
 
 type Meal = { name: string; detail: string };
 type DayMenu = { day: string; meals: [Meal, Meal, Meal]; note: string };
@@ -192,6 +196,8 @@ const arNotes: Record<string, string[]> = {
 export default function NutritionPage() {
   const { isArabic } = useLocale();
   const profile = useVYORAProfile();
+  const [schedule] = useWeeklySchedule();
+  const trainingDays = schedule.days.length ? schedule.days : suggestedTrainingDays(profile?.sessionsPerWeek ?? 3);
   const goal = profile?.goal ?? 'fitness';
   const content = menus[goal];
   const menu = useMemo<DayMenu[]>(() => content.meals.map((meals, index) => ({
@@ -216,6 +222,23 @@ export default function NutritionPage() {
         </div>
       </header>
 
+       <section className="mb-6 rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 to-card p-5 sm:p-6" data-testid="nutrition-workout-timing">
+         <div className="flex flex-wrap items-center justify-between gap-4">
+           <div>
+             <h2 className="flex items-center gap-2 font-bold"><Clock3 size={18} className="text-primary" />{isArabic ? 'غذاؤك حول موعد التدريب' : 'Food around your training time'}</h2>
+             <p className="mt-2 text-sm leading-6 text-muted-foreground">{isArabic ? `موعد جدولك: ${schedule.reminderTime} · ${trainingDays.length} أيام أسبوعيًا.` : `Scheduled workout time: ${schedule.reminderTime} · ${trainingDays.length} days a week.`}</p>
+           </div>
+           <Link href="/schedule" data-testid="link-nutrition-schedule" className="focus-ring rounded-xl border border-primary/30 bg-primary/10 px-4 py-2.5 text-xs font-bold text-primary">{isArabic ? 'تعديل أيام ومواعيد التدريب' : 'Edit workout days and time'}</Link>
+         </div>
+         <div className="mt-4 grid gap-3 sm:grid-cols-3">
+           {[
+             [isArabic ? 'قبل التدريب' : 'Before training', isArabic ? 'يمكن تناول وجبة معتادة قبل التدريب بوقت مريح، أو وجبة خفيفة أقرب للتمرين حسب الهضم والشهية.' : 'Have a familiar meal with comfortable time to digest, or a lighter snack closer to training if it suits you.'],
+             [isArabic ? 'بعد التدريب' : 'After training', isArabic ? 'اجعل الوجبة التالية متوازنة وتضم مصدر بروتين ونشويات، دون الحاجة إلى توقيت صارم.' : 'Include protein and carbohydrates in your next balanced meal; no rigid timing window is needed.'],
+             [isArabic ? 'أيام الراحة' : 'Recovery days', isArabic ? 'استمر في الوجبات المنتظمة والماء والنوم. التعافي جزء من خطتك، وليس يومًا لإلغاء الطعام.' : 'Keep regular meals, hydration and sleep. Recovery is part of your plan, not a reason to skip food.'],
+           ].map(([title, detail]) => <div key={title} className="rounded-2xl border border-border bg-card/60 p-4"><h3 className="text-xs font-bold text-primary">{title}</h3><p className="mt-2 text-xs leading-6 text-muted-foreground">{detail}</p></div>)}
+         </div>
+       </section>
+
       <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
         <section className="space-y-4" aria-label={isArabic ? 'أفكار الوجبات اليومية' : 'Daily meal ideas'}>
           {menu.map((entry, index) => (
@@ -225,7 +248,9 @@ export default function NutritionPage() {
                   <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary"><span className="num text-sm font-bold">{String(index + 1).padStart(2, '0')}</span></span>
                   <h2 className="text-lg font-bold">{entry.day}</h2>
                 </div>
-                <span className="text-xs text-muted-foreground">{isArabic ? 'أفكار مرنة' : 'Flexible ideas'}</span>
+                <span className={`rounded-full px-3 py-1.5 text-[11px] font-bold ${trainingDays.includes(index) ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'}`} data-testid={`meal-day-training-${index}`}>
+                  {trainingDays.includes(index) ? (isArabic ? `تدريب · ${schedule.reminderTime}` : `Training · ${schedule.reminderTime}`) : (isArabic ? 'تعافٍ وراحة' : 'Recovery')}
+                </span>
               </div>
               <div className="mt-5 grid gap-3 sm:grid-cols-3">
                 {entry.meals.map((meal, mealIndex) => (
@@ -244,6 +269,10 @@ export default function NutritionPage() {
         </section>
 
         <aside className="space-y-5">
+          <section className="card-dark p-4">
+            <EnergySummary profile={profile ?? {}} locale={isArabic ? 'ar' : 'en'} />
+            <Link href="/profile" data-testid="link-nutrition-profile" className="focus-ring mt-4 inline-flex items-center gap-2 rounded-lg px-1 py-2 text-xs font-bold text-primary">{isArabic ? 'تحديث القياسات وحاسبة السعرات' : 'Update measurements and energy estimate'}<ArrowUpRight size={14} /></Link>
+          </section>
           <section className="card-dark p-5 sm:p-6">
             <span className="grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><Leaf size={20} /></span>
             <h2 className="mt-4 text-xl font-bold">{isArabic ? 'بوصلة بسيطة' : 'A few steady anchors'}</h2>
@@ -258,7 +287,7 @@ export default function NutritionPage() {
           <section className="rounded-3xl border border-primary/20 bg-primary/5 p-5 sm:p-6">
             <Sparkles size={18} className="text-primary" />
             <h2 className="mt-3 font-bold">{isArabic ? 'مساحة للاختيار' : 'Make it your own'}</h2>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">{isArabic ? 'هذه اقتراحات وليست قواعد. بدّلي المكونات بما تحبينه وما يتوفر لديك.' : 'These are ideas, not rules. Swap ingredients for what you enjoy and have on hand.'}</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">{isArabic ? 'هذه اقتراحات وليست قواعد. يمكن تبديل المكونات بما تفضّله وما يتوفر لديك، مع مراعاة الحساسية الغذائية.' : 'These are ideas, not rules. Swap ingredients for what you enjoy and have on hand, accounting for food allergies.'}</p>
             <p className="mt-3 border-t border-primary/15 pt-3 text-xs leading-5 text-muted-foreground">{isArabic ? 'للاحتياجات الغذائية الفردية، يُفضّل الرجوع إلى مختص مؤهل.' : 'For individual dietary needs, speak with a qualified professional.'}</p>
           </section>
           <div className="flex items-center gap-2 px-2 text-xs leading-5 text-muted-foreground">

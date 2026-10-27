@@ -1,6 +1,7 @@
 export type UserGender = 'female' | 'male';
 export type FitnessGoal = 'lose-weight' | 'build-muscle' | 'fitness' | 'gain-weight';
-export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure';
+export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure' | 'apple' | 'pear' | 'hourglass';
+export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active';
 
 export type VYORAProfile = {
   weightKg: number;
@@ -9,6 +10,8 @@ export type VYORAProfile = {
   bodyType: BodyType;
   sessionsPerWeek: number;
   gender: UserGender;
+  ageYears?: number;
+  activityLevel?: ActivityLevel;
 };
 
 const PROFILE_KEY_PREFIX = 'vyora-profile-v1';
@@ -36,7 +39,17 @@ export function isVYORAProfile(value: unknown): value is VYORAProfile {
     (profile.bodyType === 'slim' ||
       profile.bodyType === 'medium' ||
       profile.bodyType === 'strong' ||
-      profile.bodyType === 'unsure') &&
+      profile.bodyType === 'unsure' ||
+      profile.bodyType === 'apple' ||
+      profile.bodyType === 'pear' ||
+      profile.bodyType === 'hourglass') &&
+    (profile.ageYears === undefined ||
+      (Number.isInteger(profile.ageYears) && profile.ageYears >= 18 && profile.ageYears <= 100)) &&
+    (profile.activityLevel === undefined ||
+      profile.activityLevel === 'sedentary' ||
+      profile.activityLevel === 'light' ||
+      profile.activityLevel === 'moderate' ||
+      profile.activityLevel === 'active') &&
     typeof profile.sessionsPerWeek === 'number' &&
     Number.isInteger(profile.sessionsPerWeek) &&
     profile.sessionsPerWeek >= 1 &&

@@ -8,17 +8,17 @@ VYORA is one product for women and men. The onboarding choice controls a pink th
 
 **How to apply:** Keep one VYORA brand and shared goal-based plans. If athlete photography is used, filter it to the selected profile and never infer gender from account data.
 
-Use static, polished gradient UI cards with elegant fitness icons instead of animated characters or simple human illustrations throughout VYORA.
+Keep polished gradient fitness cards for browsing. Exercise details and the movement guide should also provide an internal animated athlete: one consistent female character for female profiles and one consistent male character for male profiles.
 
-**Why:** The user explicitly rejected the animated figures and requested presentation-ready cards with no simple illustrated characters anywhere in the app.
+**Why:** After rejecting simplistic characters and asking for cards, the user explicitly requested internal animations again, with a stable girl/boy identity matching the selected profile. Do not restore the rejected stick-figure style.
 
-**How to apply:** Keep exercise visuals non-figurative and static; present performance steps and primary/secondary muscle targets as readable cards. Preserve working navigation, timers, plans, and progress.
+**How to apply:** Preserve the organized cards, navigation, timers, plans, and progress. Add articulated, clothed characters only in movement education, never the opposite profile's character. Clearly distinguish illustrative animation from filmed video.
 
 Never embed or link YouTube videos. Keep movement education fully inside VYORA, with primary and secondary muscle targets, exercise steps, breathing, common errors, and easier variations in Arabic and English.
 
 **Why:** The user explicitly repeated that YouTube must be excluded and asked for in-app movements that identify each target muscle.
 
-**How to apply:** Keep the muscle-target filter and localized coaching cues in the new card-based design. Do not restore character animations, external video players, YouTube links, or the removed exercise-photo carousel.
+**How to apply:** Keep the muscle-target filter and localized coaching cues. Explain benefits and technique for every target muscle in readable cards alongside internal movement animation. Do not add external video players, YouTube links, or the removed exercise-photo carousel.
 
 Differentiate VYORA by recommending workouts around real home constraints such as available time, limited space, and quiet/no-jump needs.
 
@@ -32,11 +32,11 @@ When users select weight gain as a goal, provide a goal-scoped resistance plan a
 
 **How to apply:** Keep the plan gradual, include recovery and a clear nutrition disclaimer, and show it only for the matching profile goal.
 
-Nutrition ideas should adapt to the selected goal but remain general, culturally practical, and non-medical; do not promise outcomes or prescribe calories.
+Nutrition ideas should adapt to the selected goal but remain general, culturally practical, and non-medical. Adult maintenance-energy estimates may use explicitly entered age, activity, measurements and gender; body shape must not determine calories or imply targeted fat loss.
 
-**Why:** The user requested a dedicated weekly food section tailored to weight loss, muscle building, general fitness, and weight gain.
+**Why:** The user requested a goal-based weekly food section and later a profile calorie calculator. A maintenance estimate is educational, not a personalized diet prescription.
 
-**How to apply:** Keep daily meal examples and simple tips tied to the profile goal, with a clear note to consult a qualified professional for individual needs.
+**How to apply:** Keep meal examples tied to the goal. Do not invent missing calculator inputs, impose calorie restrictions, or promise outcomes. State the adult-only estimate's limits and recommend qualified advice for individual needs.
 
 Do not simulate paid access or a successful checkout. The monthly subscription page stays informational until a payment provider is connected and configured.
 

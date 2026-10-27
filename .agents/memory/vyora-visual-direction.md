@@ -2,23 +2,23 @@
 name: VYORA visual direction
 description: User's visual fidelity and inclusive-audience requirements.
 ---
-VYORA is one product for women and men. The onboarding choice controls a pink theme for female profiles and a blue theme for male profiles; exercise illustrations should remain gender-neutral, with no opposite-gender-specific content.
+VYORA is one product for women and men. The onboarding choice controls a pink theme for female profiles and a blue theme for male profiles.
 
 **Why:** The user explicitly requested separate pink/female and dark-blue/male experiences and no opposite-gender figures in the selected profile.
 
 **How to apply:** Keep one VYORA brand and shared goal-based plans. If athlete photography is used, filter it to the selected profile and never infer gender from account data.
 
-Prefer distinct custom vector movement illustrations over repeated workout photography or a home exercise carousel. Supplied brand references may still inform VYORA identity; do not show an opposite-gender athlete after profile selection.
+Use static, polished gradient UI cards with elegant fitness icons instead of animated characters or simple human illustrations throughout VYORA.
 
-**Why:** The user later called the current workout photos traditional and repetitive and asked for modern vector or 3D illustrations instead.
+**Why:** The user explicitly rejected the animated figures and requested presentation-ready cards with no simple illustrated characters anywhere in the app.
 
-**How to apply:** Use varied, accessible movement illustrations that inherit the profile accent color, while preserving real interactive pages, the timer, and locally saved progress.
+**How to apply:** Keep exercise visuals non-figurative and static; present performance steps and primary/secondary muscle targets as readable cards. Preserve working navigation, timers, plans, and progress.
 
 Never embed or link YouTube videos. Keep movement education fully inside VYORA, with primary and secondary muscle targets, exercise steps, breathing, common errors, and easier variations in Arabic and English.
 
 **Why:** The user explicitly repeated that YouTube must be excluded and asked for in-app movements that identify each target muscle.
 
-**How to apply:** Use a female-coded SVG figure for female profiles and a male-coded figure for male profiles across every exercise card and movement demo; never show the opposite profile's figure. Keep the muscle-target filter and localized coaching cues, and do not add external video players, YouTube links, or the removed exercise-photo carousel.
+**How to apply:** Keep the muscle-target filter and localized coaching cues in the new card-based design. Do not restore character animations, external video players, YouTube links, or the removed exercise-photo carousel.
 
 Differentiate VYORA by recommending workouts around real home constraints such as available time, limited space, and quiet/no-jump needs.
 

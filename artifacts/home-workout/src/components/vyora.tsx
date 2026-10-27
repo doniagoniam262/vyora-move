@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { MotionIllustration } from '@/components/motion-illustration';
+import { FitnessVisual } from '@/components/fitness-visual';
 import { useLocale } from '@/lib/locale';
 
 export function LogoMark({ size = 36 }: { size?: number }) {
@@ -54,45 +54,16 @@ export function SmartImg({
   testId?: string;
   label?: string;
 }) {
-  const variantFor = (key: string) => {
-    if (key.includes('wide-push-up') || key.includes('wide push-up') || key.includes('قبضة واسعة')) return 'wide-pushup';
-    if (key.includes('close-grip') || key.includes('قبضة ضيقة')) return 'close-pushup';
-    if (key.includes('knee-push-up') || key.includes('knee push-up') || key.includes('على الركبتين')) return 'knee-pushup';
-    if (key.includes('self-curl') || key.includes('biceps curl') || key.includes('بايسبس')) return 'curl';
-    if (key.includes('superman') || key.includes('سوبرمان')) return 'superman';
-    if (key.includes('snow-angel') || key.includes('snow angel') || key.includes('ملاك الثلج')) return 'snow-angel';
-    if (key.includes('prone-t') || key.includes('prone t raise') || key.includes('شكل t')) return 'prone-t';
-    if (key.includes('scapular') || key.includes('لوحي الكتف')) return 'scapular';
-    if (key === 'push-up' || key.includes('ضغط أرضي')) return 'pushup';
-    if (key.includes('squat') || key.includes('سكوات')) return 'squat';
-    if (key.includes('calf') || key.includes('heel') || key.includes('القدمين') || key.includes('الكعب')) return 'step';
-    if (key.includes('wall sit') || key.includes('wall-sit') || key.includes('جلوس الحائط')) return 'squat';
-    if (key.includes('w-raise') || key.includes('upper-back') || key.includes('ظهر')) return 'reach';
-    if (key.includes('march') || key.includes('step') || key.includes('مشي') || key.includes('جاك'))
-      return 'step';
-    if (key.includes('plank') || key.includes('crunch') || key.includes('abs') || key.includes('بلانك') || key.includes('كرنش'))
-      return 'plank';
-    if (key.includes('bridge') || key.includes('glute') || key.includes('hydrant') || key.includes('جسر') || key.includes('الورك من وضع الأربع'))
-      return 'bridge';
-    if (key.includes('lunge') || key.includes('hinge') || key.includes('انحناء الورك') || key.includes('اندفاع')) return 'lunge';
-    if (key.includes('stretch') || key.includes('child') || key.includes('hamstring') || key.includes('تمدد'))
-      return 'stretch';
-    if (key.includes('push') || key.includes('upper') || key.includes('press') || key.includes('ضغط') || key.includes('غطس'))
-      return 'press';
-    return undefined;
-  };
-  const variant = variantFor(alt.toLowerCase()) ?? variantFor(src.toLowerCase()) ?? 'reach';
   const absolute = className.split(/\s+/).includes('absolute');
   return (
     <div
       className={`${absolute ? 'absolute' : 'relative'} overflow-hidden rounded-xl bg-muted ${className}`}
       data-testid={testId}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_30%,hsl(var(--primary)/.12),transparent_60%)]" aria-hidden="true" />
-      <MotionIllustration
-        variant={variant}
+      <FitnessVisual
+        identity={src || alt}
         label={label ?? alt}
-        className="relative z-10 h-full w-full p-2 text-foreground/85"
+        className="h-full w-full"
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { Bell, Check, Clock3, Dumbbell, Sparkles } from 'lucide-react';
 import { Link } from 'wouter';
-import { MotionIllustration } from '@/components/motion-illustration';
+import { FitnessVisual } from '@/components/fitness-visual';
 import { useLocale } from '@/lib/locale';
 import { useVYORAProfile } from '@/lib/profile-context';
 import { scheduledPlanForDay } from '@/lib/data';
@@ -87,7 +87,7 @@ export default function WeeklyPlanPage() {
           </div>
         </div>
         <div className="mx-auto w-full max-w-[240px] rounded-3xl bg-primary/5 p-2 sm:w-56">
-          <MotionIllustration variant="step" label={isArabic ? 'حركة رياضية' : 'Movement illustration'} className="w-full text-foreground" />
+          <FitnessVisual identity="weekly-training" label={isArabic ? 'خطة التدريب الأسبوعية' : 'Weekly training plan'} className="aspect-[4/3] w-full rounded-2xl" />
         </div>
       </header>
 

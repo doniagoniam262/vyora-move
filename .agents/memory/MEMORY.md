@@ -1,1 +1,1 @@
-- [VYORA product direction](vyora-visual-direction.md) — one gender-aware brand, custom movement art, goal-based training and nutrition, and honest billing.
+- [VYORA product direction](vyora-visual-direction.md) — gender-aware colors, static gradient fitness cards with no characters, goal-based training/nutrition, and honest billing.

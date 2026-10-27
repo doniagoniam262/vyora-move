@@ -3,22 +3,57 @@ import type { Exercise } from '@/lib/data';
 import { FitnessVisual } from './fitness-visual';
 import { AthleteMovement } from './athlete-movement';
 import { useVYORAProfile } from '@/lib/profile-context';
+import type { UserGender } from '@/lib/profile';
 
 /** Internal gender-aware motion alongside the complete written technique guide. */
 export function ExerciseMotionPlayer({
   exercise,
   locale,
+  gender,
+  onGenderChange,
 }: {
   exercise: Pick<Exercise, 'id' | 'name' | 'instructions'>;
   locale: 'ar' | 'en';
+  gender?: UserGender;
+  onGenderChange?: (gender: UserGender) => void;
 }) {
   const isArabic = locale === 'ar';
   const profile = useVYORAProfile();
+  const movementGender = gender ?? profile?.gender ?? 'female';
   return (
     <div className="space-y-4">
       {profile && (
         <>
-          <AthleteMovement exerciseId={exercise.id} gender={profile.gender} locale={locale} />
+          <AthleteMovement exerciseId={exercise.id} gender={movementGender} locale={locale} />
+          {onGenderChange && (
+            <div
+              className="mx-auto flex w-fit items-center gap-1 rounded-full border border-border bg-background p-1"
+              role="group"
+              aria-label={isArabic ? 'معاينة شخصية الحركة' : 'Movement character preview'}
+              data-testid="exercise-gender-preview"
+            >
+              {(['female', 'male'] as const).map(option => {
+                const active = movementGender === option;
+                const accent = option === 'female' ? '#FF2D8E' : '#6C9CFF';
+                const label = option === 'female'
+                  ? (isArabic ? 'Female · أنثى' : 'Female')
+                  : (isArabic ? 'Male · ذكر' : 'Male');
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    data-testid={`button-exercise-gender-${option}`}
+                    aria-pressed={active}
+                    onClick={() => onGenderChange(option)}
+                    className="focus-ring rounded-full px-4 py-2 text-xs font-bold transition-colors"
+                    style={active ? { backgroundColor: accent, color: '#090909' } : { color: 'var(--muted-foreground)' }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          )}
           <p className="px-1 text-[11px] leading-6 text-muted-foreground" data-testid="movement-illustration-note">
             {isArabic ? 'عرض جانبي توضيحي مبسّط، وليس تصويرًا حيًا أو تقييمًا للأداء. بعض الحركات الجانبية والدورانات لا تظهر كاملة؛ اتبع خطوات التمرين والشرح العضلي، وتوقف عند الألم.' : 'A simplified side-view illustration, not filmed video or a form assessment. Some sideways movements and rotations cannot be fully shown; follow the written steps and muscle guidance, and stop for pain.'}
           </p>

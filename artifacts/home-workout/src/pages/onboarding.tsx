@@ -6,6 +6,7 @@ import type { UserGender, VYORAProfile } from '@/lib/profile';
 import { activityLevels } from '@/lib/energy';
 import { EnergySummary } from '@/components/energy-summary';
 import { BodyShapeGuide } from '@/components/body-shape-guide';
+import ProfileOnboardingWizard from '@/pages/profile-onboarding';
 
 type Props = {
   initialProfile: VYORAProfile | null;
@@ -48,7 +49,14 @@ function draftFromProfile(profile: VYORAProfile): ProfileDraft {
   };
 }
 
-export default function OnboardingPage({ initialProfile, onComplete, onGenderChange }: Props) {
+export default function OnboardingPage(props: Props) {
+  if (!props.initialProfile) {
+    return <ProfileOnboardingWizard onComplete={props.onComplete} onGenderChange={props.onGenderChange} />;
+  }
+  return <ProfileEditorPage {...props} />;
+}
+
+function ProfileEditorPage({ initialProfile, onComplete, onGenderChange }: Props) {
   const { isArabic } = useLocale();
   const [draft, setDraft] = useState<ProfileDraft>(() =>
     initialProfile
@@ -58,7 +66,7 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
   const [errors, setErrors] = useState<FieldErrors>({});
   const [attempted, setAttempted] = useState(false);
   const feminine = draft.gender === 'female';
-  const accent = feminine ? '#f184b6' : '#6c9cff';
+  const accent = feminine ? '#FF2D8E' : '#6c9cff';
   const themeStyle = { '--profile-accent': accent, '--profile-accent-soft': feminine ? '241 70% 66%' : '218 90% 70%' } as CSSProperties;
 
   useEffect(() => {
@@ -106,6 +114,7 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
       return;
     }
     onComplete({
+      ...(initialProfile?.name ? { name: initialProfile.name } : {}),
       weightKg: Number(draft.weightKg),
       heightCm: Number(draft.heightCm),
       goal: draft.goal as VYORAProfile['goal'],

@@ -30,23 +30,23 @@
 }
 
 :root, .dark {
-  --background: 150 14% 4.5%;
-  --foreground: 90 12% 94%;
-  --border: 150 8% 15%;
-  --input: 120 4% 17%;
-  --card: 150 10% 7.5%;
+  --background: 0 0% 4%;
+  --foreground: 0 0% 94%;
+  --border: 0 0% 15%;
+  --input: 0 0% 17%;
+  --card: 0 0% 8%;
   --card-foreground: 90 12% 94%;
-  --primary: 330 84% 67%;
-  --primary-foreground: 120 20% 6%;
-  --secondary: 120 3% 15%;
-  --secondary-foreground: 90 12% 94%;
-  --muted: 120 3% 13%;
-  --muted-foreground: 110 5% 64%;
-  --accent: 330 84% 73%;
-  --accent-foreground: 120 20% 6%;
+  --primary: 334 100% 59%;
+  --primary-foreground: 0 0% 7%;
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 94%;
+  --muted: 0 0% 13%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 334 100% 70%;
+  --accent-foreground: 0 0% 7%;
   --destructive: 4 80% 62%;
   --destructive-foreground: 0 0% 98%;
-  --ring: 330 84% 73%;
+  --ring: 334 100% 70%;
   --radius: 1.1rem;
   --app-font-sans: 'Cairo', 'Tajawal', 'Space Grotesk', sans-serif;
   --app-font-mono: 'Space Grotesk', monospace;
@@ -56,11 +56,11 @@ html[data-gender='female'] {
   --background: 330 15% 5%;
   --border: 330 10% 17%;
   --card: 330 12% 8%;
-  --primary: 330 84% 67%;
-  --primary-foreground: 330 24% 7%;
-  --accent: 330 84% 73%;
-  --accent-foreground: 330 24% 7%;
-  --ring: 330 84% 73%;
+  --primary: 334 100% 59%;
+  --primary-foreground: 0 0% 7%;
+  --accent: 334 100% 70%;
+  --accent-foreground: 0 0% 7%;
+  --ring: 334 100% 70%;
 }
 
 html[data-gender='male'] {

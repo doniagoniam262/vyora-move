@@ -14,6 +14,7 @@ import {
   CalendarDays,
   Apple,
   CreditCard,
+  Ruler,
 } from 'lucide-react';
 import { Link } from 'wouter';
 import { clearAllData, useSettings, useWeeklySchedule } from '@/lib/store';
@@ -111,7 +112,14 @@ export default function MorePage() {
             detail: locale === 'ar' ? 'عرض تفاصيل العضوية' : 'View membership details',
             id: 'subscription',
           },
-        ].map(({ href, Icon, title, detail, id }) => (
+          {
+            href: '/body-shapes',
+            Icon: Ruler,
+            title: locale === 'ar' ? 'أشكال الجسم' : 'Body shapes',
+            detail: locale === 'ar' ? 'دليل القياسات والأنواع الخمسة' : 'Measurement guide and five shapes',
+            id: 'body-shapes',
+          },
+        ].filter(item => item.id !== 'body-shapes' || profile?.gender === 'female').map(({ href, Icon, title, detail, id }) => (
           <Link
             key={id}
             href={href}
@@ -135,7 +143,7 @@ export default function MorePage() {
         <div className="min-w-0 flex-1">
           <p className="text-xs text-muted-foreground">{locale === 'ar' ? 'الحساب' : 'Account'}</p>
           <p className="truncate text-sm font-bold">
-            {user?.fullName || user?.primaryEmailAddress?.emailAddress || 'VYORA'}
+            {profile?.name || user?.fullName || user?.primaryEmailAddress?.emailAddress || 'VYORA'}
           </p>
           <p className="mt-1 text-[11px] text-muted-foreground">
             {locale === 'ar'

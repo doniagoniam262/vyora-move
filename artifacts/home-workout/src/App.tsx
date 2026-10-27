@@ -5,6 +5,7 @@ import {
   SignUp,
   useAuth,
   useClerk,
+  useSignIn,
   useUser,
 } from '@clerk/react';
 import { publishableKeyFromHost } from '@clerk/react/internal';
@@ -37,7 +38,9 @@ import OnboardingPage from '@/pages/onboarding';
 import WeeklyPlanPage from '@/pages/weekly-plan';
 import NutritionPage from '@/pages/nutrition';
 import SubscriptionPage from '@/pages/subscription';
+import BodyShapesPage from '@/pages/body-shapes';
 import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
+import { Apple } from 'lucide-react';
 
 const queryClient = new QueryClient();
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -62,7 +65,7 @@ const clerkAppearance = {
     socialButtonsVariant: 'blockButton' as const,
   },
   variables: {
-    colorPrimary: '#f184b6',
+    colorPrimary: '#FF2D8E',
     colorForeground: '#f4f2f4',
     colorMutedForeground: '#a5a0a6',
     colorDanger: '#ff7777',
@@ -91,7 +94,7 @@ const clerkAppearance = {
     logoBox: 'opacity-100',
     logoImage: 'max-h-10',
     socialButtonsBlockButton: 'bg-[#1b191e] text-white border border-[#39343b] hover:bg-[#242127]',
-    formButtonPrimary: 'bg-pink-400 text-[#1b1117] hover:bg-pink-300',
+    formButtonPrimary: 'bg-[#FF2D8E] text-[#1b1117] hover:brightness-110',
     formFieldInput: 'bg-[#1a181d] border-[#39343b] text-white',
     footerAction: 'text-gray-300',
     dividerLine: 'bg-[#39343b]',
@@ -133,6 +136,7 @@ function WorkoutRoutes({
           <Route path="/schedule" component={WeeklyPlanPage} />
           <Route path="/nutrition" component={NutritionPage} />
           <Route path="/subscription" component={SubscriptionPage} />
+          <Route path="/body-shapes" component={BodyShapesPage} />
           <Route path="/more" component={MorePage} />
           <Route path="/workouts">
             <Redirect to="/exercises" />
@@ -150,6 +154,7 @@ function WorkoutRoutes({
 function UserAppGate() {
   const { isLoaded: authLoaded, isSignedIn } = useAuth();
   const { user, isLoaded: userLoaded } = useUser();
+  const [location] = useLocation();
   const [profileState, setProfileState] = useState<{
     userId: string;
     profile: VYORAProfile | null;
@@ -197,7 +202,9 @@ function UserAppGate() {
     return <LoadingScreen />;
   }
 
-  if (!isSignedIn || !user?.id) return <Redirect to="/sign-in" />;
+  if (!isSignedIn || !user?.id) {
+    return location === '/' ? <WelcomePage /> : <Redirect to="/" />;
+  }
 
   if (!profile) {
     return (
@@ -205,7 +212,7 @@ function UserAppGate() {
         initialProfile={null}
         onGenderChange={setDraftGender}
         onComplete={(nextProfile) => {
-          persistProfile(nextProfile);
+          return persistProfile(nextProfile);
         }}
       />
     );
@@ -241,12 +248,14 @@ function ProfileEditPage({
       initialProfile={profile}
       onGenderChange={onDraftGenderChange}
       onComplete={(nextProfile) => {
-        if (onSaveProfile(nextProfile)) {
+          if (onSaveProfile(nextProfile)) {
           toast.success(
             locale === 'ar' ? 'تم تحديث ملفك الشخصي.' : 'Your profile has been updated.',
           );
           navigate('/');
+            return true;
         }
+          return false;
       }}
     />
   );
@@ -258,6 +267,85 @@ function LoadingScreen() {
       <div role="status" className="flex items-center gap-3 text-sm text-muted-foreground">
         <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-primary" />
         <span>VYORA</span>
+      </div>
+    </main>
+  );
+}
+
+function WelcomePage() {
+  const { isArabic } = useLocale();
+  const { signIn } = useSignIn();
+  const [providerError, setProviderError] = useState('');
+  const text = (ar: string, en: string) => isArabic ? ar : en;
+
+  const continueWith = async (provider: 'google' | 'apple') => {
+    setProviderError('');
+    if (!signIn) {
+      setProviderError(text('تسجيل الدخول غير جاهز الآن. حاولي مرة أخرى.', 'Sign-in is not ready yet. Try again.'));
+      return;
+    }
+    try {
+      const result = await signIn.sso({
+        strategy: provider === 'google' ? 'oauth_google' : 'oauth_apple',
+        redirectUrl: `${basePath}/`,
+        redirectCallbackUrl: `${basePath}/sign-in/sso-callback`,
+      });
+      if (result.error) {
+        setProviderError(
+          text(
+            `تعذّر بدء تسجيل الدخول عبر ${provider === 'google' ? 'Google' : 'Apple'}. تأكدي من تفعيل المزوّد في إعدادات تسجيل الدخول.`,
+            `Could not start ${provider === 'google' ? 'Google' : 'Apple'} sign-in. Check that this provider is enabled in auth settings.`,
+          ),
+        );
+      }
+    } catch {
+      setProviderError(
+        text(
+          `تعذّر بدء تسجيل الدخول عبر ${provider === 'google' ? 'Google' : 'Apple'}. تأكدي من تفعيل المزوّد في إعدادات تسجيل الدخول.`,
+          `Could not start ${provider === 'google' ? 'Google' : 'Apple'} sign-in. Check that this provider is enabled in auth settings.`,
+        ),
+      );
+    }
+  };
+
+  return (
+    <main className="flex min-h-[100dvh] items-center justify-center bg-[#0A0A0A] px-5 py-10 text-white" dir={isArabic ? 'rtl' : 'ltr'}>
+      <div className="w-full max-w-[420px] text-center" data-testid="vyora-welcome">
+        <div className="mb-10 flex flex-col items-center">
+          <span className="text-[76px] font-black leading-[.8] tracking-[-.12em] text-[#FF2D8E]">V</span>
+          <p className="latin mt-4 text-[25px] font-semibold tracking-[.12em] text-[#FF77B5]" dir="ltr">VYORA MOVE</p>
+        </div>
+        <h1 className="text-[27px] font-extrabold leading-tight">{text('مرحبًا بك في', 'Welcome to')}<br /><span className="latin tracking-wide" dir="ltr">VYORA MOVE</span></h1>
+        <p className="mt-5 text-base font-semibold text-white/55">{text('اختر طريقة الدخول', 'Choose how to continue')}</p>
+        <div className="mt-8 space-y-4">
+          <Link href="/sign-up" data-testid="link-create-account" className="flex min-h-[62px] items-center justify-center rounded-2xl bg-[#FF2D8E] px-5 text-lg font-extrabold text-white transition hover:brightness-110">
+            {text('إنشاء حساب جديد', 'Create a new account')}
+          </Link>
+          <Link href="/sign-in" data-testid="link-sign-in" className="flex min-h-[62px] items-center justify-center rounded-2xl border border-white/90 px-5 text-lg font-bold text-white transition hover:bg-white/5">
+            {text('تسجيل الدخول', 'Sign in')}
+          </Link>
+        </div>
+        <div className="my-7 flex items-center gap-3 text-sm text-white/45">
+          <span className="h-px flex-1 bg-white/20" />
+          <span>{text('أو', 'or')}</span>
+          <span className="h-px flex-1 bg-white/20" />
+        </div>
+        <div className="grid grid-cols-2 gap-3" dir="ltr">
+          <button type="button" data-testid="button-google-sign-in" onClick={() => void continueWith('google')} className="flex min-h-[58px] items-center justify-center gap-2 rounded-xl bg-[#252525] font-bold text-white hover:bg-[#303030]">
+            <span aria-hidden="true" className="latin text-2xl font-extrabold text-[#4285F4]">G</span>Google
+          </button>
+          <button type="button" data-testid="button-apple-sign-in" onClick={() => void continueWith('apple')} className="flex min-h-[58px] items-center justify-center gap-2 rounded-xl bg-[#252525] font-bold text-white hover:bg-[#303030]">
+            <Apple size={20} fill="currentColor" aria-hidden="true" />Apple
+          </button>
+        </div>
+        {providerError && <p role="alert" className="mt-4 rounded-xl border border-rose-400/30 bg-rose-400/10 px-3 py-2 text-xs leading-5 text-rose-100">{providerError}</p>}
+        <p className="mt-12 text-sm text-white/65">
+          {text('لديك حساب بالفعل؟', 'Already have an account?')}{' '}
+          <Link href="/sign-in" className="font-bold text-[#FF77B5] underline-offset-4 hover:underline">
+            {text('تسجيل الدخول', 'Sign in')}
+          </Link>
+        </p>
+        <p className="latin mt-7 text-[9px] tracking-[.24em] text-white/35" dir="ltr">MOVE BEYOND LIMITS.</p>
       </div>
     </main>
   );

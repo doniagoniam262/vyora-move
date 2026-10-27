@@ -38,6 +38,12 @@ Nutrition ideas should adapt to the selected goal but remain general, culturally
 
 **How to apply:** Keep meal examples tied to the goal. Do not invent missing calculator inputs, impose calorie restrictions, or promise outcomes. State the adult-only estimate's limits and recommend qualified advice for individual needs.
 
+The five-shape body guide uses the user's supplied female reference photos and is shown only to female profiles.
+
+**Why:** The user requested a visual body-shape guide for women while repeatedly requiring that the selected gender profile never show opposite-gender imagery.
+
+**How to apply:** Reuse uploaded assets rather than generating replacements, and gate both the More-page link and the route content by profile gender.
+
 Do not simulate paid access or a successful checkout. The monthly subscription page stays informational until a payment provider is connected and configured.
 
 **Why:** The user dismissed the provider-connection choice and asked to continue without an integration.

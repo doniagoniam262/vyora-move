@@ -2,6 +2,7 @@ import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { Router, type BaseLocationHook } from 'wouter';
 import { estimateEnergy } from './energy';
 import { isVYORAProfile, readVYORAProfile, saveVYORAProfile, type VYORAProfile } from './profile';
 import { exercises } from './data';
@@ -9,6 +10,10 @@ import { movementInsights } from './movement-details';
 import { muscleEducation } from './muscle-education';
 import { athleteExerciseIds } from '../components/athlete-movement';
 import { BodyShapeGuide, femaleBodyShapes } from '../components/body-shape-guide';
+import { AnatomyPair } from '../components/anatomy-pair';
+import BodyShapesPage from '../pages/body-shapes';
+import { LocaleProvider } from './locale';
+import { VYORAProfileContext } from './profile-context';
 
 const legacy: VYORAProfile = { weightKg: 68, heightCm: 170, gender: 'female', bodyType: 'medium', goal: 'fitness', sessionsPerWeek: 3 };
 
@@ -52,6 +57,30 @@ test('the body-shape selector renders all five localized descriptions and measur
   }
 });
 
+test('body-shapes page uses the five supplied photos only for female profiles', () => {
+  Object.assign(globalThis, { React });
+  const staticLocation: BaseLocationHook = () => ['/body-shapes', () => {}];
+  const renderPage = (gender: 'female' | 'male') => {
+    return renderToStaticMarkup(
+      React.createElement(Router, { hook: staticLocation },
+        React.createElement(LocaleProvider, null,
+          React.createElement(VYORAProfileContext.Provider, { value: { ...legacy, gender } },
+            React.createElement(BodyShapesPage),
+          ),
+        ),
+      ),
+    );
+  };
+  const femaleHtml = renderPage('female');
+  for (const shape of ['apple', 'rectangle', 'inverted-triangle', 'pear', 'hourglass']) {
+    assert.ok(femaleHtml.includes(`/images/vyora-ui/body-${shape}.jpg`));
+  }
+  assert.ok(femaleHtml.includes('100'));
+  const maleHtml = renderPage('male');
+  assert.ok(maleHtml.includes('body-shapes-female-only'));
+  assert.ok(!maleHtml.includes('/images/vyora-ui/body-apple.jpg'));
+});
+
 test('adult energy formula uses age, gender, measurements and explicit activity', () => {
   assert.deepEqual(estimateEnergy({ ...legacy, ageYears: 25, activityLevel: 'light' }), {
     resting: 1460, maintenance: 2000, low: 1800, high: 2200,
@@ -83,7 +112,7 @@ test('profile persistence round-trips new fields without replacing another user 
     localStorage: { getItem: (key: string) => values.get(key) ?? null, setItem: (key: string, value: string) => values.set(key, value), removeItem: (key: string) => values.delete(key) },
   } });
   try {
-    const next: VYORAProfile = { ...legacy, bodyType: 'pear', ageYears: 25, activityLevel: 'light' };
+    const next: VYORAProfile = { ...legacy, name: 'Maya', bodyType: 'pear', ageYears: 25, activityLevel: 'light' };
     assert.equal(saveVYORAProfile('test-female', next), true);
     assert.deepEqual(readVYORAProfile('test-female'), next);
     assert.equal(saveVYORAProfile('test-legacy', legacy), true);
@@ -98,6 +127,20 @@ test('profile persistence round-trips new fields without replacing another user 
   } finally {
     Reflect.deleteProperty(globalThis, 'window');
   }
+});
+
+test('exercise anatomy panel renders front and back maps with the selected muscle groups', () => {
+  Object.assign(globalThis, { React });
+  const html = renderToStaticMarkup(React.createElement(AnatomyPair, {
+    primary: ['quads', 'glutes'],
+    secondary: ['hamstrings', 'core'],
+    gender: 'female',
+    locale: 'ar',
+  }));
+  assert.ok(html.includes('exercise-anatomy-pair'));
+  assert.ok(html.includes('من الأمام'));
+  assert.ok(html.includes('من الخلف'));
+  assert.ok(html.includes('viewBox="0 0 200 260"'));
 });
 
 test('every existing exercise has bilingual muscle education with three technique checkpoints', () => {

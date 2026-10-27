@@ -11,6 +11,8 @@ import {
   SearchX,
   Play,
   Lightbulb,
+  Dumbbell,
+  Gauge,
 } from 'lucide-react';
 import {
   CATEGORIES,
@@ -29,7 +31,10 @@ import { localizeExercise } from '@/lib/localized-data';
 import { getMovementInsight } from '@/lib/movement-details';
 import { MuscleMap } from '@/components/muscle-map';
 import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
+import { AnatomyPair } from '@/components/anatomy-pair';
 import { recordVideoWatch } from '@/lib/store';
+import { useVYORAProfile } from '@/lib/profile-context';
+import type { UserGender } from '@/lib/profile';
 
 export function ExercisesPage() {
   const { locale, t } = useLocale();
@@ -166,6 +171,8 @@ export function ExerciseDetailPage() {
   const { locale, t } = useLocale();
   const { exerciseId } = useParams<{ exerciseId: string }>();
   const [, nav] = useLocation();
+  const profile = useVYORAProfile();
+  const [previewGender, setPreviewGender] = useState<UserGender>(profile?.gender ?? 'female');
   const rawEx = exerciseById(exerciseId ?? '');
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
@@ -191,24 +198,16 @@ export function ExerciseDetailPage() {
     );
   return (
     <div className="page-enter mx-auto max-w-3xl space-y-4">
-      <div className="relative">
-        <SmartImg
-          src={ex.image}
-          alt={ex.name}
-          testId="img-exercise-detail"
-          className="aspect-[16/10] w-full rounded-2xl md:aspect-[16/8]"
-        />
+      <div className="flex items-start gap-3">
         <button
           onClick={() => (window.history.length > 1 ? window.history.back() : nav('/exercises'))}
           data-testid="button-back"
           aria-label={t('رجوع')}
-          className={`focus-ring press absolute ${locale === 'ar' ? 'right-3' : 'left-3'} top-3 grid h-10 w-10 place-items-center rounded-full bg-black/60 backdrop-blur`}
+          className="focus-ring press grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border bg-card"
         >
           <ArrowRight className={locale === 'en' ? 'rotate-180' : ''} size={18} />
         </button>
-      </div>
-      <div className="flex items-start justify-between gap-3">
-        <div>
+        <div className="min-w-0 flex-1">
           <h1 className="text-2xl font-extrabold" data-testid="text-exercise-name">
             {ex.name}
           </h1>
@@ -217,13 +216,26 @@ export function ExerciseDetailPage() {
               ({ex.latin})
             </p>
           )}
-        </div>
-        <div className={`flex flex-col ${locale === 'ar' ? 'items-end' : 'items-start'} gap-1.5`}>
-          <Tag>{locale === 'ar' ? categoryLabel(ex.category) : t(categoryLabel(ex.category))}</Tag>
-          <Tag tone="dim">{t(levelLabel(ex.level))}</Tag>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <Tag>{locale === 'ar' ? categoryLabel(ex.category) : t(categoryLabel(ex.category))}</Tag>
+            <Tag tone="dim">{t(levelLabel(ex.level))}</Tag>
+          </div>
         </div>
       </div>
-      <ExerciseMotionPlayer exercise={ex} locale={locale} />
+      <ExerciseMotionPlayer
+        exercise={ex}
+        locale={locale}
+        gender={previewGender}
+        onGenderChange={setPreviewGender}
+      />
+      {insight && (
+        <AnatomyPair
+          primary={insight.primary}
+          secondary={insight.secondary}
+          gender={previewGender}
+          locale={locale}
+        />
+      )}
       {insight && (
         <section
           className="grid gap-3 md:grid-cols-[.9fr_1.1fr]"
@@ -265,6 +277,22 @@ export function ExerciseDetailPage() {
           </div>
         </section>
       )}
+      <div className="grid grid-cols-2 gap-2" data-testid="exercise-equipment-level">
+        <div className="card-dark flex min-h-20 items-center gap-3 p-3">
+          <Dumbbell className="shrink-0 text-primary" size={19} />
+          <div>
+            <span className="block text-[11px] text-muted-foreground">{locale === 'ar' ? 'الأدوات' : 'Equipment'}</span>
+            <b className="mt-1 block text-xs">{locale === 'ar' ? 'وزن الجسم · دامبل خفيف اختياري للحركات المناسبة' : 'Bodyweight · optional light dumbbell for suitable variations'}</b>
+          </div>
+        </div>
+        <div className="card-dark flex min-h-20 items-center gap-3 p-3">
+          <Gauge className="shrink-0 text-primary" size={19} />
+          <div>
+            <span className="block text-[11px] text-muted-foreground">{locale === 'ar' ? 'المستوى' : 'Level'}</span>
+            <b className="mt-1 block text-xs">{t(levelLabel(ex.level))}</b>
+          </div>
+        </div>
+      </div>
       <section className="card-dark p-4">
         <h2 className="text-sm font-extrabold">{t('خطوات الأداء الصحيح')}</h2>
         <ol className="mt-3 space-y-3">

@@ -4,6 +4,7 @@ export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure' | 'apple' | 'pear
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active';
 
 export type VYORAProfile = {
+  name?: string;
   weightKg: number;
   heightCm: number;
   goal: FitnessGoal;
@@ -24,6 +25,8 @@ export function isVYORAProfile(value: unknown): value is VYORAProfile {
 
   const profile = value as Partial<VYORAProfile>;
   return (
+    (profile.name === undefined ||
+      (typeof profile.name === 'string' && profile.name.trim().length >= 2 && profile.name.length <= 80)) &&
     typeof profile.weightKg === 'number' &&
     Number.isFinite(profile.weightKg) &&
     profile.weightKg >= 25 &&

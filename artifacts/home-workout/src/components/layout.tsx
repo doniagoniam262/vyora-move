@@ -110,7 +110,7 @@ const items = [
     label: 'المزيد',
     Icon: LayoutGrid,
     id: 'more',
-    match: (l: string) => l.startsWith('/more'),
+    match: (l: string) => l.startsWith('/more') || l.startsWith('/body-shapes'),
   },
 ];
 

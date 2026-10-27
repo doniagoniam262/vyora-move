@@ -5,6 +5,7 @@ import { useLocale } from '@/lib/locale';
 import type { UserGender, VYORAProfile } from '@/lib/profile';
 import { activityLevels } from '@/lib/energy';
 import { EnergySummary } from '@/components/energy-summary';
+import { BodyShapeGuide } from '@/components/body-shape-guide';
 
 type Props = {
   initialProfile: VYORAProfile | null;
@@ -240,13 +241,17 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
 
             <section className={`${panel} p-4 sm:p-6`} aria-labelledby="body-title">
               <SectionTitle icon={<Ruler size={18} />} title={text(feminine ? 'ما شكل جسمك؟' : 'كيف تصف بنية جسمك؟', feminine ? 'How would you describe your body shape?' : 'How would you describe your build?')} subtitle={text('وصف ذاتي وليس تقييمًا صحيًا. لا يحدد السعرات ولا يعني حرق الدهون من موضع بعينه.', 'A self-description, not a health assessment. It does not determine calories or imply targeted fat loss.')} color={accent} />
-              <div id="field-bodyType" className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label={text('وصف بنية الجسم', 'Body build description')}>
-                {(feminine ? [
-                  ['apple', text('تفاحة', 'Apple')],
-                  ['pear', text('كمثرى', 'Pear')],
-                  ['hourglass', text('ساعة رملية', 'Hourglass')],
-                  ['unsure', text('غير متأكدة', 'Not sure')],
-                ] as const : [
+              <div id="field-bodyType" role="group" aria-label={text('وصف بنية الجسم', 'Body build description')}>
+                {feminine ? (
+                  <BodyShapeGuide
+                    selected={draft.bodyType}
+                    onSelect={value => update('bodyType', value)}
+                    locale={isArabic ? 'ar' : 'en'}
+                    accent={accent}
+                  />
+                ) : (
+                <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {([
                   ['slim', text('نحيف', 'Slim')],
                   ['medium', text('متوسط', 'Medium')],
                   ['strong', text('قوي', 'Strong')],
@@ -264,6 +269,20 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
                     {label}
                   </button>
                 ))}
+                </div>
+                )}
+                {feminine && (
+                  <button
+                    type="button"
+                    data-testid="button-body-unsure"
+                    aria-pressed={draft.bodyType === 'unsure'}
+                    onClick={() => update('bodyType', 'unsure')}
+                    className={`focus-ring press mt-2 min-h-11 w-full rounded-xl border px-3 text-xs font-bold transition-colors ${draft.bodyType === 'unsure' ? 'text-white' : 'border-white/[0.09] bg-[#101313] text-[#969e98] hover:border-white/20 hover:text-white'}`}
+                    style={draft.bodyType === 'unsure' ? { borderColor: `${accent}70`, backgroundColor: `${accent}1c`, color: accent } : undefined}
+                  >
+                    {text('غير متأكدة', 'Not sure')}
+                  </button>
+                )}
               </div>
               {errors.bodyType && <ErrorText id="error-body">{errors.bodyType}</ErrorText>}
             </section>

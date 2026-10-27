@@ -1,11 +1,14 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { estimateEnergy } from './energy';
 import { isVYORAProfile, readVYORAProfile, saveVYORAProfile, type VYORAProfile } from './profile';
 import { exercises } from './data';
 import { movementInsights } from './movement-details';
 import { muscleEducation } from './muscle-education';
 import { athleteExerciseIds } from '../components/athlete-movement';
+import { BodyShapeGuide, femaleBodyShapes } from '../components/body-shape-guide';
 
 const legacy: VYORAProfile = { weightKg: 68, heightCm: 170, gender: 'female', bodyType: 'medium', goal: 'fitness', sessionsPerWeek: 3 };
 
@@ -14,10 +17,39 @@ test('legacy saved profiles remain valid without calorie inputs', () => {
   assert.equal(estimateEnergy(legacy), null);
 });
 
-test('all requested female shapes and all goals can be saved', () => {
-  for (const bodyType of ['apple', 'pear', 'hourglass'] as const)
+test('all five female shape labels have bilingual guidance and remain saveable', () => {
+  assert.deepEqual(femaleBodyShapes.map(shape => shape.value), ['hourglass', 'pear', 'inverted-triangle', 'rectangle', 'apple']);
+  for (const shape of femaleBodyShapes) {
+    for (const locale of ['ar', 'en'] as const) {
+      assert.ok(shape.label[locale].length > 3);
+      assert.ok(shape.description[locale].length > 40);
+      assert.ok(shape.measurements[locale].length > 35);
+    }
+  }
+  for (const bodyType of ['apple', 'pear', 'hourglass', 'inverted-triangle', 'rectangle'] as const)
     for (const goal of ['lose-weight', 'gain-weight', 'build-muscle', 'fitness'] as const)
       assert.equal(isVYORAProfile({ ...legacy, bodyType, goal, ageYears: 25, activityLevel: 'light' }), true);
+});
+
+test('the body-shape selector renders all five localized descriptions and measurement guidance', () => {
+  // The workspace TSX runner uses classic JSX; expose React for server rendering.
+  Object.assign(globalThis, { React });
+  for (const locale of ['ar', 'en'] as const) {
+    const html = renderToStaticMarkup(React.createElement(BodyShapeGuide, {
+      selected: 'hourglass',
+      onSelect: () => {},
+      locale,
+      accent: '#f184b6',
+    }));
+    for (const shape of femaleBodyShapes) {
+      assert.ok(html.includes(`button-body-${shape.value}`));
+      assert.ok(html.includes(shape.label[locale]));
+      assert.ok(html.includes(shape.description[locale]));
+      assert.ok(html.includes(shape.measurements[locale]));
+    }
+    assert.ok(html.includes('body-measurement-help'));
+    assert.ok(html.includes(locale === 'ar' ? 'الوسط' : 'Waist'));
+  }
 });
 
 test('adult energy formula uses age, gender, measurements and explicit activity', () => {
@@ -56,6 +88,9 @@ test('profile persistence round-trips new fields without replacing another user 
     assert.deepEqual(readVYORAProfile('test-female'), next);
     assert.equal(saveVYORAProfile('test-legacy', legacy), true);
     assert.deepEqual(readVYORAProfile('test-legacy'), legacy);
+    const triangle = { ...legacy, bodyType: 'inverted-triangle' as const };
+    assert.equal(saveVYORAProfile('test-triangle', triangle), true);
+    assert.deepEqual(readVYORAProfile('test-triangle'), triangle);
     values.set('vyora-profile-v1:test-female', '{broken');
     assert.equal(readVYORAProfile('test-female'), null);
     assert.deepEqual(readVYORAProfile('test-legacy'), legacy);

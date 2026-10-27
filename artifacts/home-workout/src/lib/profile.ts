@@ -1,6 +1,6 @@
 export type UserGender = 'female' | 'male';
 export type FitnessGoal = 'lose-weight' | 'build-muscle' | 'fitness' | 'gain-weight';
-export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure' | 'apple' | 'pear' | 'hourglass';
+export type BodyType = 'slim' | 'medium' | 'strong' | 'unsure' | 'apple' | 'pear' | 'hourglass' | 'inverted-triangle' | 'rectangle';
 export type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active';
 
 export type VYORAProfile = {
@@ -42,7 +42,9 @@ export function isVYORAProfile(value: unknown): value is VYORAProfile {
       profile.bodyType === 'unsure' ||
       profile.bodyType === 'apple' ||
       profile.bodyType === 'pear' ||
-      profile.bodyType === 'hourglass') &&
+      profile.bodyType === 'hourglass' ||
+      profile.bodyType === 'inverted-triangle' ||
+      profile.bodyType === 'rectangle') &&
     (profile.ageYears === undefined ||
       (Number.isInteger(profile.ageYears) && profile.ageYears >= 18 && profile.ageYears <= 100)) &&
     (profile.activityLevel === undefined ||

@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "T1QvC434yZiGvNMR9PyAB"
+uri = "file://attached_assets/generated_images/vyora-squat-character-approval-concept-01.png"
+type = "image"
+title = "مقترح مقارنة شخصية السكوات"
+description = "مقارنة توضيحية: رسم مسطح في اليسار ومقترح واقعي محتشم في اليمين. هذا تصور للمراجعة فقط، ولم يتم دمجه في التطبيق."
+logical_id = "e8c7f132-27f3-48e3-a2f9-21102bd17fa6"
+content_hash = "sha256:fb43f70ef425e126328b5839bd576653fe2c3f4ee0913ea5baf072a2393bfe3e"
+size = 1268691
+mtime_ms = 1793064638153
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/e8c7f132-27f3-48e3-a2f9-21102bd17fa6/aa472496-ba00-45a0-829c-023bfbf1bb43"
+storage_version_token = "1793064657363158"
+content_type = "image/png"

@@ -124,11 +124,14 @@ function blend(a: Pose, b: Pose, k: number): Pose {
   };
 }
 
-function poseAt(frames: Pose[], phase: number, stepped: boolean): Pose {
+export function poseAt(frames: Pose[], phase: number, stepped: boolean): Pose {
   const n = frames.length;
-  const i = Math.floor(phase) % n;
+  if (n === 0) throw new Error('Movement animation requires at least one key pose.');
+  // JavaScript's remainder can be negative; always select a valid cyclic frame.
+  const wrapped = Number.isFinite(phase) ? ((phase % n) + n) % n : 0;
+  const i = Math.floor(wrapped);
   if (stepped) return blend(frames[i], frames[i], 0);
-  const raw = phase - Math.floor(phase);
+  const raw = wrapped - i;
   const k = 0.5 - Math.cos(raw * Math.PI) / 2;
   return blend(frames[i], frames[(i + 1) % n], k);
 }
@@ -278,11 +281,13 @@ export function AthleteMovement({ exerciseId, gender, locale }: { exerciseId: st
   useEffect(() => {
     if (!playing) return;
     let raf = 0;
-    let last = performance.now();
+    let last: number | null = null;
     const n = cfg.frames.length;
     const stepMs = cfg.dur * 1.6;
     const tick = (now: number) => {
-      const dt = Math.min(now - last, 80);
+      // Use the RAF clock from the first frame, not a later performance.now().
+      if (last === null) last = now;
+      const dt = Math.max(0, Math.min(now - last, 80));
       if (reduced) {
         if (now - last >= stepMs) { last = now; phaseRef.current = (Math.floor(phaseRef.current) + 1) % n; setPhase(phaseRef.current); }
       } else {

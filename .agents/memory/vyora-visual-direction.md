@@ -43,3 +43,9 @@ Do not simulate paid access or a successful checkout. The monthly subscription p
 **Why:** The user dismissed the provider-connection choice and asked to continue without an integration.
 
 **How to apply:** Keep checkout disabled, do not invent a price or active subscription state, and only enable payment after a real provider flow is configured.
+
+Bug fixes must preserve saved user data and all existing app sections.
+
+**Why:** The user explicitly repeated that repairing a crash must not lose any data or sections already added.
+
+**How to apply:** Do not clear browser storage or reset profiles to address rendering failures. Preserve backward compatibility and verify saved-profile round trips. For motion bugs, test timing boundaries as well as initial rendering: a valid first image does not prove later frame indices are safe.

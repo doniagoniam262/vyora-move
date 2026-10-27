@@ -143,26 +143,23 @@ function MovementCard({
   exercise,
   active,
   favorite,
-  onSelect,
   onFavorite,
   locale,
 }: {
   exercise: Exercise;
   active: boolean;
   favorite: boolean;
-  onSelect: () => void;
   onFavorite: () => void;
   locale: 'ar' | 'en';
 }) {
   const isArabic = locale === 'ar';
   return (
     <article className={`group relative overflow-hidden rounded-2xl border transition-colors ${active ? 'border-primary/65 bg-primary/[.07]' : 'border-border bg-card hover:border-primary/35'}`}>
-      <button
-        type="button"
-        onClick={onSelect}
+      <Link
+        href={`/exercise/${exercise.id}`}
         className="focus-ring flex w-full items-center gap-3 p-3 text-start"
-        aria-pressed={active}
-        data-testid={`button-select-movement-${exercise.id}`}
+        aria-current={active ? 'page' : undefined}
+        data-testid={`link-movement-card-${exercise.id}`}
       >
         <SmartImg
           src={exercise.image}
@@ -180,7 +177,7 @@ function MovementCard({
             <span>{exercise.level === 'beginner' ? (isArabic ? 'مبتدئ' : 'Beginner') : (isArabic ? 'متوسط' : 'Intermediate')}</span>
           </span>
         </span>
-      </button>
+      </Link>
       <button
         type="button"
         onClick={onFavorite}
@@ -278,10 +275,6 @@ export default function MovementGuidePage() {
     return result;
   }, [localizedExercises, query, category, difficulty, selectedMuscle, view, catalogFavorites, catalogHistory, locale]);
 
-  const selectMovement = (id: string) => {
-    setSelectedId(id);
-    recordVideoWatch(id);
-  };
   const toggleFavorite = (id: string) => toggleVideoFavorite(id);
   const countLabel = locale === 'ar'
     ? `${list.length} ${text.results}`
@@ -416,7 +409,6 @@ export default function MovementGuidePage() {
                 exercise={exercise}
                 active={selected?.id === exercise.id}
                 favorite={isFavorite(exercise.id)}
-                onSelect={() => selectMovement(exercise.id)}
                 onFavorite={() => toggleFavorite(exercise.id)}
                 locale={locale}
               />
@@ -542,7 +534,7 @@ export default function MovementGuidePage() {
               <div className="rounded-2xl border border-dashed border-border p-6 text-sm text-muted-foreground">{text.choose}</div>
             )}
             <Link
-              href={`/exercises/${selected.id}`}
+              href={`/exercise/${selected.id}`}
               data-testid={`link-exercise-details-${selected.id}`}
               className="focus-ring press flex w-full items-center justify-between rounded-2xl bg-primary px-5 py-4 text-sm font-bold text-primary-foreground hover:brightness-105"
             >

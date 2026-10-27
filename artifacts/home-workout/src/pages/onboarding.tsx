@@ -221,10 +221,10 @@ export default function OnboardingPage({ initialProfile, onComplete, onGenderCha
               <SectionTitle icon={<Ruler size={18} />} title={text('كيف تصف بنية جسمك؟', 'How would you describe your build?')} subtitle={text('وصف ذاتي اختياري للتوجيه العام، وليس تقييمًا أو تشخيصًا.', 'A self-described guide for general personalization, not an assessment or diagnosis.')} color={accent} />
               <div id="field-bodyType" className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label={text('وصف بنية الجسم', 'Body build description')}>
                 {([
-                  ['slim', text('نحيفة', 'Slim')],
-                  ['medium', text('متوسطة', 'Medium')],
-                  ['strong', text('قوية', 'Strong')],
-                  ['unsure', text('غير متأكد', 'Not sure')],
+                  ['slim', text(feminine ? 'نحيفة' : 'نحيف', 'Slim')],
+                  ['medium', text(feminine ? 'متوسطة' : 'متوسط', 'Medium')],
+                  ['strong', text(feminine ? 'قوية' : 'قوي', 'Strong')],
+                  ['unsure', text(feminine ? 'غير متأكدة' : 'غير متأكد', 'Not sure')],
                 ] as const).map(([value, label]) => (
                   <button
                     key={value}

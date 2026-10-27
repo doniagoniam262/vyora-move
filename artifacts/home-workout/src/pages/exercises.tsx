@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'wouter';
 import {
   Activity,
@@ -29,6 +29,7 @@ import { localizeExercise } from '@/lib/localized-data';
 import { getMovementInsight } from '@/lib/movement-details';
 import { MuscleMap } from '@/components/muscle-map';
 import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
+import { recordVideoWatch } from '@/lib/store';
 
 export function ExercisesPage() {
   const { locale, t } = useLocale();
@@ -168,6 +169,9 @@ export function ExerciseDetailPage() {
   const rawEx = exerciseById(exerciseId ?? '');
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
+  useEffect(() => {
+    if (exerciseId && rawEx) recordVideoWatch(exerciseId);
+  }, [exerciseId, rawEx]);
   if (!ex)
     return (
       <EmptyState

@@ -124,7 +124,7 @@ export function PlanDetailPage() {
           {list.map((e, i) => (
             <li key={e.id}>
               <Link
-                href={`/exercises/${e.id}`}
+                href={`/exercise/${e.id}`}
                 data-testid={`link-plan-exercise-${e.id}`}
                 className="card-dark focus-ring lift flex items-center gap-3 p-2.5"
               >

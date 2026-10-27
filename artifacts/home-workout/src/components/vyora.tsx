@@ -55,6 +55,15 @@ export function SmartImg({
   label?: string;
 }) {
   const variantFor = (key: string) => {
+    if (key.includes('wide-push-up') || key.includes('wide push-up') || key.includes('قبضة واسعة')) return 'wide-pushup';
+    if (key.includes('close-grip') || key.includes('قبضة ضيقة')) return 'close-pushup';
+    if (key.includes('knee-push-up') || key.includes('knee push-up') || key.includes('على الركبتين')) return 'knee-pushup';
+    if (key.includes('self-curl') || key.includes('biceps curl') || key.includes('بايسبس')) return 'curl';
+    if (key.includes('superman') || key.includes('سوبرمان')) return 'superman';
+    if (key.includes('snow-angel') || key.includes('snow angel') || key.includes('ملاك الثلج')) return 'snow-angel';
+    if (key.includes('prone-t') || key.includes('prone t raise') || key.includes('شكل t')) return 'prone-t';
+    if (key.includes('scapular') || key.includes('لوحي الكتف')) return 'scapular';
+    if (key === 'push-up' || key.includes('ضغط أرضي')) return 'pushup';
     if (key.includes('squat') || key.includes('سكوات')) return 'squat';
     if (key.includes('calf') || key.includes('heel') || key.includes('القدمين') || key.includes('الكعب')) return 'step';
     if (key.includes('wall sit') || key.includes('wall-sit') || key.includes('جلوس الحائط')) return 'squat';

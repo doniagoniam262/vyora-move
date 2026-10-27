@@ -121,6 +121,7 @@ function WorkoutRoutes({
             />
           </Route>
           <Route path="/exercises" component={ExercisesPage} />
+          <Route path="/exercise/:exerciseId" component={ExerciseDetailPage} />
           <Route path="/exercises/:exerciseId" component={ExerciseDetailPage} />
           <Route path="/session/:workoutId" component={SessionPage} />
           <Route path="/plans" component={PlansPage} />

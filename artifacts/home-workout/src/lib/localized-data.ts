@@ -236,6 +236,96 @@ const exerciseText: Record<
     safety: 'Use a small range and stop if your shoulder or wrist hurts.',
     easier: 'Use a wall or elevated surface for an incline push-up.',
   },
+  'push-up': {
+    name: 'Push-up',
+    instructions: [
+      'Start with your hands below your shoulders and your body in a straight line.',
+      'Bend your elbows back and lower your chest with control.',
+      'Press the floor away to return while keeping your torso steady.',
+    ],
+    safety: 'Use a comfortable range and stop if you feel sharp wrist or shoulder pain.',
+    easier: 'Place your knees on the floor or use a stable elevated surface.',
+  },
+  'knee-push-up': {
+    name: 'Knee Push-up',
+    instructions: [
+      'Start on your hands and knees with a straight line from your head to your knees.',
+      'Bend your elbows and lower your chest slowly.',
+      'Press the floor away without arching your lower back.',
+    ],
+    safety: 'Use a padded surface under your knees and keep the movement pain-free.',
+    easier: 'Reduce the lowering range or use a wall.',
+  },
+  'wide-push-up': {
+    name: 'Wide Push-up',
+    instructions: [
+      'Place your hands slightly wider than your shoulders in a stable push-up position.',
+      'Lower your chest slowly with your elbows at a comfortable angle.',
+      'Press up while keeping your body aligned.',
+    ],
+    safety: 'Do not place your hands excessively wide or force your elbows outward.',
+    easier: 'Use a knee variation or a stable elevated surface.',
+  },
+  'close-grip-push-up': {
+    name: 'Close-Grip Push-up',
+    instructions: [
+      'Place your hands beneath or just inside shoulder width and brace your torso.',
+      'Bend your elbows close to your sides and lower slowly.',
+      'Press back up while keeping your wrists comfortable.',
+    ],
+    safety: 'Stop if your wrists or shoulders hurt; do not force your elbows together.',
+    easier: 'Perform the movement on your knees or against a wall.',
+  },
+  'bicep-self-curl': {
+    name: 'Self-Resisted Biceps Curl',
+    instructions: [
+      'Stand tall and keep one elbow beside your body.',
+      'Place your other hand over the wrist to provide gentle resistance.',
+      'Curl slowly against that resistance, then return with control and switch sides.',
+    ],
+    safety: 'Use light resistance and avoid straining your wrist or holding your breath.',
+    easier: 'Use less pressure from your assisting hand or fewer repetitions.',
+  },
+  'superman-pull': {
+    name: 'Superman Pull',
+    instructions: [
+      'Lie on your stomach with your arms extended and your neck relaxed.',
+      'Lift your arms and chest slightly, then draw your elbows toward your sides.',
+      'Reach forward again and lower slowly.',
+    ],
+    safety: 'Keep the lift small and stop if you feel pressure in your lower back.',
+    easier: 'Move your arms only while keeping your chest on the floor.',
+  },
+  'reverse-snow-angel': {
+    name: 'Reverse Snow Angel',
+    instructions: [
+      'Lie on your stomach with your arms beside your hips.',
+      'Sweep your arms in a wide arc overhead while gently drawing your shoulder blades together.',
+      'Return your arms slowly with your forehead and neck relaxed.',
+    ],
+    safety: 'Stay within a comfortable range and keep your shoulders away from your ears.',
+    easier: 'Move one arm at a time.',
+  },
+  'prone-t-raise': {
+    name: 'Prone T Raise',
+    instructions: [
+      'Lie on your stomach with your arms out to the sides in a T shape.',
+      'Draw your shoulder blades together and lift your hands slightly.',
+      'Pause briefly, then lower with control.',
+    ],
+    safety: 'Keep your neck neutral and avoid arching your lower back.',
+    easier: 'Lift one hand at a time or use a smaller range.',
+  },
+  'scapular-push-up': {
+    name: 'Scapular Push-up',
+    instructions: [
+      'Start in a high plank with straight elbows.',
+      'Let your chest lower slightly between your shoulders without bending your elbows.',
+      'Press the floor away and widen your upper back to return.',
+    ],
+    safety: 'Keep your torso steady and stop if your wrists or shoulders hurt.',
+    easier: 'Perform it standing against a wall or on an elevated surface.',
+  },
 };
 
 const planText: Record<string, { name: string; description: string; frequency: string }> = {

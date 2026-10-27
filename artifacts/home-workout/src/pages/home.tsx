@@ -357,7 +357,7 @@ export default function HomePage() {
           {daily.map((ex) => (
             <Link
               key={ex.id}
-              href={`/exercises/${ex.id}`}
+              href={`/exercise/${ex.id}`}
               data-testid={`card-daily-${ex.id}`}
               className="card-dark focus-ring lift press overflow-hidden"
             >

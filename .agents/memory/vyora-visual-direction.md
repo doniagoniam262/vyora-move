@@ -18,7 +18,7 @@ Never embed or link YouTube videos. Keep movement education fully inside VYORA, 
 
 **Why:** The user explicitly repeated that YouTube must be excluded and asked for in-app movements that identify each target muscle.
 
-**How to apply:** Use gender-neutral SVG movement diagrams, a browseable muscle-target filter, and localized coaching cues. Do not add external video players, YouTube links, or the removed exercise-photo carousel.
+**How to apply:** Use a female-coded SVG figure for female profiles and a male-coded figure for male profiles across every exercise card and movement demo; never show the opposite profile's figure. Keep the muscle-target filter and localized coaching cues, and do not add external video players, YouTube links, or the removed exercise-photo carousel.
 
 Differentiate VYORA by recommending workouts around real home constraints such as available time, limited space, and quiet/no-jump needs.
 

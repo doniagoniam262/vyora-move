@@ -38,6 +38,9 @@
 .movement-demo--step.is-playing .movement-demo__figure { animation-name: vyora-demo-step; }
 .movement-demo--stretch.is-playing .movement-demo__figure { animation-name: vyora-demo-stretch; }
 .movement-demo--core.is-playing .movement-demo__figure { animation-name: vyora-demo-core; }
+.movement-demo--curl.is-playing .movement-demo__figure { animation-name: vyora-demo-curl; }
+.movement-demo--pull.is-playing .movement-demo__figure { animation-name: vyora-demo-pull; }
+.movement-demo--raise.is-playing .movement-demo__figure { animation-name: vyora-demo-raise; }
 
 @keyframes vyora-demo-motion {
   0%, 100% { transform: translateY(0) scale(1); }
@@ -82,6 +85,21 @@
 @keyframes vyora-demo-core {
   0%, 100% { transform: translateX(-3px) rotate(-1deg); }
   50% { transform: translateX(3px) rotate(1deg); }
+}
+
+@keyframes vyora-demo-curl {
+  0%, 100% { transform: translateY(1px) scale(1); }
+  50% { transform: translateY(-3px) scale(1.015); }
+}
+
+@keyframes vyora-demo-pull {
+  0%, 100% { transform: translateY(4px) rotate(1deg); }
+  50% { transform: translateY(-5px) rotate(-1deg); }
+}
+
+@keyframes vyora-demo-raise {
+  0%, 100% { transform: translateY(2px) scale(1); }
+  50% { transform: translateY(-3px) scale(1.02); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -316,6 +316,114 @@ export const movementInsights: Record<string, MovementInsight> = {
     ],
     breathing: cue('شهيق عند النزول، وزفير عند دفع الأرض للعودة.', 'Inhale as you lower and exhale as you press back.'),
   },
+  'push-up': {
+    primary: ['chest', 'arms'],
+    secondary: ['shoulders', 'core'],
+    cues: [
+      cue('ثبّت اليدين أسفل الكتفين وحافظ على استقامة الجسم.', 'Set your hands beneath your shoulders and keep your body aligned.'),
+      cue('انزل بتحكم ثم ادفع الأرض بعيدًا دون هبوط الحوض.', 'Lower with control, then press the floor away without letting your hips sag.'),
+    ],
+    mistakes: [
+      cue('تجنّب فتح المرفقين كثيرًا أو تقويس أسفل الظهر.', 'Avoid flaring your elbows or arching your lower back.'),
+    ],
+    breathing: cue('شهيق عند النزول وزفير عند الدفع للأعلى.', 'Inhale as you lower and exhale as you press up.'),
+  },
+  'knee-push-up': {
+    primary: ['chest', 'arms'],
+    secondary: ['shoulders', 'core'],
+    cues: [
+      cue('حافظ على خط مستقيم من الرأس حتى الركبتين.', 'Keep a straight line from your head to your knees.'),
+      cue('اثنِ المرفقين للخلف وادفع الأرض للعودة.', 'Bend your elbows back and press the floor away to return.'),
+    ],
+    mistakes: [
+      cue('تجنّب هبوط الحوض أو دفع الرأس للأمام.', 'Avoid letting your hips sag or reaching your head forward.'),
+    ],
+    breathing: cue('شهيق عند النزول وزفير عند الدفع.', 'Inhale as you lower and exhale as you press.'),
+  },
+  'wide-push-up': {
+    primary: ['chest'],
+    secondary: ['shoulders', 'arms', 'core'],
+    cues: [
+      cue('اجعل اليدين أوسع قليلًا من الكتفين فقط.', 'Place your hands only slightly wider than your shoulders.'),
+      cue('انزل بالصدر بتحكم مع مرفقين بزاوية مريحة.', 'Lower your chest with control and keep your elbows at a comfortable angle.'),
+    ],
+    mistakes: [
+      cue('تجنّب توسيع اليدين أكثر من اللازم أو النزول بسرعة.', 'Avoid placing your hands too wide or dropping quickly.'),
+    ],
+    breathing: cue('شهيق عند النزول وزفير عند الدفع.', 'Inhale as you lower and exhale as you press.'),
+  },
+  'close-grip-push-up': {
+    primary: ['arms'],
+    secondary: ['chest', 'shoulders', 'core'],
+    cues: [
+      cue('ابدأ باليدين تحت الكتفين واجعل المرفقين قريبين من الجذع.', 'Start with hands under your shoulders and keep elbows near your torso.'),
+      cue('استخدم مدى مريحًا وادفع للأعلى مع ثبات الجذع.', 'Use a comfortable range and press up while keeping your torso steady.'),
+    ],
+    mistakes: [
+      cue('تجنّب تقريب اليدين بشكل يسبب ضغطًا على الرسغ.', 'Do not bring your hands so close that your wrists feel strained.'),
+    ],
+    breathing: cue('شهيق أثناء النزول وزفير أثناء الدفع.', 'Inhale as you lower and exhale as you press.'),
+  },
+  'bicep-self-curl': {
+    primary: ['arms'],
+    secondary: ['core'],
+    cues: [
+      cue('استخدم اليد الأخرى لمقاومة خفيفة ومتدرجة.', 'Use your other hand to provide light, gradual resistance.'),
+      cue('أبقِ الكوع بجانب الجسم وتحكم في العودة.', 'Keep your elbow beside your body and control the return.'),
+    ],
+    mistakes: [
+      cue('تجنّب هز الجذع أو الضغط القوي على الرسغ.', 'Avoid swinging your torso or pressing hard on your wrist.'),
+    ],
+    breathing: cue('ازفر مع الثني وخذ شهيقًا عند العودة.', 'Exhale as you curl and inhale as you return.'),
+  },
+  'superman-pull': {
+    primary: ['upper-back'],
+    secondary: ['shoulders', 'glutes', 'core'],
+    cues: [
+      cue('ارفع الصدر والذراعين ارتفاعًا بسيطًا فقط.', 'Lift your chest and arms only a small distance.'),
+      cue('اسحب المرفقين نحو الجانبين مع ضم لوحي الكتف.', 'Draw your elbows toward your sides and gently squeeze your shoulder blades.'),
+    ],
+    mistakes: [
+      cue('تجنّب المبالغة في الرفع أو تقويس أسفل الظهر.', 'Avoid lifting too high or arching your lower back.'),
+    ],
+    breathing: cue('ازفر أثناء السحب وخذ شهيقًا عند مد الذراعين.', 'Exhale as you pull and inhale as you reach forward.'),
+  },
+  'reverse-snow-angel': {
+    primary: ['upper-back', 'shoulders'],
+    secondary: ['arms'],
+    cues: [
+      cue('حرّك الذراعين في قوس مريح مع بقاء الجبهة منخفضة.', 'Sweep your arms through a comfortable arc with your forehead lowered.'),
+      cue('حافظ على الكتفين بعيدين عن الأذنين.', 'Keep your shoulders away from your ears.'),
+    ],
+    mistakes: [
+      cue('تجنّب رفع الصدر بقوة أو إجبار الكتفين على مدى واسع.', 'Avoid lifting your chest forcefully or forcing a wide shoulder range.'),
+    ],
+    breathing: cue('حافظ على تنفس هادئ أثناء الحركة.', 'Keep breathing calmly throughout the movement.'),
+  },
+  'prone-t-raise': {
+    primary: ['upper-back', 'shoulders'],
+    secondary: ['arms'],
+    cues: [
+      cue('قرّب لوحي الكتف وارفع اليدين مسافة صغيرة.', 'Draw your shoulder blades together and lift your hands slightly.'),
+      cue('أبقِ الرقبة محايدة والجبهة قريبة من الأرض.', 'Keep your neck neutral and your forehead near the floor.'),
+    ],
+    mistakes: [
+      cue('تجنّب رفع الذراعين عاليًا أو تقويس الظهر.', 'Avoid lifting your arms too high or arching your back.'),
+    ],
+    breathing: cue('ازفر عند الرفع وخذ شهيقًا عند الإنزال.', 'Exhale as you lift and inhale as you lower.'),
+  },
+  'scapular-push-up': {
+    primary: ['shoulders'],
+    secondary: ['chest', 'arms', 'core'],
+    cues: [
+      cue('أبقِ المرفقين مستقيمين طوال الحركة.', 'Keep your elbows straight throughout the movement.'),
+      cue('حرّك لوحي الكتف والصدر فقط مع ثبات الحوض.', 'Move your shoulder blades and chest while keeping your hips steady.'),
+    ],
+    mistakes: [
+      cue('تجنّب ثني المرفقين أو ترك أسفل الظهر يهبط.', 'Avoid bending your elbows or letting your lower back sag.'),
+    ],
+    breathing: cue('تنفس باستمرار ولا تحبس النفس في وضع البلانك.', 'Keep breathing and do not hold your breath in the plank.'),
+  },
 };
 
 export function getMovementInsight(exerciseId: string, locale: Locale) {

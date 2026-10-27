@@ -16,7 +16,7 @@ export function ExerciseRow({ ex }: { ex: Exercise }) {
   ex = localizeExercise(ex, locale);
   return (
     <Link
-      href={`/exercises/${ex.id}`}
+      href={`/exercise/${ex.id}`}
       data-testid={`card-exercise-${ex.id}`}
       className="card-dark focus-ring lift press group flex items-center gap-3 p-2"
     >

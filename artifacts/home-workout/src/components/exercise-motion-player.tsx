@@ -4,10 +4,10 @@ import type { Exercise } from '@/lib/data';
 import { MotionIllustration, type MotionVariant } from '@/components/motion-illustration';
 import './exercise-motion-player.css';
 
-type MotionFamily = 'squat' | 'bridge' | 'lunge' | 'plank' | 'press' | 'step' | 'stretch' | 'core';
+type MotionFamily = 'squat' | 'bridge' | 'lunge' | 'plank' | 'press' | 'step' | 'stretch' | 'core' | 'curl' | 'pull' | 'raise';
 type MotionConfig = { variant: MotionVariant; family: MotionFamily };
 
-const movementMotion: Record<string, MotionConfig> = {
+export const movementMotion: Record<string, MotionConfig> = {
   march: { variant: 'step', family: 'step' },
   'shoulder-circles': { variant: 'reach', family: 'step' },
   squat: { variant: 'squat', family: 'squat' },
@@ -31,6 +31,15 @@ const movementMotion: Record<string, MotionConfig> = {
   'fire-hydrant': { variant: 'bridge', family: 'core' },
   'hip-hinge': { variant: 'lunge', family: 'stretch' },
   'pike-push-up': { variant: 'press', family: 'press' },
+  'push-up': { variant: 'pushup', family: 'press' },
+  'knee-push-up': { variant: 'knee-pushup', family: 'press' },
+  'wide-push-up': { variant: 'wide-pushup', family: 'press' },
+  'close-grip-push-up': { variant: 'close-pushup', family: 'press' },
+  'bicep-self-curl': { variant: 'curl', family: 'curl' },
+  'superman-pull': { variant: 'superman', family: 'pull' },
+  'reverse-snow-angel': { variant: 'snow-angel', family: 'raise' },
+  'prone-t-raise': { variant: 'prone-t', family: 'raise' },
+  'scapular-push-up': { variant: 'scapular', family: 'plank' },
 };
 
 export function ExerciseMotionPlayer({

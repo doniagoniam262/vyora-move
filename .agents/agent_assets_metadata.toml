@@ -28,3 +28,17 @@ mtime_ms = 1793100257513
 storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/79e992ae-159a-4ced-8102-e4d9fe851018/160b5a50-1dca-4e4c-9447-5253c2ca1fae"
 storage_version_token = "1793100272640917"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "sD8DBHf8cxzeBY1hh8SEr"
+uri = "file://.local/generated-videos/vyora-squat-female-test-08s.mp4"
+type = "video"
+title = "تجربة سكوات VYORA — 8 ثوانٍ"
+description = "عينة AI بشرية المظهر لشخصية أنثى، رأسي 9:16، بدقة 720p. لم تُدمج في التطبيق ولم تُولد أي تمارين أخرى."
+logical_id = "3cfca9a0-b80a-4f9b-8af1-b6fd240ef92e"
+content_hash = "sha256:ecafd43252d03014b7093876a39d3c37da8003fba0e3c6cdcc6fc3e86219cfc7"
+size = 1569291
+mtime_ms = 1793289606760
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/3cfca9a0-b80a-4f9b-8af1-b6fd240ef92e/b1058d7c-3b75-4b85-b13a-b2b513d1b78a"
+storage_version_token = "1793289623761894"
+content_type = "video/mp4"

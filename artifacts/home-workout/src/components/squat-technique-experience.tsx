@@ -23,86 +23,6 @@ import { exerciseVideoSource } from '@/lib/exercise-video-sources';
 
 type Locale = 'ar' | 'en';
 
-function ExerciseErrorVisual({
-  exerciseId,
-  movementName,
-  movementLatin,
-  visual,
-  locale,
-}: {
-  exerciseId: string;
-  movementName: string;
-  movementLatin: string;
-  visual: string;
-  locale: Locale;
-}) {
-  const label = locale === 'ar' ? `رسم توضيحي لأخطاء ${movementName}` : `${movementLatin} form illustration`;
-  const highlight = '#fb526c';
-  const isHorizontal = ['push-up', 'plank'].includes(exerciseId);
-  const isBridge = exerciseId === 'glute-bridge';
-  const isLunge = exerciseId === 'lunge';
-  const isDeadlift = exerciseId === 'deadlift';
-  const markerId = visual.toLowerCase();
-  return (
-    <svg viewBox="0 0 180 120" role="img" aria-label={label} className="h-28 w-full">
-      <defs>
-        <linearGradient id={`exercise-bg-${exerciseId}-${markerId}`} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#111f34" />
-          <stop offset="1" stopColor="#0b101a" />
-        </linearGradient>
-      </defs>
-      <rect x="1" y="1" width="178" height="118" rx="15" fill={`url(#exercise-bg-${exerciseId}-${markerId})`} />
-      <path d="M18 96H162" stroke="#6b7b91" strokeWidth="2" strokeLinecap="round" />
-      {isHorizontal ? (
-        <>
-          <circle cx="35" cy="52" r="7" fill="#d6dae1" />
-          <path d="M43 54L78 57L111 58L145 60" fill="none" stroke="#c6ceda" strokeWidth="8" strokeLinecap="round" />
-          <path d="M76 57L72 79L61 91M84 58L88 79L99 91M111 58L126 77L128 92M120 59L137 78L143 92" fill="none" stroke="#c6ceda" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-          {markerId.includes('hip') || markerId.includes('back') ? <path d="M73 53L113 62" stroke={highlight} strokeWidth="5" strokeLinecap="round" /> : null}
-          {markerId.includes('elbow') || markerId.includes('hand') ? <path d="M76 57L63 76M111 58L124 77" stroke={highlight} strokeWidth="4" strokeLinecap="round" /> : null}
-          {markerId.includes('neck') || markerId.includes('range') || markerId.includes('breath') ? <path d="M27 42L42 43" stroke={highlight} strokeWidth="4" strokeLinecap="round" /> : null}
-          <path d="M26 99H148" stroke="#6b7b91" strokeWidth="2" />
-        </>
-      ) : isBridge ? (
-        <>
-          <circle cx="37" cy="79" r="7" fill="#d6dae1" />
-          <path d="M45 80L70 79L89 60L110 72L130 91L151 91" fill="none" stroke="#c6ceda" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M86 61L82 89" stroke="#c6ceda" strokeWidth="6" strokeLinecap="round" />
-          <path d={markerId.includes('arch') ? 'M63 77L92 58L111 70' : markerId.includes('feet') ? 'M130 91L160 91M130 86L160 86' : 'M32 79L42 77M148 89L160 89'} fill="none" stroke={highlight} strokeWidth="4" strokeLinecap="round" />
-        </>
-      ) : isLunge ? (
-        <>
-          <circle cx="83" cy="20" r="8" fill="#d6dae1" />
-          <path d="M80 30L74 54L95 63L110 52" fill="none" stroke="#c6ceda" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M74 54L54 67L40 87L28 91M95 63L112 75L141 76L155 91" fill="none" stroke="#c6ceda" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-          <path d={markerId.includes('knee') ? 'M54 67L70 77L40 87' : markerId.includes('stride') ? 'M42 87L67 91M112 75L136 80' : 'M75 46L97 54'} fill="none" stroke={highlight} strokeWidth="4" strokeLinecap="round" />
-        </>
-      ) : isDeadlift ? (
-        <>
-          <circle cx="82" cy="20" r="8" fill="#d6dae1" />
-          <path d="M80 30L67 47L90 60L111 50" fill="none" stroke="#c6ceda" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M90 60L82 82L76 94M90 60L110 81L115 94M111 50L126 72" fill="none" stroke="#c6ceda" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-          <path d={markerId.includes('back') ? 'M68 45L91 59' : markerId.includes('bar') ? 'M112 83H155' : 'M37 98H148'} fill="none" stroke={highlight} strokeWidth="4" strokeLinecap="round" />
-          <path d="M28 94V104M35 90V108M28 99H35M145 94V104M152 90V108M145 99H152" stroke="#aab4c2" strokeWidth="2" />
-        </>
-      ) : (
-        <>
-          <circle cx="76" cy="22" r="8" fill="#d6dae1" />
-          <path d="M72 31L66 53L88 65L104 52" fill="none" stroke="#c6ceda" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M68 51L51 63L44 83" fill="none" stroke="#c6ceda" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M87 65L73 78L78 94M103 53L111 74L98 94" fill="none" stroke="#c6ceda" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
-          {markerId.includes('knee') ? <path d="M73 78L88 86M111 74L96 84" stroke={highlight} strokeWidth="4" strokeLinecap="round" /> : null}
-          {markerId.includes('back') ? <path d="M68 47Q82 60 102 53" fill="none" stroke={highlight} strokeWidth="4" strokeLinecap="round" /> : null}
-          {markerId.includes('depth') || markerId.includes('range') ? <path d="M30 69H149M154 58V88" stroke={highlight} strokeWidth="2" strokeDasharray="5 5" /> : null}
-          {markerId.includes('torso') || markerId.includes('jerk') ? <path d="M68 47L102 56" stroke={highlight} strokeWidth="4" strokeLinecap="round" /> : null}
-        </>
-      )}
-      <circle cx="154" cy="21" r="10" fill="#fb526c" fillOpacity=".16" stroke={highlight} />
-      <path d="M150 17L158 25M158 17L150 25" stroke={highlight} strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  );
-}
-
 export function ExerciseTechniqueExperience({
   exercise,
   locale,
@@ -244,13 +164,24 @@ export function ExerciseTechniqueExperience({
               <X size={15} /> {isArabic ? `أخطاء شائعة في ${exercise.name}` : `Common ${exercise.latin} mistakes`}
             </span>
             <p className="mt-2 text-[11px] leading-5 text-slate-400">
-              {isArabic ? `أخطاء خاصة بحركة ${exercise.name}، مع رسوم مستقلة تشرح موضع كل خطأ.` : `Movement-specific ${exercise.latin} mistakes, each with a separate visual guide.`}
+              {isArabic ? `أخطاء خاصة بحركة ${exercise.name} مع السبب وطريقة التصحيح.` : `Movement-specific ${exercise.latin} mistakes with causes and corrections.`}
             </p>
           </header>
           <div className="grid gap-3 sm:grid-cols-3">
             {errors.map((error) => (
               <section key={error.id} className="overflow-hidden rounded-xl border border-white/[.08] bg-[#0c111a] p-2.5" data-testid={`exercise-error-${exercise.id}-${error.id}`}>
-                <ExerciseErrorVisual exerciseId={exercise.id} movementName={exercise.name} movementLatin={exercise.latin} visual={error.visual} locale={locale} />
+                {error.image ? (
+                  <div className="relative">
+                    <img src={error.image} alt={error.title[locale]} className="h-40 w-full rounded-lg object-cover" loading="lazy" />
+                    <span className="absolute left-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-rose-500 text-white shadow-lg" aria-label={isArabic ? 'خطأ شائع' : 'Common mistake'}>
+                      <X size={17} />
+                    </span>
+                  </div>
+                ) : (
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-rose-500/15 text-rose-300" aria-label={isArabic ? 'خطأ شائع' : 'Common mistake'}>
+                    <X size={17} />
+                  </span>
+                )}
                 <h3 className="mt-2 min-h-10 text-xs font-extrabold leading-5">{error.title[locale]}</h3>
                 <p className="mt-1 text-[11px] leading-5 text-slate-400">
                   <b className="text-slate-200">{isArabic ? 'السبب: ' : 'Why: '}</b>{error.cause[locale]}

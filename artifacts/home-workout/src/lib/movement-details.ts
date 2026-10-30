@@ -436,6 +436,76 @@ export const movementInsights: Record<string, MovementInsight> = {
     ],
     breathing: cue('تنفس باستمرار ولا تحبس النفس في وضع البلانك.', 'Keep breathing and do not hold your breath in the plank.'),
   },
+  'arm-circles': {
+    primary: ['shoulders'],
+    secondary: ['upper-back'],
+    cues: [
+      cue('ابدأ بمدى دائري صغير مع إبقاء الذراعين مرتاحتين.', 'Start with small circles and keep your arms relaxed.'),
+      cue('حرّك الكتفين بتحكم ولا ترفعها نحو الأذنين.', 'Move your shoulders with control without shrugging toward your ears.'),
+    ],
+    mistakes: [cue('تجنب الدوائر السريعة أو المؤلمة.', 'Avoid fast or painful circles.')],
+    breathing: cue('تنفس بهدوء مع استمرار الدوائر.', 'Breathe calmly as you continue the circles.'),
+  },
+  'chest-expansion': {
+    primary: ['chest'],
+    secondary: ['shoulders', 'upper-back'],
+    cues: [
+      cue('افتح الذراعين براحة مع تقريب لوحي الكتف.', 'Open your arms comfortably while drawing your shoulder blades together.'),
+      cue('حافظ على الجذع ثابتًا ولا تدفع الأضلاع للأمام.', 'Keep your torso steady and avoid pushing your ribs forward.'),
+    ],
+    mistakes: [cue('تجنب دفع الذراعين خلف الجسم إلى مدى مؤلم.', 'Avoid forcing your arms behind your body into a painful range.')],
+    breathing: cue('ازفر عند فتح الذراعين وخذ شهيقًا عند العودة.', 'Exhale as you open your arms and inhale as you return.'),
+  },
+  'torso-twists': {
+    primary: ['obliques'],
+    secondary: ['core', 'shoulders'],
+    cues: [
+      cue('لف الجذع برفق مع توجيه الصدر للجانب.', 'Gently rotate your torso and turn your chest to the side.'),
+      cue('أبقِ الحوض والقدمين ثابتين وتجنب الارتداد.', 'Keep your hips and feet steady; do not bounce.'),
+    ],
+    mistakes: [cue('تجنب الدوران السريع أو تحريك الركبتين مع الجذع.', 'Avoid quick twisting or rotating your knees with your torso.')],
+    breathing: cue('ازفر مع اللف وخذ شهيقًا عند العودة للمنتصف.', 'Exhale into the twist and inhale as you return to center.'),
+  },
+  'leg-raise': {
+    primary: ['core'],
+    secondary: ['hip-flexors'],
+    cues: [
+      cue('ثبت أسفل الظهر وارفَع الساقين ضمن مدى متحكم به.', 'Keep your lower back grounded and lift through a controlled range.'),
+      cue('اخفض الساقين ببطء مع شد البطن.', 'Lower your legs slowly while bracing your abdomen.'),
+    ],
+    mistakes: [cue('تجنب تقويس الظهر أو استخدام الزخم لرفع الساقين.', 'Avoid arching your back or using momentum to lift your legs.')],
+    breathing: cue('ازفر عند الرفع وخذ شهيقًا عند الإنزال.', 'Exhale as you lift and inhale as you lower.'),
+  },
+  'high-knees': {
+    primary: ['hip-flexors', 'quads'],
+    secondary: ['calves', 'core'],
+    cues: [
+      cue('ارفع الركبتين بالتبادل مع إبقاء الجذع منتصبًا.', 'Alternate knee lifts while keeping your torso upright.'),
+      cue('ابدأ بإيقاع مريح واجعل هبوط القدمين هادئًا.', 'Start at a comfortable pace and land softly.'),
+    ],
+    mistakes: [cue('تجنب الميل للخلف أو الهبوط الثقيل على القدمين.', 'Avoid leaning backward or landing heavily.')],
+    breathing: cue('تنفس باستمرار مع إيقاع الخطوات.', 'Keep breathing steadily with your steps.'),
+  },
+  'standing-side-stretch': {
+    primary: ['obliques'],
+    secondary: ['upper-back', 'shoulders'],
+    cues: [
+      cue('مِل من الجذع إلى الجانب مع بقاء القدمين ثابتتين.', 'Lean your torso sideways while keeping your feet steady.'),
+      cue('حافظ على الصدر للأمام وتوقف عند شد لطيف.', 'Keep your chest facing forward and stop at a gentle stretch.'),
+    ],
+    mistakes: [cue('تجنب تدوير الجسم أو دفع الورك إلى الجانب.', 'Avoid rotating your body or pushing your hip sideways.')],
+    breathing: cue('تنفس ببطء أثناء الثبات ثم بدّل الجانب.', 'Breathe slowly during the hold, then switch sides.'),
+  },
+  'cat-cow': {
+    primary: ['upper-back'],
+    secondary: ['core', 'shoulders'],
+    cues: [
+      cue('ابدأ من وضع اليدين والركبتين مع حركة بطيئة للظهر.', 'Start on hands and knees and move your back slowly.'),
+      cue('حرّك الرأس مع العمود الفقري دون ضغط على الرقبة.', 'Move your head with your spine without straining your neck.'),
+    ],
+    mistakes: [cue('تجنب دفع البطن أو الرأس بقوة إلى نهاية المدى.', 'Avoid forcing your abdomen or head into end range.')],
+    breathing: cue('ازفر عند تدوير الظهر واستنشق عند فتح الصدر.', 'Exhale as you round your back and inhale as you open your chest.'),
+  },
 };
 
 export function getMovementInsight(exerciseId: string, locale: Locale) {

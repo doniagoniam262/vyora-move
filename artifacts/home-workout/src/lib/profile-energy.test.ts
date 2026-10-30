@@ -5,8 +5,9 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { Router, type BaseLocationHook } from 'wouter';
 import { estimateEnergy } from './energy';
 import { isVYORAProfile, readVYORAProfile, saveVYORAProfile, type VYORAProfile } from './profile';
-import { exercises } from './data';
+import { exercises, plans } from './data';
 import { movementInsights } from './movement-details';
+import { exerciseFormErrors } from './exercise-form-errors';
 import { muscleEducation } from './muscle-education';
 import { athleteExerciseIds } from '../components/athlete-movement';
 import { BodyShapeGuide, femaleBodyShapes } from '../components/body-shape-guide';
@@ -129,10 +130,38 @@ test('profile persistence round-trips new fields without replacing another user 
 });
 
 test('every existing exercise has bilingual muscle education with three technique checkpoints', () => {
-  assert.equal(exercises.length >= 32, true);
+  assert.equal(exercises.length, 22);
+  assert.deepEqual(
+    new Set(exercises.map((exercise) => exercise.id)),
+    new Set([
+      'jacks-low',
+      'shoulder-circles',
+      'arm-circles',
+      'chest-expansion',
+      'torso-twists',
+      'squat',
+      'glute-bridge',
+      'leg-raise',
+      'lunge',
+      'calf-raise',
+      'march',
+      'high-knees',
+      'wall-sit',
+      'push-up',
+      'plank',
+      'superman-pull',
+      'crunch',
+      'bicycle',
+      'side-plank',
+      'chair-dip',
+      'standing-side-stretch',
+      'cat-cow',
+    ]),
+  );
   for (const exercise of exercises) {
     const insight = movementInsights[exercise.id];
     assert.ok(insight, exercise.id);
+    assert.equal(exerciseFormErrors[exercise.id]?.length, 3, exercise.id);
     for (const id of [...insight.primary, ...insight.secondary]) {
       const education = muscleEducation[id];
       assert.ok(education, id);
@@ -143,6 +172,15 @@ test('every existing exercise has bilingual muscle education with three techniqu
         assert.ok(education.steps.every(step => step[locale].length > 20));
       }
     }
+  }
+});
+
+test('all workout plans use only retained exercises', () => {
+  const activeIds = new Set(exercises.map((exercise) => exercise.id));
+  assert.equal(plans.length, 16);
+  for (const plan of plans) {
+    assert.ok(plan.exerciseIds.length > 0, plan.id);
+    for (const id of plan.exerciseIds) assert.ok(activeIds.has(id), `${plan.id}: ${id}`);
   }
 });
 

@@ -69,7 +69,7 @@ const IMG = {
   pair: R + 'plan-pair.webp',
 };
 
-export const exercises: Exercise[] = [
+const exerciseCatalog: Exercise[] = [
   {
     id: 'march',
     name: 'مشي في المكان',
@@ -230,8 +230,8 @@ export const exercises: Exercise[] = [
   },
   {
     id: 'chair-dip',
-    name: 'غطس على الكرسي',
-    latin: 'Chair Dip',
+    name: 'غطس العضلة ثلاثية الرؤوس',
+    latin: 'Tricep Dips',
     category: 'upper',
     level: 'intermediate',
     image: IMG.upper,
@@ -585,8 +585,8 @@ export const exercises: Exercise[] = [
   },
   {
     id: 'superman-pull',
-    name: 'سوبرمان مع سحب',
-    latin: 'Superman Pull',
+    name: 'سوبرمان',
+    latin: 'Superman',
     category: 'upper',
     level: 'beginner',
     image: IMG.man,
@@ -655,7 +655,135 @@ export const exercises: Exercise[] = [
     safety: 'حافظ على ثبات الجذع وأوقف الحركة عند ألم الرسغ أو الكتف.',
     easier: 'نفّذها واقفًا على الحائط أو على سطح مرتفع.',
   },
+  {
+    id: 'arm-circles',
+    name: 'دوائر الذراعين',
+    latin: 'Arm Circles',
+    category: 'warmup',
+    level: 'beginner',
+    image: IMG.upper,
+    duration: 30,
+    sets: 2,
+    instructions: ['قف باستقامة ومد الذراعين إلى الجانبين.', 'ارسم دوائر صغيرة ومتحكمًا بها.', 'اعكس الاتجاه بعد نصف الوقت.'],
+    safety: 'ابدأ بمدى صغير وتوقف إذا ظهر ألم في الكتف.',
+    easier: 'اخفض الذراعين قليلًا وقلل حجم الدائرة.',
+  },
+  {
+    id: 'chest-expansion',
+    name: 'فتح الصدر',
+    latin: 'Chest Expansion',
+    category: 'warmup',
+    level: 'beginner',
+    image: IMG.upper,
+    duration: 30,
+    reps: 10,
+    sets: 2,
+    instructions: ['قف والذراعان أمام الصدر.', 'افتح الذراعين للخلف بلطف مع تقريب لوحي الكتف.', 'عُد للأمام دون دفع الكتفين للأمام بعنف.'],
+    safety: 'حافظ على مدى مريح للكتف ولا تبالغ في تقويس أسفل الظهر.',
+    easier: 'قلل مدى فتح الذراعين.',
+  },
+  {
+    id: 'torso-twists',
+    name: 'لفّ الجذع',
+    latin: 'Torso Twists',
+    category: 'warmup',
+    level: 'beginner',
+    image: IMG.upper,
+    duration: 30,
+    reps: 12,
+    sets: 2,
+    instructions: ['قف والقدمان بعرض الوركين والركبتان مرتاحتان.', 'لف الجذع برفق إلى جهة واحدة مع بقاء الحوض ثابتًا.', 'ارجع للمنتصف وبدّل الجهة دون ارتداد.'],
+    safety: 'اجعل اللف من الجذع وبمدى مريح، وتوقف إذا شعرت بألم.',
+    easier: 'قلل مدى الدوران وأبقِ اليدين على الصدر.',
+  },
+  {
+    id: 'leg-raise',
+    name: 'رفع الساقين',
+    latin: 'Leg Raise',
+    category: 'abs',
+    level: 'intermediate',
+    image: IMG.abs,
+    duration: 35,
+    reps: 10,
+    sets: 2,
+    instructions: ['استلقِ على ظهرك والذراعان بجانب الجسم.', 'شد البطن وارفع الساقين معًا بقدر تستطيع التحكم فيه.', 'اخفضهما ببطء دون ترك أسفل الظهر يتقوس.'],
+    safety: 'قلل مدى الرفع أو اثنِ الركبتين إذا ارتفع أسفل الظهر عن الأرض.',
+    easier: 'اثنِ الركبتين وارفع ساقًا واحدة في كل مرة.',
+  },
+  {
+    id: 'high-knees',
+    name: 'رفع الركبتين بالتبادل',
+    latin: 'High Knees',
+    category: 'full',
+    level: 'intermediate',
+    image: IMG.squat,
+    duration: 30,
+    sets: 3,
+    instructions: ['قف منتصبًا وابدأ بالمشي في المكان.', 'ارفع الركبتين بالتبادل إلى ارتفاع مريح مع تحريك الذراعين.', 'زد الإيقاع تدريجيًا مع هبوط هادئ على القدمين.'],
+    safety: 'استخدم إيقاعًا منخفضًا أو امشِ بدل الجري إذا كان القفز غير مريح.',
+    easier: 'نفّذ مشيًا سريعًا في المكان مع رفع أقل للركبتين.',
+  },
+  {
+    id: 'standing-side-stretch',
+    name: 'تمدد جانبي واقف',
+    latin: 'Standing Side Stretch',
+    category: 'stretch',
+    level: 'beginner',
+    image: IMG.stretch,
+    duration: 30,
+    sets: 1,
+    instructions: ['قف بقدمين ثابتتين وارفع ذراعًا فوق الرأس.', 'مِل بالجذع برفق إلى الجهة المقابلة دون تدوير الصدر.', 'تنفس بهدوء ثم بدّل الجهة.'],
+    safety: 'توقف عند شد لطيف فقط، ولا تضغط على أسفل الظهر.',
+    easier: 'ضع اليد على الورك وقلل مدى الميل.',
+  },
+  {
+    id: 'cat-cow',
+    name: 'القطة والبقرة',
+    latin: 'Cat-Cow',
+    category: 'stretch',
+    level: 'beginner',
+    image: IMG.stretch,
+    duration: 35,
+    reps: 8,
+    sets: 1,
+    instructions: ['ابدأ على اليدين والركبتين واليدان أسفل الكتفين.', 'ازفر وقرّب الذقن مع تدوير الظهر برفق.', 'استنشق وارفع الصدر قليلًا مع بقاء الحركة مريحة.'],
+    safety: 'حرّك العمود الفقري بلطف وتجنب دفع الرقبة أو أسفل الظهر إلى نهاية المدى.',
+    easier: 'نفّذ مدى صغيرًا مع إبقاء الرأس محايدًا.',
+  },
 ];
+
+const retainedExerciseOrder = [
+  'jacks-low',
+  'shoulder-circles',
+  'arm-circles',
+  'chest-expansion',
+  'torso-twists',
+  'squat',
+  'glute-bridge',
+  'leg-raise',
+  'lunge',
+  'calf-raise',
+  'march',
+  'high-knees',
+  'wall-sit',
+  'push-up',
+  'plank',
+  'superman-pull',
+  'crunch',
+  'bicycle',
+  'side-plank',
+  'chair-dip',
+  'standing-side-stretch',
+  'cat-cow',
+];
+const retainedExerciseIds = new Set(retainedExerciseOrder);
+
+export const exercises: Exercise[] = exerciseCatalog
+  .filter((exercise) => retainedExerciseIds.has(exercise.id))
+  .sort((a, b) => retainedExerciseOrder.indexOf(a.id) - retainedExerciseOrder.indexOf(b.id))
+  .map((exercise) =>
+    exercise.id === 'march' ? { ...exercise, latin: 'Marching in Place' } : exercise,
+  );
 
 export const exerciseById = (id: string) => exercises.find((e) => e.id === id);
 
@@ -857,6 +985,23 @@ export const plans: WorkoutPlan[] = [
     goal: 'gain-weight',
   },
 ];
+
+const legacyPlanExerciseReplacements: Record<string, string> = {
+  'incline-push': 'push-up',
+  'mountain-climber': 'high-knees',
+  hamstring: 'standing-side-stretch',
+  'childs-pose': 'cat-cow',
+};
+const currentExerciseIds = new Set(exercises.map((exercise) => exercise.id));
+plans.forEach((plan) => {
+  plan.exerciseIds = [
+    ...new Set(
+      plan.exerciseIds
+        .map((id) => legacyPlanExerciseReplacements[id] ?? id)
+        .filter((id) => currentExerciseIds.has(id)),
+    ),
+  ];
+});
 
 export const REST_DEFAULT = 15;
 export type Step = { ex: Exercise; set: number; sets: number };

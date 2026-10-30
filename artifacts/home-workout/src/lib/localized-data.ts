@@ -6,7 +6,7 @@ const exerciseText: Record<
   { name: string; instructions: string[]; safety: string; easier: string }
 > = {
   march: {
-    name: 'March in Place',
+    name: 'Marching in Place',
     instructions: [
       'Stand with your feet hip-width apart and shoulders relaxed.',
       'Raise one knee, then the other, at a steady pace while moving your arms.',
@@ -24,6 +24,36 @@ const exerciseText: Record<
     ],
     safety: 'Keep the movement comfortable; do not force the joint to its end range.',
     easier: 'Make smaller circles.',
+  },
+  'arm-circles': {
+    name: 'Arm Circles',
+    instructions: [
+      'Stand tall and extend your arms out to the sides.',
+      'Draw small, controlled circles.',
+      'Reverse direction halfway through.',
+    ],
+    safety: 'Start with a small range and stop if shoulder pain appears.',
+    easier: 'Lower your arms slightly and make smaller circles.',
+  },
+  'chest-expansion': {
+    name: 'Chest Expansion',
+    instructions: [
+      'Stand with your arms in front of your chest.',
+      'Open your arms gently and draw your shoulder blades together.',
+      'Return without forcing your shoulders forward.',
+    ],
+    safety: 'Keep a comfortable shoulder range and avoid arching your lower back.',
+    easier: 'Use a smaller opening range.',
+  },
+  'torso-twists': {
+    name: 'Torso Twists',
+    instructions: [
+      'Stand with feet hip-width apart and knees relaxed.',
+      'Gently rotate your torso to one side while keeping your hips steady.',
+      'Return to center and switch sides without bouncing.',
+    ],
+    safety: 'Rotate only through a comfortable range and stop if you feel pain.',
+    easier: 'Reduce the rotation and keep your hands at your chest.',
   },
   squat: {
     name: 'Squat',
@@ -86,7 +116,7 @@ const exerciseText: Record<
     easier: 'Use a wall instead of a low surface.',
   },
   'chair-dip': {
-    name: 'Chair Dip',
+    name: 'Tricep Dips',
     instructions: [
       'Sit on the edge of a stable chair and place your palms beside your hips.',
       'Slide your hips forward and bend your elbows behind you to lower.',
@@ -206,6 +236,46 @@ const exerciseText: Record<
     safety: 'Stop if you feel shoulder or lower-back pain.',
     easier: 'Bend your knees and support yourself on them.',
   },
+  'leg-raise': {
+    name: 'Leg Raise',
+    instructions: [
+      'Lie on your back with your arms by your sides.',
+      'Brace your core and raise both legs through a range you can control.',
+      'Lower slowly without letting your lower back arch.',
+    ],
+    safety: 'Shorten the range or bend your knees if your lower back lifts.',
+    easier: 'Bend your knees and raise one leg at a time.',
+  },
+  'high-knees': {
+    name: 'High Knees',
+    instructions: [
+      'Stand tall and begin marching in place.',
+      'Alternate lifting your knees to a comfortable height while moving your arms.',
+      'Gradually increase the pace while landing softly.',
+    ],
+    safety: 'Use a low-impact pace or march instead of running if jumping feels uncomfortable.',
+    easier: 'March briskly in place with lower knee lifts.',
+  },
+  'standing-side-stretch': {
+    name: 'Standing Side Stretch',
+    instructions: [
+      'Stand with a steady base and raise one arm overhead.',
+      'Gently lean your torso to the opposite side without rotating your chest.',
+      'Breathe calmly, then switch sides.',
+    ],
+    safety: 'Stop at a gentle stretch and do not force your lower back.',
+    easier: 'Place your hand on your hip and use a smaller lean.',
+  },
+  'cat-cow': {
+    name: 'Cat-Cow',
+    instructions: [
+      'Start on your hands and knees with hands beneath your shoulders.',
+      'Exhale, gently round your back, and bring your chin in.',
+      'Inhale and gently lift your chest while keeping the movement comfortable.',
+    ],
+    safety: 'Move gently and do not force your neck or lower back to end range.',
+    easier: 'Use a smaller range and keep your head neutral.',
+  },
   'fire-hydrant': {
     name: 'Fire Hydrant',
     instructions: [
@@ -297,7 +367,7 @@ const exerciseText: Record<
     easier: 'Use less pressure from your assisting hand or fewer repetitions.',
   },
   'superman-pull': {
-    name: 'Superman Pull',
+    name: 'Superman',
     instructions: [
       'Lie on your stomach with your arms extended and your neck relaxed.',
       'Lift your arms and chest slightly, then draw your elbows toward your sides.',

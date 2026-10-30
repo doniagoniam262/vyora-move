@@ -278,6 +278,41 @@ export const exerciseFormErrors: Record<string, ExerciseErrorGuide[]> = {
     guide('hips-move', 'hips-sag', 'تحرك الحوض مع لوحي الكتف', 'Hips moving with the shoulder blades', 'ضعف شد الجذع يجعل الجسم يتأرجح بدل حركة الكتف.', 'Low trunk tension makes the body sway instead of the shoulders moving.', 'شد البطن والأرداف وثبّت الجذع.', 'Brace your abs and glutes to keep your trunk still.'),
     guide('shrug', 'shoulder', 'رفع الكتفين نحو الرقبة', 'Shrugging toward the neck', 'التركيز على دفع الأرض قد يرفع الكتفين للأذنين.', 'Pushing the floor away may cause the shoulders to shrug.', 'حافظ على الرقبة طويلة وحرّك لوحي الكتف بتحكم.', 'Keep your neck long and move your shoulder blades with control.'),
   ],
+  'arm-circles': [
+    guide('arm-shrug', 'shoulder', 'رفع الكتفين أثناء الدوائر', 'Shrugging during the circles', 'قد ينتقل الجهد إلى الرقبة بدل حركة الكتف.', 'Effort may shift to the neck instead of the shoulders.', 'أبقِ الكتفين منخفضين وابدأ بدوائر صغيرة.', 'Keep your shoulders low and begin with small circles.'),
+    guide('locked-elbows', 'elbows', 'قفل المرفقين بقوة', 'Locking the elbows', 'شد الذراعين بالكامل قد يسبب توترًا غير ضروري.', 'Fully tensing the arms can create unnecessary strain.', 'حافظ على ليونة بسيطة في المرفقين.', 'Keep a soft bend in your elbows.'),
+    guide('fast-arms', 'jerk', 'تحريك الذراعين بسرعة', 'Moving the arms too quickly', 'السرعة تقلل التحكم في مسار الكتف.', 'Speed reduces control of the shoulder path.', 'أبطئ الحركة وحافظ على دوائر متساوية.', 'Slow down and keep the circles even.'),
+  ],
+  'chest-expansion': [
+    guide('rib-flare', 'back', 'دفع الأضلاع للأمام', 'Flaring the ribs forward', 'قد يعوض الجذع محدودية حركة الكتف بتقويس الظهر.', 'The torso may compensate for limited shoulder range by arching.', 'شد البطن بخفة وحافظ على الأضلاع فوق الحوض.', 'Brace gently and keep your ribs stacked over your hips.'),
+    guide('overreach', 'range', 'فتح الذراعين خلف الجسم أكثر من اللازم', 'Reaching the arms too far behind', 'المد الزائد قد يضغط على مقدمة الكتف.', 'Overreaching can strain the front of the shoulder.', 'افتح الذراعين ضمن مدى مريح فقط.', 'Open your arms only through a comfortable range.'),
+    guide('raised-shoulders', 'shoulder', 'شد الكتفين نحو الأذنين', 'Tensing shoulders toward the ears', 'رفع الكتفين يقلل حركة لوحي الكتف المريحة.', 'Shrugging limits comfortable shoulder-blade movement.', 'أرخِ الرقبة وأبقِ الكتفين منخفضين.', 'Relax your neck and keep your shoulders down.'),
+  ],
+  'torso-twists': [
+    guide('hip-swing', 'hips', 'تحريك الحوض مع اللف', 'Swinging the hips with the twist', 'الاندفاع أو السرعة يجعلان الحركة تأتي من الساقين.', 'Momentum can make the movement come from the legs.', 'ثبّت القدمين ولف الصدر بهدوء.', 'Keep your feet planted and rotate your chest gently.'),
+    guide('forced-twist', 'range', 'لف الجذع إلى مدى مؤلم', 'Twisting into a painful range', 'قد يتجاوز اللف مدى الحركة المريح للظهر.', 'The twist may exceed your comfortable spinal range.', 'قلل زاوية الدوران وتوقف عند شد مريح.', 'Use a smaller turn and stop at a comfortable stretch.'),
+    guide('bouncing', 'jerk', 'الارتداد بين الجهتين', 'Bouncing between sides', 'الارتداد يقلل التحكم ويزيد سرعة الالتفاف.', 'Bouncing reduces control and accelerates the rotation.', 'توقف لحظة في المنتصف وبدّل الجهة ببطء.', 'Pause at center and switch sides slowly.'),
+  ],
+  'leg-raise': [
+    guide('back-arch', 'back', 'تقوس أسفل الظهر عند الإنزال', 'Arching the lower back while lowering', 'قد يكون مدى خفض الساقين أكبر من قدرة الجذع على الثبات.', 'The lowering range may exceed your core control.', 'ارفع الساقين قليلًا أو اثنِ الركبتين وثبّت الظهر.', 'Raise your legs higher or bend your knees and keep your back grounded.'),
+    guide('momentum', 'jerk', 'استخدام الاندفاع لرفع الساقين', 'Using momentum to lift the legs', 'التأرجح يقلل التحكم في عضلات الجذع.', 'Swinging reduces control through the core.', 'ابدأ الحركة ببطء وأوقفها قبل التأرجح.', 'Move slowly and stop before you begin to swing.'),
+    guide('neck-tension', 'neck', 'شد الرقبة ورفع الرأس', 'Tensing the neck and lifting the head', 'محاولة مراقبة الساقين قد تسبب توترًا في الرقبة.', 'Watching your legs can create neck tension.', 'أرح الرأس على الأرض وانظر للأعلى.', 'Rest your head on the floor and look upward.'),
+  ],
+  'high-knees': [
+    guide('lean-back', 'torso', 'الميل للخلف مع رفع الركبتين', 'Leaning back while lifting the knees', 'رفع الركبة أعلى من المدى المريح قد يسحب الجذع للخلف.', 'Lifting beyond a comfortable range can pull your torso backward.', 'اخفض ارتفاع الركبة وأبقِ الجذع فوق الحوض.', 'Lower your knee height and keep your torso over your hips.'),
+    guide('hard-landing', 'feet', 'الهبوط بقوة على القدمين', 'Landing heavily on the feet', 'الإيقاع العالي قد يجعل الخطوات صاخبة وثقيلة.', 'A fast pace can make each step loud and heavy.', 'خفف السرعة واجعل الهبوط ناعمًا.', 'Slow down and land softly.'),
+    guide('uncoordinated-arms', 'shoulder', 'تثبيت الذراعين أو شد الكتفين', 'Stiff arms or tense shoulders', 'عدم تنسيق الذراعين قد يرفع التوتر ويؤثر في الإيقاع.', 'Uncoordinated arms can increase tension and disrupt rhythm.', 'أرخِ الكتفين وحرك الذراع المقابلة للركبة.', 'Relax your shoulders and move the opposite arm with each knee.'),
+  ],
+  'standing-side-stretch': [
+    guide('chest-rotation', 'torso', 'تدوير الصدر إلى الأمام', 'Rotating the chest forward', 'قد يحوّل الالتواء الحركة من تمدد جانبي إلى دوران.', 'Twisting changes the movement from a side stretch to a rotation.', 'وجّه الصدر للأمام ومِل من الجذع فقط.', 'Keep your chest facing forward and bend from your torso.'),
+    guide('hip-shift', 'hips', 'دفع الورك بعيدًا عن خط الجسم', 'Pushing the hip out of alignment', 'قد يسبب الميل الجانبي فقدان الثبات على القدمين.', 'Leaning can make your stance unstable.', 'وزّع الوزن على القدمين وحافظ على الوركين ثابتين.', 'Share your weight between both feet and keep your hips steady.'),
+    guide('overhead-shoulder', 'shoulder', 'رفع الكتف قرب الأذن', 'Shrugging the raised shoulder', 'شد الذراع للأعلى قد يسبب توترًا في الرقبة.', 'Reaching forcefully can tense the neck.', 'مد الذراع برفق وأبقِ الكتف بعيدًا عن الأذن.', 'Reach gently and keep your shoulder away from your ear.'),
+  ],
+  'cat-cow': [
+    guide('neck-only', 'neck', 'تحريك الرقبة وحدها', 'Moving only the neck', 'قد يتركز الانثناء في الرقبة بدل العمود الفقري.', 'The movement may stay in the neck instead of the spine.', 'دع الرأس يتبع حركة الظهر برفق.', 'Let your head follow your spine gently.'),
+    guide('forced-range', 'back', 'تقويس الظهر بقوة', 'Forcing the back into an arch', 'دفع البطن والصدر للأسفل أكثر من المريح قد يضغط أسفل الظهر.', 'Forcing the belly and chest down can strain the lower back.', 'استخدم مدى صغيرًا وابقَ ضمن الحركة المريحة.', 'Use a small range and stay within comfortable movement.'),
+    guide('rushed-breath', 'jerk', 'التبديل بسرعة دون تنفس', 'Rushing without breathing', 'السرعة قد تجعل الحركة مفاجئة وتقلل التنسيق مع النفس.', 'Rushing can make the movement abrupt and disrupt breathing.', 'اربط كل انتقال بشهيق أو زفير هادئ.', 'Pair each transition with a calm inhale or exhale.'),
+  ],
 };
 
 export const exerciseFormErrorGuidesFor = (exerciseId: string) =>

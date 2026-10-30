@@ -102,10 +102,24 @@ const CONFIGS: Record<string, Config> = {
     frames: [{ ...PR, aN: [0, 0], aF: [0, 0], arN: 0.2, arF: 0.2 }, { ...PR, t: 86, h: -8, aN: [0, 0], aF: [0, 0], arN: -0.28, arF: -0.28 }] },
   'scapular-push-up': { dur: 900, floor: true, focus: { en: 'Arms straight, blades glide', ar: 'ذراعان مستقيمتان ولوحا الكتف يتحركان' },
     frames: [PL, { ...PL, y: 211, t: 73.5 }] },
+  'arm-circles': { dur: 900, circle: true, focus: { en: 'Small, smooth arm circles', ar: 'دوائر ذراعين صغيرة وناعمة' },
+    frames: [{ ...ST, aN: [88, 4], aF: [90, 4] }, { ...ST, aN: [125, 0], aF: [127, 0] }, { ...ST, aN: [90, -20], aF: [92, -20] }, { ...ST, aN: [55, 0], aF: [57, 0] }] },
+  'chest-expansion': { dur: 950, focus: { en: 'Open the chest, relax shoulders', ar: 'افتح الصدر وأرخِ الكتفين' },
+    frames: [{ ...ST, aN: [15, 80], aF: [18, 80] }, { ...ST, aN: [6, 135], aF: [8, 135] }] },
+  'torso-twists': { dur: 900, focus: { en: 'Rotate gently, hips steady', ar: 'لف بلطف مع ثبات الحوض' },
+    frames: [{ ...ST, t: -18, aN: [15, 35], aF: [15, 35] }, { ...ST, t: 18, aN: [15, 35], aF: [15, 35] }] },
+  'leg-raise': { dur: 1000, floor: true, focus: { en: 'Lower legs with core control', ar: 'اخفض الساقين بتحكم الجذع' },
+    frames: [{ ...BENT, aN: [165, 165], aF: [165, 165], lN: [90, 90], lF: [90, 90] }, { ...BENT, aN: [165, 165], aF: [165, 165], lN: [160, 160], lF: [160, 160] }] },
+  'high-knees': { dur: 460, focus: { en: 'Lift knees, land softly', ar: 'ارفع الركبتين واهبط بهدوء' },
+    frames: [{ ...ST, aN: [-28, -5], aF: [35, 70], lN: [72, -8], lF: [0, 0] }, { ...ST, aN: [35, 70], aF: [-28, -5], lN: [0, 0], lF: [72, -8] }] },
+  'standing-side-stretch': { dur: 1600, hold: true, focus: { en: 'Reach up and lean gently', ar: 'مد الذراع ومِل برفق' },
+    frames: [{ ...ST, aN: [0, 0], aF: [-155, -155] }, { ...ST, t: -18, h: 12, aN: [0, 0], aF: [-155, -155] }] },
+  'cat-cow': { dur: 1500, floor: true, focus: { en: 'Round and extend gently', ar: 'دوّر الظهر وافتحه برفق' },
+    frames: [{ ...QUAD, t: 68, h: 14 }, { ...QUAD, t: 82, h: -8 }] },
 };
 
 const FALLBACK: Config = { dur: 1600, hold: true, focus: { en: 'Breathe and reset', ar: 'تنفّس واستعد' }, frames: [ST, { ...ST, y: 161 }] };
-export const athleteExerciseIds = Object.keys(CONFIGS);
+export const athleteExerciseIds = Object.keys(CONFIGS).filter((id) => exerciseById(id));
 
 /* ---------------------------- geometry ---------------------------- */
 const D = Math.PI / 180;

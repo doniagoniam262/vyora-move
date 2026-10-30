@@ -28,7 +28,6 @@ const femaleVideos: Record<string, string> = {
   'push-up': publicVideo('pushups-female.mp4'),
   plank: publicVideo('plank-female.mp4'),
   lunge: publicVideo('lunges-female.mp4'),
-  'pull-up': localVideo('female-pull-up-demo.mp4'),
   deadlift: localVideo('female-deadlift-demo.mp4'),
   'cat-cow': localVideo('female-cat-cow-demo.mp4'),
   'wall-sit': localVideo('female-wall-sit-demo.mp4'),
@@ -59,7 +58,6 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
     external: false,
     orientation: gender === 'female' && [
       'squat',
-      'pull-up',
       'deadlift',
       'cat-cow',
       'wall-sit',

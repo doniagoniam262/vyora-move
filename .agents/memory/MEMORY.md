@@ -1,1 +1,2 @@
 - [VYORA product direction](vyora-visual-direction.md) — gradient browsing cards, gender-matched internal movement characters, goal-based nutrition, adult energy estimates, and honest billing.
+- [AI exercise video generation](ai-exercise-video-generation.md) — inspect each media job separately; repeated provider failures must not trigger blind paid retries.

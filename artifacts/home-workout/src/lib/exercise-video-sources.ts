@@ -14,15 +14,22 @@ export type ExerciseVideoSource = {
   genderMatched: boolean;
 };
 
-const femaleImage = `${import.meta.env.BASE_URL}images/vyora-ui/female-profile.jpg`;
-const maleImage = `${import.meta.env.BASE_URL}images/vyora-ui/male-profile.jpg`;
+const femaleImage = `${import.meta.env.BASE_URL}images/egyptian_girl_full.jpg`;
+const maleImage = `${import.meta.env.BASE_URL}images/egyptian_boy_full.jpg`;
 
-// Videos are intentionally empty until the project owner uploads licensed files.
-const femaleVideo = '';
-const maleVideo = '';
+const publicVideo = (fileName: string) =>
+  `/api/storage/public-objects/vyora/videos/${fileName}`;
 
-const sourceFor = (gender: UserGender): ExerciseVideoSource => ({
-  src: gender === 'female' ? femaleVideo : maleVideo,
+const femaleVideos: Record<string, string> = {
+  'jacks-low': publicVideo('jumping-jacks-female.mp4'),
+  squat: publicVideo('squat-female.mp4'),
+  'push-up': publicVideo('pushups-female.mp4'),
+  plank: publicVideo('plank-female.mp4'),
+  lunge: publicVideo('lunges-female.mp4'),
+};
+
+const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource => ({
+  src: gender === 'female' ? (femaleVideos[exerciseId] ?? '') : '',
   image: gender === 'female' ? femaleImage : maleImage,
   pageUrl: '',
   creator: '',
@@ -30,7 +37,7 @@ const sourceFor = (gender: UserGender): ExerciseVideoSource => ({
   licenseUrl: '',
   external: false,
   orientation: 'portrait',
-  exerciseSpecific: false,
+  exerciseSpecific: gender === 'female' && Boolean(femaleVideos[exerciseId]),
   genderMatched: true,
 });
 
@@ -64,8 +71,8 @@ export const exerciseVideoSources: Record<string, Record<UserGender, ExerciseVid
     supportedExerciseIds.map((id) => [
       id,
       {
-        female: sourceFor('female'),
-        male: sourceFor('male'),
+        female: sourceFor(id, 'female'),
+        male: sourceFor(id, 'male'),
       },
     ]),
   );

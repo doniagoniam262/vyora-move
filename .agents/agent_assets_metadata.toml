@@ -42,3 +42,73 @@ mtime_ms = 1793289606760
 storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/3cfca9a0-b80a-4f9b-8af1-b6fd240ef92e/b1058d7c-3b75-4b85-b13a-b2b513d1b78a"
 storage_version_token = "1793289623761894"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "DS1Yy3fMyRgmGpUGa0pz1"
+uri = "file://attached_assets/generated_videos/jumping-jacks-female.mp4"
+type = "video"
+title = "VYORA — Jumping Jacks"
+description = "فيديو بنت واقعي، 4 ثوانٍ، 720p، رأسي."
+logical_id = "b561afd8-0d58-4bf6-918d-1b1c7a89cf73"
+content_hash = "sha256:af01660c4f9225cea2515a430ed11be20d09cb704939c02ca9bb7200cd92398e"
+size = 1254936
+mtime_ms = 1793373316148
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/b561afd8-0d58-4bf6-918d-1b1c7a89cf73/9463026c-7781-4340-be15-24075cbb6318"
+storage_version_token = "1793373705798129"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "NN1O0uzQFeJXezF-kJf_x"
+uri = "file://attached_assets/generated_videos/squat-female.mp4"
+type = "video"
+title = "VYORA — Squat"
+description = "فيديو بنت واقعي، 4 ثوانٍ، 720p، رأسي."
+logical_id = "cddd7ad5-a970-49ab-b58f-f135b152aa2a"
+content_hash = "sha256:ff309e11845cede9f5efff657813508a052df919e6a648bd49cc743f580f4f72"
+size = 891362
+mtime_ms = 1793373305892
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/cddd7ad5-a970-49ab-b58f-f135b152aa2a/ba21fea9-150d-4d99-b2ae-3605c94a81d7"
+storage_version_token = "1793373706427499"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "tDr6GyGMq4wBlRz5vBybV"
+uri = "file://attached_assets/generated_videos/pushups-female.mp4"
+type = "video"
+title = "VYORA — Push-up"
+description = "فيديو بنت واقعي، 4 ثوانٍ، 720p، رأسي."
+logical_id = "72f0f0dc-c6ca-48f2-b6e6-391b1d8e6bbd"
+content_hash = "sha256:4f3f84dc843c4c85a42c13b5c67c22afeee42e5091a19884af517941760b63f8"
+size = 1205852
+mtime_ms = 1793373305960
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/72f0f0dc-c6ca-48f2-b6e6-391b1d8e6bbd/571156e8-031a-48b4-bb08-ec7fabef4183"
+storage_version_token = "1793373706980307"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "Dp6f90YdZl0lODIdA_Aaj"
+uri = "file://attached_assets/generated_videos/plank-female.mp4"
+type = "video"
+title = "VYORA — Plank"
+description = "فيديو بنت واقعي، 4 ثوانٍ، 720p، رأسي."
+logical_id = "b55d2ca9-c85b-4e24-9983-4d8bd172a831"
+content_hash = "sha256:488cfd97b0e186aac9507f8cb965e60a1e8d6b8ec84895eeaedcbf0a4ecedb19"
+size = 1113697
+mtime_ms = 1793373305804
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/b55d2ca9-c85b-4e24-9983-4d8bd172a831/3f23bc35-2301-4235-8d02-f6575bfdf5d5"
+storage_version_token = "1793373707529546"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "oJkINiGQeBNrifPshsyec"
+uri = "file://attached_assets/generated_videos/lunges-female.mp4"
+type = "video"
+title = "VYORA — Lunge"
+description = "فيديو بنت واقعي، 4 ثوانٍ، 720p، رأسي."
+logical_id = "2567938a-e0dc-4f92-8e83-ac536b829a4e"
+content_hash = "sha256:258d2cda536d9caaace0451a88cef7b4a6fa615f5ee5378e99e11cf695c15fec"
+size = 892453
+mtime_ms = 1793373356128
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/2567938a-e0dc-4f92-8e83-ac536b829a4e/64247414-094f-4e2b-b1f1-4cbe0b841a15"
+storage_version_token = "1793373708062453"
+content_type = "video/mp4"

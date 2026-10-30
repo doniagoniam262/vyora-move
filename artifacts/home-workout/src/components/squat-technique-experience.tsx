@@ -162,6 +162,15 @@ export function ExerciseTechniqueExperience({
               ))}
             </div>
           </header>
+          <p className="mb-3 text-[11px] leading-5 text-slate-400" aria-live="polite" data-testid="exercise-gender-guidance">
+            {isArabic
+              ? gender === 'female'
+                ? 'العرض الحالي بنسخة الأنثى، ويمكنك التبديل سريعًا من الأعلى.'
+                : 'العرض الحالي بنسخة الذكر، ويمكنك التبديل سريعًا من الأعلى.'
+              : gender === 'female'
+                ? 'Female demonstration is selected. Switch quickly above.'
+                : 'Male demonstration is selected. Switch quickly above.'}
+          </p>
           {videoSource && !videoError ? (
             <video
               key={videoSource.src}
@@ -250,6 +259,13 @@ export function ExerciseTechniqueExperience({
         </div>
         <section className="card-dark p-4">
           <h2 className="text-sm font-extrabold">{isArabic ? 'طريقة الأداء الصحيحة' : 'Correct technique'}</h2>
+          <p className="mt-2 text-xs leading-5 text-muted-foreground" data-testid="exercise-gender-coaching-tone">
+            {isArabic
+              ? gender === 'female'
+                ? 'ابدئي بإيقاع مريح، وركّزي على الحركة المتحكَّم بها. توقفي إذا شعرتِ بألم حاد.'
+                : 'ابدأ بإيقاع مريح، وركّز على الحركة المتحكَّم بها. توقف إذا شعرت بألم حاد.'
+              : 'Start at a comfortable pace, focus on controlled movement, and stop if you feel sharp pain.'}
+          </p>
           <ol className="mt-3 space-y-3">
             {exercise.instructions.map((step, index) => (
               <li key={index} className="flex items-start gap-2.5 text-xs leading-6">

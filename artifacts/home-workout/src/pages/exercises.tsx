@@ -178,6 +178,9 @@ export function ExerciseDetailPage() {
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
   useEffect(() => {
+    setPreviewGender(profile?.gender ?? 'female');
+  }, [exerciseId, profile?.gender]);
+  useEffect(() => {
     if (exerciseId && rawEx) recordVideoWatch(exerciseId);
   }, [exerciseId, rawEx]);
   if (!ex)

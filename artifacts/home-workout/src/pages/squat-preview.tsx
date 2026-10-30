@@ -11,7 +11,10 @@ import type { UserGender } from '@/lib/profile';
 
 export function PublicSquatPreview() {
   const { locale } = useLocale();
-  const [gender, setGender] = useState<UserGender>('female');
+  const [gender, setGender] = useState<UserGender>(() => {
+    const requested = new URLSearchParams(window.location.search).get('gender');
+    return requested === 'male' ? 'male' : 'female';
+  });
   const rawExercise = exerciseById('squat');
 
   if (!rawExercise) {

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -17,6 +17,7 @@ import type { UserGender } from '@/lib/profile';
 import { muscleNames, type MuscleId } from '@/lib/movement-details';
 import { exerciseFormErrorGuidesFor } from '@/lib/exercise-form-errors';
 import { exerciseComparisonImages } from '@/lib/exercise-comparison-images';
+import { exerciseVideoSource } from '@/lib/exercise-video-sources';
 
 type Locale = 'ar' | 'en';
 
@@ -41,6 +42,7 @@ export function ExerciseTechniqueExperience({
   const accent = gender === 'female' ? '#FF2D8E' : '#6C9CFF';
   const errors = exerciseFormErrorGuidesFor(exercise.id);
   const comparison = exerciseComparisonImages(exercise.id, gender);
+  const videoSource = exerciseVideoSource(exercise.id, gender);
   const missingReferenceLabel = isArabic
     ? gender === 'female'
       ? 'صورة الأنثى لهذا التمرين لم تُرسل بعد'
@@ -48,6 +50,13 @@ export function ExerciseTechniqueExperience({
     : gender === 'female'
       ? 'Female reference not sent yet'
       : 'Male reference not sent yet';
+  const missingVideoLabel = isArabic
+    ? gender === 'female'
+      ? 'فيديو الأنثى لهذا التمرين غير متاح حالياً'
+      : 'فيديو الذكر لهذا التمرين غير متاح حالياً'
+    : gender === 'female'
+      ? 'Female video is not available yet'
+      : 'Male video is not available yet';
   const commonError = errors[0];
   const levelLabel = isArabic
     ? ({ beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[exercise.level] ?? exercise.level)
@@ -63,7 +72,7 @@ export function ExerciseTechniqueExperience({
 
   return (
     <div className="space-y-4" data-testid={`exercise-technique-experience-${exercise.id}`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <section className="card-dark overflow-hidden p-3 sm:p-4" data-testid={`exercise-static-comparison-${exercise.id}`}>
+      <section className="card-dark overflow-hidden p-3 sm:p-4" data-testid={`exercise-video-${exercise.id}`}>
         <header className="mb-3 flex items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-2">
             <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="VYORA" className="h-6 w-auto shrink-0" />
@@ -85,6 +94,44 @@ export function ExerciseTechniqueExperience({
             ))}
           </div>
         </header>
+        <h2 className="mb-2 text-sm font-extrabold">{isArabic ? 'فيديو التمرين' : 'Exercise video'}</h2>
+        {videoSource?.src ? (
+          <video
+            key={`${exercise.id}-${gender}-${videoSource.src}`}
+            controls
+            playsInline
+            preload="metadata"
+            className={`mx-auto w-full rounded-xl border border-white/10 bg-black object-contain ${
+              videoSource.orientation === 'portrait'
+                ? 'aspect-[9/16] max-h-[65svh] max-w-sm'
+                : 'aspect-video'
+            }`}
+            aria-label={isArabic ? `فيديو أداء تمرين ${exercise.name}` : `${exercise.latin} exercise demonstration`}
+          >
+            <source
+              src={videoSource.src}
+              type={videoSource.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'}
+            />
+            {videoSource.fallbackSrc && (
+              <source
+                src={videoSource.fallbackSrc}
+                type={videoSource.fallbackSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'}
+              />
+            )}
+          </video>
+        ) : (
+          <div className="flex aspect-video items-center justify-center rounded-xl border border-white/10 bg-black/40 px-4 text-center text-xs text-slate-400">
+            {missingVideoLabel}
+          </div>
+        )}
+      </section>
+
+      <section className="card-dark overflow-hidden p-3 sm:p-4" data-testid={`exercise-static-comparison-${exercise.id}`}>
+        <div className="mb-3 flex items-center gap-2">
+          <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="VYORA" className="h-5 w-auto shrink-0" />
+          <span className="text-xs font-extrabold tracking-wide text-white">MOVE</span>
+          <h2 className="ms-auto text-sm font-extrabold">{isArabic ? 'صور توضيح الحركة' : 'Form references'}</h2>
+        </div>
         <div className="grid grid-cols-2 gap-2.5 sm:gap-4" dir="rtl">
           <article className="min-w-0 overflow-hidden rounded-xl border border-emerald-400/30 bg-emerald-950/20 p-2 sm:p-3" data-testid={`exercise-correct-image-${exercise.id}`}>
             <h2 className="mb-2 flex items-center justify-center gap-1.5 text-center text-[11px] font-extrabold text-emerald-300 sm:text-sm">

@@ -143,6 +143,26 @@ export const exerciseFormErrors: Record<string, ExerciseErrorGuide[]> = {
       correction: { ar: 'ثبّت القدمين، شدّ الجذع، ثم ارفع بسلاسة مع دفع الأرض.', en: 'Set your feet, brace your trunk, and lift smoothly while pressing the floor away.' },
     },
   ],
+  'pull-up': [
+    guide('swing', 'torso', 'التأرجح بدل السحب', 'Swinging instead of pulling', 'استخدام اندفاع الساقين يقلل عمل الظهر والتحكم.', 'Leg momentum reduces back engagement and control.', 'ابدأ من جسم ثابت واسحب الصدر نحو البار.', 'Start from a still body and pull your chest toward the bar.'),
+    guide('shoulders-up', 'shoulder', 'ترك الكتفين قرب الأذنين', 'Shoulders rising toward the ears', 'بدء الحركة دون تثبيت لوحي الكتف يزيد توتر الرقبة.', 'Pulling without setting the shoulder blades can tense the neck.', 'اخفض لوحي الكتف أولًا ثم اثنِ المرفقين.', 'Draw the shoulder blades down before bending the elbows.'),
+    guide('fast-drop', 'jerk', 'السقوط بسرعة من الأعلى', 'Dropping too quickly', 'ترك الوزن فجأة يفقد التحكم في الكتفين والمرفقين.', 'Releasing suddenly removes shoulder and elbow control.', 'انزل ببطء حتى تمد الذراعين بأمان.', 'Lower slowly until your arms extend safely.'),
+  ],
+  'bench-press': [
+    guide('bar-bounce', 'range', 'ارتداد البار عن الصدر', 'Bouncing the bar off the chest', 'الوزن الزائد أو السرعة قد يمنعان التوقف المتحكم به.', 'Excess load or speed can prevent a controlled pause.', 'استخدم وزنًا أخف والمس الصدر برفق دون ارتداد.', 'Use a lighter load and touch gently without bouncing.'),
+    guide('wrists-back', 'hands', 'انثناء الرسغين للخلف', 'Wrists bending backward', 'وضع البار بعيدًا عن قاعدة الكف يضغط على الرسغ.', 'Holding the bar away from the heel of the palm strains the wrist.', 'ضع البار فوق قاعدة الكف وأبقِ الرسغ فوق المرفق.', 'Set the bar over the heel of your palm and stack wrist over elbow.'),
+    guide('feet-lift', 'feet', 'رفع القدمين أو فقدان الثبات', 'Feet lifting or losing stability', 'عدم ضبط المقعد أو القدمين يقلل ثبات الجسم.', 'Poor bench or foot setup reduces body stability.', 'ثبّت القدمين والكتفين قبل فك البار.', 'Plant your feet and shoulders before unracking.'),
+  ],
+  'bicep-curl': [
+    guide('body-swing', 'torso', 'تأرجح الجذع', 'Swinging the torso', 'الوزن الثقيل يدفع الجسم لاستخدام الاندفاع.', 'A heavy load encourages momentum.', 'خفف الوزن وثبّت الأضلاع فوق الحوض.', 'Reduce the load and keep your ribs stacked over your hips.'),
+    guide('elbows-forward', 'elbows', 'تحرك المرفقين للأمام', 'Elbows drifting forward', 'رفع الكتف يحول الحركة بعيدًا عن ثني المرفق.', 'Shoulder movement shifts work away from the elbow curl.', 'ثبّت المرفقين بجانب الجسم طوال التكرار.', 'Keep your elbows beside your torso for the whole rep.'),
+    guide('fast-lower', 'jerk', 'إسقاط الدامبلز سريعًا', 'Dropping the dumbbells quickly', 'التركيز على الرفع فقط يفقد التحكم في العودة.', 'Focusing only on lifting loses control on the return.', 'اخفض الدامبلز ببطء حتى تمد الذراعين.', 'Lower slowly until your arms extend.'),
+  ],
+  'shoulder-press': [
+    guide('back-arch', 'back', 'تقويس أسفل الظهر', 'Arching the lower back', 'الوزن الزائد أو ضعف شد الجذع يدفع الأضلاع للأمام.', 'Excess load or weak bracing pushes the ribs forward.', 'خفف الوزن وشد البطن مع إبقاء الأضلاع فوق الحوض.', 'Reduce the load, brace your abs, and stack ribs over hips.'),
+    guide('elbows-far', 'elbows', 'دفع المرفقين بعيدًا للخلف', 'Elbows drifting too far back', 'بداية غير مريحة قد تزيد ضغط مقدمة الكتف.', 'An awkward start can increase front-shoulder strain.', 'ابدأ بمرفقين تحت الرسغين وفي مستوى مريح.', 'Start with elbows under wrists at a comfortable angle.'),
+    guide('weights-hit', 'hands', 'اصطدام الدامبلز فوق الرأس', 'Dumbbells colliding overhead', 'الدفع بسرعة يقلل التحكم قرب نهاية المدى.', 'Pressing too fast reduces control near the top.', 'ادفع بسلاسة وتوقف قبل اصطدام الدامبلز.', 'Press smoothly and stop before the dumbbells collide.'),
+  ],
   march: [
     guide('lean-back', 'torso', 'الميل للخلف', 'Leaning backward', 'رفع الركبتين عاليًا أو تسريع الخطوات قد يسحب الجذع للخلف.', 'High knee lifts or rushing can pull the torso backward.', 'ارفع الركبة لمدى مريح وحافظ على الجذع فوق الحوض.', 'Use a comfortable knee height and keep your torso over your hips.'),
     guide('stomp', 'feet', 'الهبوط بقوة', 'Stomping the feet', 'الخطوات العنيفة تزيد الحمل على القدمين والمفاصل.', 'Hard steps increase impact on the feet and joints.', 'اخطُ بهدوء واجعل ملامسة القدم للأرض ناعمة.', 'Step quietly and land each foot softly.'),

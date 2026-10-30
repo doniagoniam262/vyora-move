@@ -52,6 +52,14 @@ export function ExerciseTechniqueExperience({
   const levelLabel = isArabic
     ? ({ beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[exercise.level] ?? exercise.level)
     : ({ beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' }[exercise.level] ?? exercise.level);
+  const equipmentByExercise: Record<string, { ar: string; en: string }> = {
+    'pull-up': { ar: 'بار عقلة', en: 'Pull-up bar' },
+    deadlift: { ar: 'بار أو دامبلز', en: 'Barbell or dumbbells' },
+    'bench-press': { ar: 'مقعد وبار', en: 'Bench and barbell' },
+    'bicep-curl': { ar: 'دامبلز', en: 'Dumbbells' },
+    'shoulder-press': { ar: 'دامبلز', en: 'Dumbbells' },
+  };
+  const equipment = equipmentByExercise[exercise.id] ?? { ar: 'وزن الجسم', en: 'Bodyweight' };
 
   return (
     <div className="space-y-4" data-testid={`exercise-technique-experience-${exercise.id}`} dir={isArabic ? 'rtl' : 'ltr'}>
@@ -262,7 +270,7 @@ export function ExerciseTechniqueExperience({
           <section className="card-dark p-4" data-testid={`exercise-workout-info-${exercise.id}`}>
             <h2 className="text-sm font-extrabold">{isArabic ? 'المعلومات الأساسية' : 'Exercise details'}</h2>
             <div className="mt-3 grid grid-cols-2 gap-2">
-              <InfoTile icon={<Dumbbell size={16} />} label={isArabic ? 'الأدوات' : 'Equipment'} value={exercise.id === 'deadlift' ? (isArabic ? 'دامبل أو بار خفيف' : 'Light dumbbells or barbell') : (isArabic ? 'وزن الجسم' : 'Bodyweight')} accent={accent} />
+              <InfoTile icon={<Dumbbell size={16} />} label={isArabic ? 'الأدوات' : 'Equipment'} value={equipment[locale]} accent={accent} />
               <InfoTile icon={<Gauge size={16} />} label={isArabic ? 'المستوى' : 'Level'} value={levelLabel} accent={accent} />
               <InfoTile icon={<Timer size={16} />} label={isArabic ? 'المجموعات' : 'Sets'} value={`${exercise.sets}`} accent={accent} />
               <InfoTile icon={<Play size={16} />} label={isArabic ? 'التكرارات' : 'Reps'} value={`${exercise.reps ?? 12}`} accent={accent} />

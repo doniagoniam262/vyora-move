@@ -28,18 +28,31 @@ const femaleVideos: Record<string, string> = {
   lunge: publicVideo('lunges-female.mp4'),
 };
 
-const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource => ({
-  src: gender === 'female' ? (femaleVideos[exerciseId] ?? '') : '',
-  image: gender === 'female' ? femaleImage : maleImage,
-  pageUrl: '',
-  creator: '',
-  license: '',
-  licenseUrl: '',
-  external: false,
-  orientation: 'portrait',
-  exerciseSpecific: gender === 'female' && Boolean(femaleVideos[exerciseId]),
-  genderMatched: true,
-});
+const maleVideos: Record<string, string> = {
+  'pull-up': publicVideo('pullups-male.mp4'),
+  deadlift: publicVideo('deadlift-male.mp4'),
+  'bench-press': publicVideo('bench-press-male.mp4'),
+  'bicep-curl': publicVideo('bicep-curls-male.mp4'),
+  'shoulder-press': publicVideo('shoulder-press-male.mp4'),
+};
+
+const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource => {
+  const src = gender === 'female'
+    ? (femaleVideos[exerciseId] ?? '')
+    : (maleVideos[exerciseId] ?? '');
+  return {
+    src,
+    image: gender === 'female' ? femaleImage : maleImage,
+    pageUrl: '',
+    creator: '',
+    license: '',
+    licenseUrl: '',
+    external: false,
+    orientation: 'portrait',
+    exerciseSpecific: Boolean(src),
+    genderMatched: true,
+  };
+};
 
 const supportedExerciseIds = [
   'jacks-low',
@@ -64,6 +77,11 @@ const supportedExerciseIds = [
   'chair-dip',
   'standing-side-stretch',
   'cat-cow',
+  'pull-up',
+  'deadlift',
+  'bench-press',
+  'bicep-curl',
+  'shoulder-press',
 ];
 
 export const exerciseVideoSources: Record<string, Record<UserGender, ExerciseVideoSource>> =

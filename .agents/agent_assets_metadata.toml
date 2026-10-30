@@ -112,3 +112,73 @@ mtime_ms = 1793373356128
 storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/2567938a-e0dc-4f92-8e83-ac536b829a4e/64247414-094f-4e2b-b1f1-4cbe0b841a15"
 storage_version_token = "1793373708062453"
 content_type = "video/mp4"
+
+[[outputs]]
+id = "nBxixHhvsOuX_VH42fT-5"
+uri = "file://attached_assets/generated_videos/pullups-male.mp4"
+type = "video"
+title = "VYORA — Pull-up Male"
+description = "فيديو تمرين واقعي مدته 4 ثوانٍ، رأسي 9:16، بدقة 720p، باستخدام شخصية الولد المرجعية الجديدة."
+logical_id = "a21024f0-0c96-4373-8501-704706810222"
+content_hash = "sha256:1cb9d2b7b98d622799a8b0301145209eefdb621dc0a29c84f7d8a034baca4530"
+size = 1441139
+mtime_ms = 1793374205400
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/a21024f0-0c96-4373-8501-704706810222/b972852d-54f8-4686-8477-4258f4d4536b"
+storage_version_token = "1793374425641958"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "kf9x3H0OpCcoqeCTDi39p"
+uri = "file://attached_assets/generated_videos/deadlift-male.mp4"
+type = "video"
+title = "VYORA — Deadlift Male"
+description = "فيديو تمرين واقعي مدته 4 ثوانٍ، رأسي 9:16، بدقة 720p، باستخدام شخصية الولد المرجعية الجديدة."
+logical_id = "58a78405-a0c1-40d9-ac44-61be57724ff9"
+content_hash = "sha256:c781ed7a3720e06441d1d1401fb1552a37db2ff37b75de3dc807abfef5fc7d76"
+size = 1242340
+mtime_ms = 1793374206116
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/58a78405-a0c1-40d9-ac44-61be57724ff9/d5c4b100-5042-4b16-8039-eb32b6cfd472"
+storage_version_token = "1793374426164875"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "IgKkcfLY0gCYJTY7VJU-i"
+uri = "file://attached_assets/generated_videos/bench-press-male.mp4"
+type = "video"
+title = "VYORA — Bench Press Male"
+description = "فيديو تمرين واقعي مدته 4 ثوانٍ، رأسي 9:16، بدقة 720p، باستخدام شخصية الولد المرجعية الجديدة."
+logical_id = "88e4e772-4857-4dab-a74f-c22cfaa206cb"
+content_hash = "sha256:ec88814cca4c88106b114163378ee5968eb578a05e146dc9dbbc02197c008327"
+size = 1253232
+mtime_ms = 1793374205372
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/88e4e772-4857-4dab-a74f-c22cfaa206cb/72109ca7-3b40-4b47-8eb8-085cc4926835"
+storage_version_token = "1793374426734274"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "05cy-ZWFHnZ5SKDsgPotq"
+uri = "file://attached_assets/generated_videos/bicep-curls-male.mp4"
+type = "video"
+title = "VYORA — Bicep Curls Male"
+description = "فيديو تمرين واقعي مدته 4 ثوانٍ، رأسي 9:16، بدقة 720p، باستخدام شخصية الولد المرجعية الجديدة."
+logical_id = "d6603be0-55b7-4425-bf20-637fe0b929a6"
+content_hash = "sha256:ab6096ca07e42a2e43582709be8be2733d12b1cbaecb49b60d1c516d53921b1a"
+size = 1004368
+mtime_ms = 1793374205436
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/d6603be0-55b7-4425-bf20-637fe0b929a6/0f6553e0-9d93-4f82-9b4e-9a9eac6e2c26"
+storage_version_token = "1793374427267600"
+content_type = "video/mp4"
+
+[[outputs]]
+id = "IydiHuf7xBTJwlaae6cAz"
+uri = "file://attached_assets/generated_videos/shoulder-press-male.mp4"
+type = "video"
+title = "VYORA — Shoulder Press Male"
+description = "فيديو تمرين واقعي مدته 4 ثوانٍ، رأسي 9:16، بدقة 720p، باستخدام شخصية الولد المرجعية الجديدة."
+logical_id = "b1ee7ab8-718a-45b7-815f-977f73aa672a"
+content_hash = "sha256:8e983813d14211d2530e560b7a793eaf6c92c703866bcb9c7cb6e72b4e34b218"
+size = 1157579
+mtime_ms = 1793374205492
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/b1ee7ab8-718a-45b7-815f-977f73aa672a/12554a14-ab94-4fc6-9257-30c700621447"
+storage_version_token = "1793374427803415"
+content_type = "video/mp4"

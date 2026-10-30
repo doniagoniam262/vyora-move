@@ -306,6 +306,46 @@ const exerciseText: Record<
     safety: 'Start with no weight or a light load. Do not lift heavy without coaching; stop if you feel sharp pain.',
     easier: 'Practice the hip hinge without holding any weight.',
   },
+  'pull-up': {
+    name: 'Pull-up',
+    instructions: [
+      'Take a slightly wider than shoulder-width overhand grip and begin from a steady hang.',
+      'Draw your shoulder blades down, then lift your chest until your chin approaches the bar.',
+      'Lower slowly to straight arms without losing control.',
+    ],
+    safety: 'Use a secure bar and avoid swinging or forcing a painful shoulder range.',
+    easier: 'Use a resistance band or assisted foot support.',
+  },
+  'bench-press': {
+    name: 'Bench Press',
+    instructions: [
+      'Lie on the bench, plant your feet and shoulders, and take a comfortable grip.',
+      'Lower the bar toward mid-chest with wrists stacked above elbows.',
+      'Press upward without bouncing or forcefully locking your elbows.',
+    ],
+    safety: 'Use a light load and a spotter; never train alone with a heavy bar.',
+    easier: 'Use light dumbbells or perform a floor press.',
+  },
+  'bicep-curl': {
+    name: 'Bicep Curl',
+    instructions: [
+      'Stand tall with dumbbells by your sides and palms facing forward.',
+      'Keep your elbows beside your torso and curl the weights toward your shoulders.',
+      'Lower slowly without swinging your body.',
+    ],
+    safety: 'Choose a load you can fully control and stop for elbow or wrist pain.',
+    easier: 'Use a lighter load or curl one arm at a time.',
+  },
+  'shoulder-press': {
+    name: 'Shoulder Press',
+    instructions: [
+      'Stand securely with dumbbells at shoulder level and wrists straight.',
+      'Brace your torso and press overhead without arching your lower back.',
+      'Lower the dumbbells slowly to shoulder level.',
+    ],
+    safety: 'Use a light load and comfortable range; stop for shoulder or neck pain.',
+    easier: 'Perform the movement seated with a lighter load or one arm at a time.',
+  },
   'pike-push-up': {
     name: 'Pike Push-up',
     instructions: [

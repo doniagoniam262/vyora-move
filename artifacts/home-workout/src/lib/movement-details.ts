@@ -316,6 +316,46 @@ export const movementInsights: Record<string, MovementInsight> = {
     ],
     breathing: cue('خذ شهيقًا قبل النزول، وازفر عند العودة للوقوف.', 'Inhale before hinging down and exhale as you return to standing.'),
   },
+  'pull-up': {
+    primary: ['upper-back', 'arms'],
+    secondary: ['shoulders', 'core'],
+    cues: [
+      cue('ابدأ بخفض لوحي الكتف قبل ثني المرفقين.', 'Draw your shoulder blades down before bending your elbows.'),
+      cue('ارفع الصدر نحو البار دون تأرجح الساقين.', 'Lift your chest toward the bar without swinging your legs.'),
+    ],
+    mistakes: [cue('تجنب الدفع بالقدمين أو إسقاط الجسم بسرعة.', 'Avoid kicking or dropping quickly from the bar.')],
+    breathing: cue('ازفر أثناء السحب وخذ شهيقًا أثناء النزول.', 'Exhale as you pull and inhale as you lower.'),
+  },
+  'bench-press': {
+    primary: ['chest', 'arms'],
+    secondary: ['shoulders', 'upper-back'],
+    cues: [
+      cue('ثبّت القدمين ولوحي الكتف على المقعد.', 'Keep your feet planted and shoulder blades set on the bench.'),
+      cue('اخفض البار بتحكم إلى منتصف الصدر.', 'Lower the bar under control toward mid-chest.'),
+    ],
+    mistakes: [cue('تجنب ارتداد البار أو رفع الكتفين عن المقعد.', 'Avoid bouncing the bar or lifting your shoulders from the bench.')],
+    breathing: cue('شهيق عند النزول وزفير عند الدفع.', 'Inhale as you lower and exhale as you press.'),
+  },
+  'bicep-curl': {
+    primary: ['arms'],
+    secondary: ['core'],
+    cues: [
+      cue('ثبّت المرفقين بجانب الجذع طوال الحركة.', 'Keep your elbows beside your torso throughout.'),
+      cue('اخفض الوزن بنفس التحكم المستخدم في الرفع.', 'Lower with the same control used to lift.'),
+    ],
+    mistakes: [cue('تجنب التأرجح أو دفع المرفقين للأمام.', 'Avoid swinging or driving your elbows forward.')],
+    breathing: cue('ازفر عند الثني وخذ شهيقًا عند الخفض.', 'Exhale as you curl and inhale as you lower.'),
+  },
+  'shoulder-press': {
+    primary: ['shoulders', 'arms'],
+    secondary: ['core', 'upper-back'],
+    cues: [
+      cue('شدّ الجذع وأبقِ الأضلاع فوق الحوض.', 'Brace your torso and keep your ribs stacked over your hips.'),
+      cue('ادفع الدامبلز للأعلى ضمن مدى كتف مريح.', 'Press overhead through a comfortable shoulder range.'),
+    ],
+    mistakes: [cue('تجنب تقويس أسفل الظهر أو اصطدام الدامبلز.', 'Avoid arching your lower back or banging the dumbbells together.')],
+    breathing: cue('ازفر عند الدفع وخذ شهيقًا عند الخفض.', 'Exhale as you press and inhale as you lower.'),
+  },
   'pike-push-up': {
     primary: ['shoulders'],
     secondary: ['arms', 'chest', 'core'],

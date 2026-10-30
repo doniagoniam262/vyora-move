@@ -130,7 +130,7 @@ test('profile persistence round-trips new fields without replacing another user 
 });
 
 test('every existing exercise has bilingual muscle education with three technique checkpoints', () => {
-  assert.equal(exercises.length, 22);
+  assert.equal(exercises.length, 27);
   assert.deepEqual(
     new Set(exercises.map((exercise) => exercise.id)),
     new Set([
@@ -156,6 +156,11 @@ test('every existing exercise has bilingual muscle education with three techniqu
       'chair-dip',
       'standing-side-stretch',
       'cat-cow',
+      'pull-up',
+      'deadlift',
+      'bench-press',
+      'bicep-curl',
+      'shoulder-press',
     ]),
   );
   for (const exercise of exercises) {

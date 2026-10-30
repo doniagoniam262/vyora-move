@@ -20,11 +20,20 @@ const maleImage = `${import.meta.env.BASE_URL}images/egyptian_boy_full.jpg`;
 const publicVideo = (fileName: string) =>
   `/api/storage/public-objects/vyora/videos/${fileName}`;
 
+const localVideo = (fileName: string) =>
+  `${import.meta.env.BASE_URL}videos/${fileName}`;
+
 const femaleVideos: Record<string, string> = {
-  squat: publicVideo('squat-female.mp4'),
+  squat: localVideo('female-squat-demo.mp4'),
   'push-up': publicVideo('pushups-female.mp4'),
   plank: publicVideo('plank-female.mp4'),
   lunge: publicVideo('lunges-female.mp4'),
+  'pull-up': localVideo('female-pull-up-demo.mp4'),
+  deadlift: localVideo('female-deadlift-demo.mp4'),
+  'cat-cow': localVideo('female-cat-cow-demo.mp4'),
+  'wall-sit': localVideo('female-wall-sit-demo.mp4'),
+  'leg-raise': localVideo('female-leg-raise-demo.mp4'),
+  'glute-bridge': localVideo('female-glute-bridge-demo.mp4'),
 };
 
 const maleVideos: Record<string, string> = {
@@ -48,7 +57,15 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
     license: '',
     licenseUrl: '',
     external: false,
-    orientation: 'portrait',
+    orientation: gender === 'female' && [
+      'squat',
+      'pull-up',
+      'deadlift',
+      'cat-cow',
+      'wall-sit',
+      'leg-raise',
+      'glute-bridge',
+    ].includes(exerciseId) ? 'landscape' : 'portrait',
     exerciseSpecific: Boolean(src),
     genderMatched: true,
   };

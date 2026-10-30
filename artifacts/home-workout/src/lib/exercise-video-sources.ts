@@ -29,10 +29,15 @@ const femaleVideos: Record<string, string> = {
   plank: publicVideo('plank-female.mp4'),
   lunge: publicVideo('lunges-female.mp4'),
   deadlift: localVideo('female-deadlift-demo.mp4'),
+  crunch: localVideo('female-crunch-demo.mp4'),
+  bicycle: localVideo('female-bicycle-crunch-demo.mp4'),
   'cat-cow': localVideo('female-cat-cow-demo.mp4'),
   'wall-sit': localVideo('female-wall-sit-demo.mp4'),
   'leg-raise': localVideo('female-leg-raise-demo.mp4'),
   'glute-bridge': localVideo('female-glute-bridge-demo.mp4'),
+  'bench-press': localVideo('female-bench-press-demo.mp4'),
+  'bicep-curl': localVideo('female-bicep-curl-demo.mp4'),
+  'shoulder-press': localVideo('female-shoulder-press-demo.mp4'),
 };
 
 const maleVideos: Record<string, string> = {
@@ -63,6 +68,11 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
       'wall-sit',
       'leg-raise',
       'glute-bridge',
+      'crunch',
+      'bicycle',
+      'bench-press',
+      'bicep-curl',
+      'shoulder-press',
     ].includes(exerciseId) ? 'landscape' : 'portrait',
     exerciseSpecific: Boolean(src),
     genderMatched: true,

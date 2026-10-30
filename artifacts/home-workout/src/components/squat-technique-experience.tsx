@@ -48,6 +48,7 @@ export function ExerciseTechniqueExperience({
   const mediaFrameClass = videoSource?.orientation === 'portrait'
     ? 'aspect-[9/16] max-h-[560px]'
     : 'aspect-video max-h-[560px]';
+  const staticImageFrameClass = 'aspect-[3/4] max-h-[560px]';
   const levelLabel = isArabic
     ? ({ beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[exercise.level] ?? exercise.level)
     : ({ beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' }[exercise.level] ?? exercise.level);
@@ -58,11 +59,11 @@ export function ExerciseTechniqueExperience({
         <article className="overflow-hidden rounded-[1.35rem] border border-emerald-400/20 bg-[#0b1420] p-3" dir={isArabic ? 'rtl' : 'ltr'}>
           <header className="mb-3 flex items-center justify-between gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-bold text-emerald-200">
-              <Check size={15} /> {videoSource?.exerciseSpecific
-                ? (isArabic ? 'فيديو الحركة' : 'Exercise demo')
-                : videoSource
-                  ? (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage')
-                  : (isArabic ? 'عرض الحركة' : 'Movement demo')}
+              <Check size={15} /> {videoSource?.src
+                ? (videoSource.exerciseSpecific
+                  ? (isArabic ? 'فيديو الحركة' : 'Exercise demo')
+                  : (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage'))
+                : (isArabic ? 'صورة ثابتة مؤقتة' : 'Temporary still image')}
             </span>
             <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#080d15] p-1" role="group" aria-label={isArabic ? 'اختيار نوع الشخصية' : 'Choose demonstration'}>
               {(['female', 'male'] as const).map((option) => (
@@ -85,22 +86,22 @@ export function ExerciseTechniqueExperience({
           </header>
           <p className="mb-3 text-[11px] leading-5 text-slate-400" aria-live="polite" data-testid="exercise-gender-guidance">
             {isArabic
-              ? videoSource?.genderMatched
+              ? videoSource?.src
                 ? gender === 'female'
-                  ? 'العرض الحالي بنسخة الأنثى، ويمكنك التبديل سريعًا من الأعلى.'
-                  : 'العرض الحالي بنسخة الذكر، ويمكنك التبديل سريعًا من الأعلى.'
-                : videoSource
-                  ? 'المقطع العام نفسه للجنسين مؤقتًا؛ اختيارك يخصص اللون والخريطة والتوجيه فقط.'
-                  : 'لم يُضف فيديو مطابق لهذه الحركة بعد.'
-              : videoSource?.genderMatched
+                  ? 'فيديو الأنثى محدد، ويمكنك التبديل سريعًا من الأعلى.'
+                  : 'فيديو الذكر محدد، ويمكنك التبديل سريعًا من الأعلى.'
+                : gender === 'female'
+                  ? 'تظهر صورة البنت الثابتة مؤقتًا. هذه الصورة لا تعرض حركة التمرين.'
+                  : 'تظهر صورة الولد الثابتة مؤقتًا. هذه الصورة لا تعرض حركة التمرين.'
+              : videoSource?.src
                 ? gender === 'female'
-                  ? 'Female demonstration is selected. Switch quickly above.'
-                  : 'Male demonstration is selected. Switch quickly above.'
-                : videoSource
-                  ? 'The same general clip is temporarily used for both genders; selection personalizes the anatomy and coaching tone.'
-                  : 'A matching video has not been added for this exercise yet.'}
+                  ? 'Female video selected. Switch quickly above.'
+                  : 'Male video selected. Switch quickly above.'
+                : gender === 'female'
+                  ? 'The female identity photo is shown temporarily; it does not demonstrate the movement.'
+                  : 'The male identity photo is shown temporarily; it does not demonstrate the movement.'}
           </p>
-          {videoSource && !videoError ? (
+          {videoSource?.src && !videoError ? (
             <video
               key={videoSource.src}
               controls
@@ -119,6 +120,23 @@ export function ExerciseTechniqueExperience({
               />
               {videoSource.fallbackSrc && <source src={videoSource.fallbackSrc} type="video/mp4" />}
             </video>
+          ) : videoSource?.image ? (
+            <div
+              className={`${staticImageFrameClass} relative mx-auto w-full overflow-hidden rounded-xl bg-black`}
+              data-testid={`exercise-still-image-${gender}`}
+            >
+              <img
+                src={videoSource.image}
+                alt={isArabic
+                  ? gender === 'female' ? 'الصورة الثابتة المؤقتة للبنت الرياضية' : 'الصورة الثابتة المؤقتة للولد الرياضي'
+                  : gender === 'female' ? 'Temporary still image of the female athlete' : 'Temporary still image of the male athlete'}
+                className="h-full w-full rounded-xl object-contain"
+                loading="lazy"
+              />
+              <span className="absolute bottom-3 start-3 rounded-full border border-white/15 bg-black/75 px-3 py-1.5 text-[10px] font-bold text-white">
+                {isArabic ? 'صورة ثابتة · ليست فيديو' : 'Still image · not a video'}
+              </span>
+            </div>
           ) : (
             <p
               className={`${mediaFrameClass} flex w-full items-center justify-center px-6 text-center text-xs leading-6 text-slate-400`}
@@ -129,7 +147,7 @@ export function ExerciseTechniqueExperience({
                 : (isArabic ? 'لم يُضف فيديو حقيقي مطابق لهذه الحركة بعد.' : 'A real video matching this exercise has not been added yet.')}
             </p>
           )}
-          {videoSource && !videoError && (
+          {videoSource?.src && !videoError && (
             <p className="mt-2 text-[10px] leading-5 text-slate-500">
               {videoSource.external ? (
                 <>
@@ -143,11 +161,11 @@ export function ExerciseTechniqueExperience({
               )}
             </p>
           )}
-          {videoSource && !videoSource.exerciseSpecific && (
+          {videoSource && !videoSource.src && (
             <p className="mt-2 rounded-lg border border-amber-300/15 bg-amber-300/[.05] px-3 py-2 text-[10px] leading-5 text-amber-100/75" data-testid="exercise-video-temporary-note">
               {isArabic
-                ? 'تنبيه: هذا مقطع عام مؤقت وليس شرحًا مصورًا خاصًا بهذه الحركة. اتبعي خطوات الأداء المكتوبة حتى يُضاف فيديو مطابق للتمرين.'
-                : 'Note: this is temporary general footage, not a filmed demonstration of this exact movement. Follow the written steps until exercise-specific footage is added.'}
+                ? 'لا يوجد فيديو للحركة حاليًا. الصورة تعرض الشخصية المختارة فقط؛ اتبعي خطوات الأداء المكتوبة حتى ترفعي فيديو التمرين.'
+                : 'There is no movement video yet. This photo only shows the selected character; follow the written steps until an exercise video is uploaded.'}
             </p>
           )}
           <p className="mt-3 flex items-start gap-2 text-[11px] leading-5 text-slate-400">

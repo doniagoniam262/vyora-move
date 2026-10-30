@@ -119,14 +119,16 @@ export function ExerciseTechniqueExperience({
                 ? videoSource.exerciseSpecific ? `فيديو توضيحي حقيقي لأداء ${exercise.name}` : 'فيديو رياضي عام مؤقت'
                 : videoSource.exerciseSpecific ? `Real ${exercise.latin} exercise demonstration` : 'Temporary general exercise footage'}
               data-testid={`exercise-real-video-${gender}`}
-              onError={() => setVideoError(true)}
+              onError={(event) => {
+                if (event.target === event.currentTarget) setVideoError(true);
+              }}
               className={`${mediaFrameClass} w-full rounded-xl bg-black object-contain`}
             >
               <source
                 src={videoSource.src}
                 type={videoSource.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'}
               />
-              {videoSource.fallbackSrc && <source src={videoSource.fallbackSrc} type="video/mp4" />}
+              {videoSource.fallbackSrc && <source src={videoSource.fallbackSrc} type={videoSource.fallbackSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
             </video>
           ) : videoSource?.image ? (
             <div

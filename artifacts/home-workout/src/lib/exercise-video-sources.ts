@@ -42,6 +42,7 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
     : (maleVideos[exerciseId] ?? '');
   return {
     src,
+    fallbackSrc: gender === 'male' && src ? src.replace(/\.mp4$/, '.webm') : undefined,
     image: gender === 'female' ? femaleImage : maleImage,
     pageUrl: '',
     creator: '',

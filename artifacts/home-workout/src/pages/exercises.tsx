@@ -26,6 +26,8 @@ import { recordVideoWatch } from '@/lib/store';
 import { useVYORAProfile } from '@/lib/profile-context';
 import type { UserGender } from '@/lib/profile';
 
+const maleVideoExerciseIds = ['pull-up', 'deadlift', 'bench-press', 'bicep-curl', 'shoulder-press'];
+
 export function ExercisesPage() {
   const { locale, t } = useLocale();
   const [q, setQ] = useState('');
@@ -51,6 +53,31 @@ export function ExercisesPage() {
   return (
     <div className="page-enter space-y-3">
       <h1 className="text-xl font-extrabold">{t('المكتبة')}</h1>
+      <section className="card-dark space-y-3 p-4" data-testid="male-exercise-videos">
+        <h2 className="text-sm font-extrabold">
+          {locale === 'ar' ? 'فيديوهات التمارين الرجالية' : 'Male exercise videos'}
+        </h2>
+        <p className="text-xs text-muted-foreground">
+          {locale === 'ar' ? '5 فيديوهات فعلية — افتح التمرين واضغط تشغيل.' : '5 movement videos — open an exercise and press Play.'}
+        </p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {maleVideoExerciseIds.map((id) => {
+            const exercise = exerciseById(id);
+            if (!exercise) return null;
+            return (
+              <Link
+                key={id}
+                href={`/exercises/${id}?gender=male`}
+                data-testid={`link-male-video-${id}`}
+                className="focus-ring flex items-center justify-between gap-2 rounded-xl border border-blue-400/20 bg-blue-400/5 p-3"
+              >
+                <span className="text-sm font-bold">{localizeExercise(exercise, locale).name}</span>
+                <span className="shrink-0 text-xs text-blue-300">▶ {locale === 'ar' ? 'فيديو · 4 ثوانٍ' : 'Video · 4 sec'}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
       <label className="card-dark flex items-center gap-3 px-3.5 py-2.5 focus-within:border-primary">
         <Search size={18} className="text-muted-foreground" />
         <input
@@ -167,7 +194,10 @@ export function ExerciseDetailPage() {
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
   useEffect(() => {
-    setPreviewGender(profile?.gender ?? 'female');
+    const requestedGender = new URLSearchParams(window.location.search).get('gender');
+    setPreviewGender(requestedGender === 'male' || requestedGender === 'female'
+      ? requestedGender
+      : profile?.gender ?? 'female');
   }, [exerciseId, profile?.gender]);
   useEffect(() => {
     if (exerciseId && rawEx) recordVideoWatch(exerciseId);

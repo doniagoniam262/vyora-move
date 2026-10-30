@@ -40,7 +40,14 @@ export function ExerciseTechniqueExperience({
   const isArabic = locale === 'ar';
   const accent = gender === 'female' ? '#FF2D8E' : '#6C9CFF';
   const errors = exerciseFormErrorGuidesFor(exercise.id);
-  const comparison = exerciseComparisonImages(exercise.id);
+  const comparison = exerciseComparisonImages(exercise.id, gender);
+  const missingReferenceLabel = isArabic
+    ? gender === 'female'
+      ? 'صورة الأنثى لهذا التمرين لم تُرسل بعد'
+      : 'صورة الذكر لهذا التمرين لم تُرسل بعد'
+    : gender === 'female'
+      ? 'Female reference not sent yet'
+      : 'Male reference not sent yet';
   const commonError = errors[0];
   const levelLabel = isArabic
     ? ({ beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[exercise.level] ?? exercise.level)
@@ -91,7 +98,9 @@ export function ExerciseTechniqueExperience({
                 loading="lazy"
               />
             ) : (
-              <div className="aspect-[16/10] w-full rounded-lg bg-white/5" role="img" aria-label={isArabic ? 'لا توجد صورة متاحة' : 'No image available'} />
+              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-lg bg-white/5 px-3 text-center text-xs text-slate-400" role="img" aria-label={missingReferenceLabel}>
+                {missingReferenceLabel}
+              </div>
             )}
             <p className="mt-2 text-center text-[10px] leading-4 text-slate-300 sm:text-xs">
               {exercise.instructions[0] ?? (isArabic ? 'اتبعي خطوات الحركة بالأسفل.' : 'Follow the steps below.')}
@@ -110,7 +119,9 @@ export function ExerciseTechniqueExperience({
                 loading="lazy"
               />
             ) : (
-              <div className="aspect-[16/10] w-full rounded-lg bg-white/5" role="img" aria-label={isArabic ? 'لا توجد صورة متاحة' : 'No image available'} />
+              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-lg bg-white/5 px-3 text-center text-xs text-slate-400" role="img" aria-label={missingReferenceLabel}>
+                {missingReferenceLabel}
+              </div>
             )}
             <p className="mt-2 text-center text-[10px] font-bold leading-4 text-slate-200 sm:text-xs">
               {commonError?.title[locale] ?? (isArabic ? 'حافظي على التحكم في الحركة' : 'Keep the movement controlled')}

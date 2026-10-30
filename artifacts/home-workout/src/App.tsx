@@ -39,6 +39,7 @@ import WeeklyPlanPage from '@/pages/weekly-plan';
 import NutritionPage from '@/pages/nutrition';
 import SubscriptionPage from '@/pages/subscription';
 import BodyShapesPage from '@/pages/body-shapes';
+import { PublicSquatPreview } from '@/pages/squat-preview';
 import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 import { Apple } from 'lucide-react';
 
@@ -203,6 +204,9 @@ function UserAppGate() {
   }
 
   if (!isSignedIn || !user?.id) {
+    if (location === '/exercises/squat') {
+      return <PublicSquatPreview />;
+    }
     return location === '/' ? <WelcomePage /> : <Redirect to="/" />;
   }
 

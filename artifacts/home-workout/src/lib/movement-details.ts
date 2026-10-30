@@ -304,6 +304,18 @@ export const movementInsights: Record<string, MovementInsight> = {
     ],
     breathing: cue('شهيق عند إرجاع الوركين، وزفير عند الوقوف.', 'Inhale as your hips move back and exhale as you stand.'),
   },
+  deadlift: {
+    primary: ['hamstrings', 'glutes'],
+    secondary: ['quads', 'upper-back', 'core'],
+    cues: [
+      cue('أبقِ الوزن قريبًا من الساقين وحافظ على ظهر محايد.', 'Keep the load close to your legs and maintain a neutral back.'),
+      cue('ابدأ الحركة بإرجاع الوركين، ثم ادفع الأرض للعودة للوقوف.', 'Start by hinging at the hips, then press the floor away to stand.'),
+    ],
+    mistakes: [
+      cue('يُتجنب تقريب الوزن من الأرض بتقويس الظهر أو سحب الوزن بعيدًا عن الجسم.', 'Avoid reaching the load by rounding your back or letting it drift away.'),
+    ],
+    breathing: cue('خذ شهيقًا قبل النزول، وازفر عند العودة للوقوف.', 'Inhale before hinging down and exhale as you return to standing.'),
+  },
   'pike-push-up': {
     primary: ['shoulders'],
     secondary: ['arms', 'chest', 'core'],

@@ -226,6 +226,16 @@ const exerciseText: Record<
     safety: 'Stop if you feel sharp pain in your back or hamstrings.',
     easier: 'Place your hands on your thighs and use a shorter range.',
   },
+  deadlift: {
+    name: 'Deadlift',
+    instructions: [
+      'Stand with feet hip-width apart and position a barbell or light dumbbells over the middle of your feet.',
+      'Brace your trunk and bend your hips and knees to reach the load while keeping your back neutral.',
+      'Drive through your feet and stand smoothly, keeping the load close to your body.',
+    ],
+    safety: 'Start with no weight or a light load. Do not lift heavy without coaching; stop if you feel sharp pain.',
+    easier: 'Practice the hip hinge without holding any weight.',
+  },
   'pike-push-up': {
     name: 'Pike Push-up',
     instructions: [

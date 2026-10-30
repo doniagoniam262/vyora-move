@@ -32,7 +32,7 @@ import { getMovementInsight } from '@/lib/movement-details';
 import { MuscleMap } from '@/components/muscle-map';
 import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
 import { AnatomyPair } from '@/components/anatomy-pair';
-import { SquatTechniqueExperience } from '@/components/squat-technique-experience';
+import { ExerciseTechniqueExperience } from '@/components/squat-technique-experience';
 import { recordVideoWatch } from '@/lib/store';
 import { useVYORAProfile } from '@/lib/profile-context';
 import type { UserGender } from '@/lib/profile';
@@ -198,7 +198,7 @@ export function ExerciseDetailPage() {
       </EmptyState>
     );
   return (
-    <div className={`page-enter mx-auto ${ex.id === 'squat' ? 'max-w-7xl' : 'max-w-3xl'} space-y-4`}>
+    <div className={`page-enter mx-auto ${['squat', 'push-up', 'plank', 'lunge', 'glute-bridge', 'deadlift'].includes(ex.id) ? 'max-w-7xl' : 'max-w-3xl'} space-y-4`}>
       <div className="flex items-start gap-3">
         <button
           onClick={() => (window.history.length > 1 ? window.history.back() : nav('/exercises'))}
@@ -223,8 +223,8 @@ export function ExerciseDetailPage() {
           </div>
         </div>
       </div>
-      {ex.id === 'squat' && insight ? (
-        <SquatTechniqueExperience
+      {['squat', 'push-up', 'plank', 'lunge', 'glute-bridge', 'deadlift'].includes(ex.id) && insight ? (
+        <ExerciseTechniqueExperience
           exercise={ex}
           locale={locale}
           gender={previewGender}

@@ -3,7 +3,6 @@ import {
   AlertTriangle,
   ArrowUpRight,
   Check,
-  CircleHelp,
   Dumbbell,
   Gauge,
   Lightbulb,
@@ -15,9 +14,7 @@ import {
 import { Link } from 'wouter';
 import type { Exercise } from '@/lib/data';
 import type { UserGender } from '@/lib/profile';
-import type { MuscleId } from '@/lib/movement-details';
-import { AnatomyPair } from '@/components/anatomy-pair';
-import { MuscleMap } from '@/components/muscle-map';
+import { muscleNames, type MuscleId } from '@/lib/movement-details';
 import { exerciseFormErrorGuidesFor } from '@/lib/exercise-form-errors';
 import { exerciseVideoSource } from '@/lib/exercise-video-sources';
 
@@ -63,7 +60,9 @@ export function ExerciseTechniqueExperience({
             <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-bold text-emerald-200">
               <Check size={15} /> {videoSource?.exerciseSpecific
                 ? (isArabic ? 'فيديو الحركة' : 'Exercise demo')
-                : (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage')}
+                : videoSource
+                  ? (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage')
+                  : (isArabic ? 'عرض الحركة' : 'Movement demo')}
             </span>
             <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#080d15] p-1" role="group" aria-label={isArabic ? 'اختيار نوع الشخصية' : 'Choose demonstration'}>
               {(['female', 'male'] as const).map((option) => (
@@ -90,12 +89,16 @@ export function ExerciseTechniqueExperience({
                 ? gender === 'female'
                   ? 'العرض الحالي بنسخة الأنثى، ويمكنك التبديل سريعًا من الأعلى.'
                   : 'العرض الحالي بنسخة الذكر، ويمكنك التبديل سريعًا من الأعلى.'
-                : 'المقطع العام نفسه للجنسين مؤقتًا؛ اختيارك يخصص اللون والخريطة والتوجيه فقط.'
+                : videoSource
+                  ? 'المقطع العام نفسه للجنسين مؤقتًا؛ اختيارك يخصص اللون والخريطة والتوجيه فقط.'
+                  : 'لم يُضف فيديو مطابق لهذه الحركة بعد.'
               : videoSource?.genderMatched
                 ? gender === 'female'
                   ? 'Female demonstration is selected. Switch quickly above.'
                   : 'Male demonstration is selected. Switch quickly above.'
-                : 'The same general clip is temporarily used for both genders; selection personalizes the anatomy and coaching tone.'}
+                : videoSource
+                  ? 'The same general clip is temporarily used for both genders; selection personalizes the anatomy and coaching tone.'
+                  : 'A matching video has not been added for this exercise yet.'}
           </p>
           {videoSource && !videoError ? (
             <video
@@ -117,19 +120,14 @@ export function ExerciseTechniqueExperience({
               {videoSource.fallbackSrc && <source src={videoSource.fallbackSrc} type="video/mp4" />}
             </video>
           ) : (
-            <div
-              className={`flex ${mediaFrameClass} w-full flex-col items-center justify-center rounded-xl border border-dashed border-white/15 bg-[radial-gradient(ellipse_at_center,#14233a_0%,#090d14_70%)] px-6 text-center`}
-              data-testid="exercise-video-unavailable"
+            <p
+              className={`${mediaFrameClass} flex w-full items-center justify-center px-6 text-center text-xs leading-6 text-slate-400`}
+              data-testid="exercise-video-source-note"
             >
-              <CircleHelp size={34} style={{ color: accent }} />
-              <h3 className="mt-4 text-base font-bold">{videoError ? (isArabic ? 'تعذّر تحميل الفيديو' : 'Video could not be loaded') : (isArabic ? 'الفيديو غير متوفر' : 'Video is unavailable')}</h3>
-              <p className="mt-2 max-w-xs text-xs leading-6 text-slate-400">
-                {videoError
-                  ? (isArabic ? 'تحققي من الاتصال ثم افتحي مصدر الفيديو الأصلي.' : 'Check your connection, then open the original video source.')
-                  : (isArabic ? 'لا يوجد مصدر فيديو مضبوط لهذه الحركة.' : 'No video source is configured for this movement.')}
-              </p>
-              {videoSource && <a href={videoSource.pageUrl} target="_blank" rel="noreferrer" className="mt-3 text-xs font-bold underline" style={{ color: accent }}>{isArabic ? 'فتح المصدر' : 'Open source'}</a>}
-            </div>
+              {videoError
+                ? (isArabic ? 'تعذّر تحميل هذا الفيديو. تحققي من الاتصال ثم حاولي مرة أخرى.' : 'This video could not load. Check your connection and try again.')
+                : (isArabic ? 'لم يُضف فيديو حقيقي مطابق لهذه الحركة بعد.' : 'A real video matching this exercise has not been added yet.')}
+            </p>
           )}
           {videoSource && !videoError && (
             <p className="mt-2 text-[10px] leading-5 text-slate-500">
@@ -196,12 +194,29 @@ export function ExerciseTechniqueExperience({
       </section>
 
       <section className="grid gap-3 lg:grid-cols-[.92fr_1.08fr_1fr]">
-        <div className="card-dark p-4">
+        <div className="card-dark p-4" data-testid={`exercise-target-muscles-${exercise.id}`}>
           <h2 className="text-sm font-extrabold">{isArabic ? 'العضلات المستهدفة' : 'Target muscles'}</h2>
-          <p className="mt-1 text-[11px] leading-5 text-muted-foreground">{isArabic ? 'اللون يبدّل حسب اختيار Female أو Male.' : 'Accent color follows the Female or Male selection.'}</p>
-          <div className="mt-2">
-            <AnatomyPair primary={primary} secondary={secondary} gender={gender} locale={locale} />
-          </div>
+          <p className="mt-2 text-[11px] leading-5 text-muted-foreground">{isArabic ? 'الأسماء فقط، بدون أي رسومات تشريحية.' : 'Muscle names only, with no anatomy figures.'}</p>
+          <p className="mt-4 text-[11px] font-bold" style={{ color: accent }}>{isArabic ? 'العضلات الأساسية' : 'Primary muscles'}</p>
+          <ul className="mt-2 space-y-2">
+            {primary.map((muscle) => (
+              <li key={muscle} className="rounded-lg border border-white/[.07] bg-white/[.025] px-3 py-2 text-xs">
+                <span className="font-semibold text-muted-foreground">{isArabic ? 'العضلة: ' : 'Muscle: '}</span>{muscleNames[muscle][locale]}
+              </li>
+            ))}
+          </ul>
+          {secondary.length > 0 && (
+            <>
+              <p className="mt-4 text-[11px] font-bold text-muted-foreground">{isArabic ? 'عضلات مساعدة' : 'Supporting muscles'}</p>
+              <ul className="mt-2 space-y-2">
+                {secondary.map((muscle) => (
+                  <li key={muscle} className="rounded-lg border border-white/[.07] bg-white/[.025] px-3 py-2 text-xs">
+                    <span className="font-semibold text-muted-foreground">{isArabic ? 'العضلة: ' : 'Muscle: '}</span>{muscleNames[muscle][locale]}
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
         <section className="card-dark p-4">
           <h2 className="text-sm font-extrabold">{isArabic ? 'طريقة الأداء الصحيحة' : 'Correct technique'}</h2>
@@ -225,7 +240,7 @@ export function ExerciseTechniqueExperience({
             <p className="mt-1 text-[11px] leading-5 text-muted-foreground">{isArabic ? 'ابدأ بوزن الجسم، وحافظ على الكعبين ثابتين، وتوقف عند الألم الحاد.' : 'Start with bodyweight, keep your heels grounded, and stop if you feel sharp pain.'}</p>
           </div>
         </section>
-        <div className="space-y-3">
+        <div>
           <section className="card-dark p-4" data-testid={`exercise-workout-info-${exercise.id}`}>
             <h2 className="text-sm font-extrabold">{isArabic ? 'المعلومات الأساسية' : 'Exercise details'}</h2>
             <div className="mt-3 grid grid-cols-2 gap-2">
@@ -235,7 +250,6 @@ export function ExerciseTechniqueExperience({
               <InfoTile icon={<Play size={16} />} label={isArabic ? 'التكرارات' : 'Reps'} value={`${exercise.reps ?? 12}`} accent={accent} />
             </div>
           </section>
-          <MuscleMap primary={primary} secondary={secondary} locale={locale} />
         </div>
       </section>
 

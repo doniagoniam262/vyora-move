@@ -10,7 +10,6 @@ import { movementInsights } from './movement-details';
 import { muscleEducation } from './muscle-education';
 import { athleteExerciseIds } from '../components/athlete-movement';
 import { BodyShapeGuide, femaleBodyShapes } from '../components/body-shape-guide';
-import { AnatomyPair } from '../components/anatomy-pair';
 import BodyShapesPage from '../pages/body-shapes';
 import { LocaleProvider } from './locale';
 import { VYORAProfileContext } from './profile-context';
@@ -127,20 +126,6 @@ test('profile persistence round-trips new fields without replacing another user 
   } finally {
     Reflect.deleteProperty(globalThis, 'window');
   }
-});
-
-test('exercise anatomy panel renders front and back maps with the selected muscle groups', () => {
-  Object.assign(globalThis, { React });
-  const html = renderToStaticMarkup(React.createElement(AnatomyPair, {
-    primary: ['quads', 'glutes'],
-    secondary: ['hamstrings', 'core'],
-    gender: 'female',
-    locale: 'ar',
-  }));
-  assert.ok(html.includes('exercise-anatomy-pair'));
-  assert.ok(html.includes('من الأمام'));
-  assert.ok(html.includes('من الخلف'));
-  assert.ok(html.includes('viewBox="0 0 200 260"'));
 });
 
 test('every existing exercise has bilingual muscle education with three technique checkpoints', () => {

@@ -3,7 +3,10 @@ const imageBase = `${import.meta.env.BASE_URL}images/exercise-comparisons/`;
 type Gender = 'female' | 'male';
 
 const comparisons: Record<string, Partial<Record<Gender, { correct: string; mistake: string }>>> = {
-  deadlift: { male: { correct: 'deadlift-male-correct.jpg', mistake: 'deadlift-male-error.jpg' } },
+  deadlift: {
+    male: { correct: 'deadlift-male-correct.jpg', mistake: 'deadlift-male-error.jpg' },
+    female: { correct: 'deadlift-female-correct.jpg', mistake: 'deadlift-female-error.jpg' },
+  },
   'bicep-curl': {
     male: { correct: 'bicep-curl-male-correct.jpg', mistake: 'bicep-curl-male-error.jpg' },
     female: { correct: 'bicep-curl-female-correct.jpg', mistake: 'bicep-curl-female-error.jpg' },
@@ -36,10 +39,22 @@ const comparisons: Record<string, Partial<Record<Gender, { correct: string; mist
     female: { correct: 'pull-up-female-correct.jpg', mistake: 'pull-up-female-error.jpg' },
     male: { correct: 'pull-up-male-correct.jpg', mistake: 'pull-up-male-error.jpg' },
   },
-  squat: { male: { correct: 'squat-male-correct.jpg', mistake: 'squat-male-error.jpg' } },
-  'push-up': { male: { correct: 'push-up-male-correct.jpg', mistake: 'push-up-male-error.jpg' } },
-  lunge: { male: { correct: 'lunge-male-correct.jpg', mistake: 'lunge-male-error.jpg' } },
-  plank: { male: { correct: 'plank-male-correct.jpg', mistake: 'plank-male-error.jpg' } },
+  squat: {
+    male: { correct: 'squat-male-correct.jpg', mistake: 'squat-male-error.jpg' },
+    female: { correct: 'squat-female-correct.jpg', mistake: 'squat-female-error.jpg' },
+  },
+  'push-up': {
+    male: { correct: 'push-up-male-correct.jpg', mistake: 'push-up-male-error.jpg' },
+    female: { correct: 'push-up-female-correct.jpg', mistake: 'push-up-female-error.jpg' },
+  },
+  lunge: {
+    male: { correct: 'lunge-male-correct.jpg', mistake: 'lunge-male-error.jpg' },
+    female: { correct: 'lunge-female-correct.jpg', mistake: 'lunge-female-error.jpg' },
+  },
+  plank: {
+    male: { correct: 'plank-male-correct.jpg', mistake: 'plank-male-error.jpg' },
+    female: { correct: 'plank-female-correct.jpg', mistake: 'plank-female-error.jpg' },
+  },
 };
 
 export function exerciseComparisonImages(exerciseId: string, gender: Gender) {

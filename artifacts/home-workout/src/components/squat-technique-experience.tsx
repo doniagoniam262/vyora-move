@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import {
   AlertTriangle,
   ArrowUpRight,
@@ -16,7 +16,7 @@ import type { Exercise } from '@/lib/data';
 import type { UserGender } from '@/lib/profile';
 import { muscleNames, type MuscleId } from '@/lib/movement-details';
 import { exerciseFormErrorGuidesFor } from '@/lib/exercise-form-errors';
-import { exerciseVideoSource } from '@/lib/exercise-video-sources';
+import { exerciseComparisonImages } from '@/lib/exercise-comparison-images';
 
 type Locale = 'ar' | 'en';
 
@@ -39,16 +39,9 @@ export function ExerciseTechniqueExperience({
 }) {
   const isArabic = locale === 'ar';
   const accent = gender === 'female' ? '#FF2D8E' : '#6C9CFF';
-  const [videoError, setVideoError] = useState(false);
-  const videoSource = exerciseVideoSource(exercise.id, gender);
   const errors = exerciseFormErrorGuidesFor(exercise.id);
-  useEffect(() => {
-    setVideoError(false);
-  }, [videoSource?.src]);
-  const mediaFrameClass = videoSource?.orientation === 'portrait'
-    ? 'aspect-[9/16] max-h-[560px]'
-    : 'aspect-video max-h-[560px]';
-  const staticImageFrameClass = 'aspect-[3/4] max-h-[560px]';
+  const comparison = exerciseComparisonImages(exercise.id);
+  const commonError = errors[0];
   const levelLabel = isArabic
     ? ({ beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[exercise.level] ?? exercise.level)
     : ({ beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' }[exercise.level] ?? exercise.level);
@@ -63,162 +56,76 @@ export function ExerciseTechniqueExperience({
 
   return (
     <div className="space-y-4" data-testid={`exercise-technique-experience-${exercise.id}`} dir={isArabic ? 'rtl' : 'ltr'}>
-      <section className="grid gap-4 lg:grid-cols-[.92fr_1.08fr]" dir="ltr">
-        <article className="overflow-hidden rounded-[1.35rem] border border-emerald-400/20 bg-[#0b1420] p-3" dir={isArabic ? 'rtl' : 'ltr'}>
-          <header className="mb-3 flex items-center justify-between gap-2">
-            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-bold text-emerald-200">
-              <Check size={15} /> {videoSource?.src
-                ? (videoSource.exerciseSpecific
-                  ? (isArabic ? 'فيديو الحركة' : 'Exercise demo')
-                  : (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage'))
-                : (isArabic ? 'صورة ثابتة مؤقتة' : 'Temporary still image')}
-            </span>
-            <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#080d15] p-1" role="group" aria-label={isArabic ? 'اختيار نوع الشخصية' : 'Choose demonstration'}>
-              {(['female', 'male'] as const).map((option) => (
-                <button
-                  type="button"
-                  key={option}
-                  aria-pressed={gender === option}
-                  data-testid={`button-exercise-gender-${option}`}
-                  onClick={() => {
-                    setVideoError(false);
-                    onGenderChange(option);
-                  }}
-                  className="rounded-full px-3 py-1.5 text-[11px] font-bold transition-colors"
-                  style={gender === option ? { background: accent, color: '#090909' } : { color: '#a5afbd' }}
-                >
-                  {option === 'female' ? (isArabic ? 'أنثى' : 'Female') : (isArabic ? 'ذكر' : 'Male')}
-                </button>
-              ))}
-            </div>
-          </header>
-          <p className="mb-3 text-[11px] leading-5 text-slate-400" aria-live="polite" data-testid="exercise-gender-guidance">
-            {isArabic
-              ? videoSource?.src
-                ? gender === 'female'
-                  ? 'فيديو الأنثى محدد، ويمكنك التبديل سريعًا من الأعلى.'
-                  : 'فيديو الذكر محدد، ويمكنك التبديل سريعًا من الأعلى.'
-                : gender === 'female'
-                  ? 'تظهر صورة البنت الثابتة مؤقتًا. هذه الصورة لا تعرض حركة التمرين.'
-                  : 'تظهر صورة الولد الثابتة مؤقتًا. هذه الصورة لا تعرض حركة التمرين.'
-              : videoSource?.src
-                ? gender === 'female'
-                  ? 'Female video selected. Switch quickly above.'
-                  : 'Male video selected. Switch quickly above.'
-                : gender === 'female'
-                  ? 'The female identity photo is shown temporarily; it does not demonstrate the movement.'
-                  : 'The male identity photo is shown temporarily; it does not demonstrate the movement.'}
-          </p>
-          {videoSource?.src && !videoError ? (
-            <video
-              key={videoSource.src}
-              controls
-              playsInline
-              preload="metadata"
-              aria-label={isArabic
-                ? videoSource.exerciseSpecific ? `فيديو توضيحي حقيقي لأداء ${exercise.name}` : 'فيديو رياضي عام مؤقت'
-                : videoSource.exerciseSpecific ? `Real ${exercise.latin} exercise demonstration` : 'Temporary general exercise footage'}
-              data-testid={`exercise-real-video-${gender}`}
-              onError={(event) => {
-                if (event.target === event.currentTarget) setVideoError(true);
-              }}
-              className={`${mediaFrameClass} w-full rounded-xl bg-black object-contain`}
-            >
-              <source
-                src={videoSource.src}
-                type={videoSource.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'}
-              />
-              {videoSource.fallbackSrc && <source src={videoSource.fallbackSrc} type={videoSource.fallbackSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />}
-            </video>
-          ) : videoSource?.image ? (
-            <div
-              className={`${staticImageFrameClass} relative mx-auto w-full overflow-hidden rounded-xl bg-black`}
-              data-testid={`exercise-still-image-${gender}`}
-            >
-              <img
-                src={videoSource.image}
-                alt={isArabic
-                  ? gender === 'female' ? 'الصورة الثابتة المؤقتة للبنت الرياضية' : 'الصورة الثابتة المؤقتة للولد الرياضي'
-                  : gender === 'female' ? 'Temporary still image of the female athlete' : 'Temporary still image of the male athlete'}
-                className="h-full w-full rounded-xl object-contain"
-                loading="lazy"
-              />
-              <span className="absolute bottom-3 start-3 rounded-full border border-white/15 bg-black/75 px-3 py-1.5 text-[10px] font-bold text-white">
-                {isArabic ? 'صورة ثابتة · ليست فيديو' : 'Still image · not a video'}
-              </span>
-            </div>
-          ) : (
-            <p
-              className={`${mediaFrameClass} flex w-full items-center justify-center px-6 text-center text-xs leading-6 text-slate-400`}
-              data-testid="exercise-video-source-note"
-            >
-              {videoError
-                ? (isArabic ? 'تعذّر تحميل هذا الفيديو. تحققي من الاتصال ثم حاولي مرة أخرى.' : 'This video could not load. Check your connection and try again.')
-                : (isArabic ? 'لم يُضف فيديو حقيقي مطابق لهذه الحركة بعد.' : 'A real video matching this exercise has not been added yet.')}
-            </p>
-          )}
-          {videoSource?.src && !videoError && (
-            <p className="mt-2 text-[10px] leading-5 text-slate-500">
-              {videoSource.external ? (
-                <>
-                  {isArabic ? 'المصدر: ' : 'Source: '}
-                  <a href={videoSource.pageUrl} target="_blank" rel="noreferrer" className="underline hover:text-slate-300">{videoSource.creator}</a>
-                  {' · '}
-                  <a href={videoSource.licenseUrl} target="_blank" rel="noreferrer" className="underline hover:text-slate-300">{videoSource.license}</a>
-                </>
-              ) : (
-                isArabic ? 'فيديو توضيحي محفوظ ضمن أصول ڤايورا.' : 'Demonstration video included with VYORA assets.'
-              )}
-            </p>
-          )}
-          {videoSource && !videoSource.src && (
-            <p className="mt-2 rounded-lg border border-amber-300/15 bg-amber-300/[.05] px-3 py-2 text-[10px] leading-5 text-amber-100/75" data-testid="exercise-video-temporary-note">
-              {isArabic
-                ? 'لا يوجد فيديو للحركة حاليًا. الصورة تعرض الشخصية المختارة فقط؛ اتبعي خطوات الأداء المكتوبة حتى ترفعي فيديو التمرين.'
-                : 'There is no movement video yet. This photo only shows the selected character; follow the written steps until an exercise video is uploaded.'}
-            </p>
-          )}
-          <p className="mt-3 flex items-start gap-2 text-[11px] leading-5 text-slate-400">
-            <ShieldCheck size={15} className="mt-0.5 shrink-0 text-emerald-300" />
-            {isArabic ? 'عرض تعليمي فقط؛ لا يحل محل تقييم مدرب ولا يضمن ملاءمة الحركة لكل حالة.' : 'For instruction only; it is not coaching assessment and may not suit every condition.'}
-          </p>
-        </article>
-
-        <article className="overflow-hidden rounded-[1.35rem] border border-rose-400/20 bg-[#17121a] p-3 sm:p-4" dir={isArabic ? 'rtl' : 'ltr'} data-testid={`exercise-common-mistakes-${exercise.id}`}>
-          <header className="mb-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-rose-300/30 bg-rose-400/10 px-3 py-1.5 text-xs font-bold text-rose-200">
-              <X size={15} /> {isArabic ? `أخطاء شائعة في ${exercise.name}` : `Common ${exercise.latin} mistakes`}
-            </span>
-            <p className="mt-2 text-[11px] leading-5 text-slate-400">
-              {isArabic ? `أخطاء خاصة بحركة ${exercise.name} مع السبب وطريقة التصحيح.` : `Movement-specific ${exercise.latin} mistakes with causes and corrections.`}
-            </p>
-          </header>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {errors.map((error) => (
-              <section key={error.id} className="overflow-hidden rounded-xl border border-white/[.08] bg-[#0c111a] p-2.5" data-testid={`exercise-error-${exercise.id}-${error.id}`}>
-                {error.image ? (
-                  <div className="relative">
-                    <img src={error.image} alt={error.title[locale]} className="h-40 w-full rounded-lg object-cover" loading="lazy" />
-                    <span className="absolute left-2 top-2 grid h-7 w-7 place-items-center rounded-full bg-rose-500 text-white shadow-lg" aria-label={isArabic ? 'خطأ شائع' : 'Common mistake'}>
-                      <X size={17} />
-                    </span>
-                  </div>
-                ) : (
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-rose-500/15 text-rose-300" aria-label={isArabic ? 'خطأ شائع' : 'Common mistake'}>
-                    <X size={17} />
-                  </span>
-                )}
-                <h3 className="mt-2 min-h-10 text-xs font-extrabold leading-5">{error.title[locale]}</h3>
-                <p className="mt-1 text-[11px] leading-5 text-slate-400">
-                  <b className="text-slate-200">{isArabic ? 'السبب: ' : 'Why: '}</b>{error.cause[locale]}
-                </p>
-                <p className="mt-2 border-t border-white/[.08] pt-2 text-[11px] leading-5 text-slate-300">
-                  <b style={{ color: accent }}>{isArabic ? 'التصحيح: ' : 'Correct it: '}</b>{error.correction[locale]}
-                </p>
-              </section>
+      <section className="card-dark overflow-hidden p-3 sm:p-4" data-testid={`exercise-static-comparison-${exercise.id}`}>
+        <header className="mb-3 flex items-center justify-between gap-3">
+          <div className="flex min-w-0 items-center gap-2">
+            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="VYORA" className="h-6 w-auto shrink-0" />
+            <span className="truncate text-xs font-extrabold tracking-wide text-white">MOVE</span>
+          </div>
+          <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#080d15] p-1" role="group" aria-label={isArabic ? 'اختيار نوع الشخصية' : 'Choose demonstration'}>
+            {(['female', 'male'] as const).map((option) => (
+              <button
+                type="button"
+                key={option}
+                aria-pressed={gender === option}
+                data-testid={`button-exercise-gender-${option}`}
+                onClick={() => onGenderChange(option)}
+                className="rounded-full px-3 py-1.5 text-[11px] font-bold transition-colors"
+                style={gender === option ? { background: accent, color: '#090909' } : { color: '#a5afbd' }}
+              >
+                {option === 'female' ? (isArabic ? 'أنثى' : 'Female') : (isArabic ? 'ذكر' : 'Male')}
+              </button>
             ))}
           </div>
-        </article>
+        </header>
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4" dir="rtl">
+          <article className="min-w-0 overflow-hidden rounded-xl border border-emerald-400/30 bg-emerald-950/20 p-2 sm:p-3" data-testid={`exercise-correct-image-${exercise.id}`}>
+            <h2 className="mb-2 flex items-center justify-center gap-1.5 text-center text-[11px] font-extrabold text-emerald-300 sm:text-sm">
+              <Check size={16} aria-hidden="true" /> {isArabic ? 'الأداء الصحيح' : 'Correct form'}
+            </h2>
+            {comparison ? (
+              <img
+                src={comparison.correct}
+                alt={isArabic ? `صورة توضيحية للأداء الصحيح لتمرين ${exercise.name}` : `Correct form for ${exercise.latin}`}
+                className="aspect-[16/10] w-full rounded-lg border border-emerald-300/20 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="aspect-[16/10] w-full rounded-lg bg-white/5" role="img" aria-label={isArabic ? 'لا توجد صورة متاحة' : 'No image available'} />
+            )}
+            <p className="mt-2 text-center text-[10px] leading-4 text-slate-300 sm:text-xs">
+              {exercise.instructions[0] ?? (isArabic ? 'اتبعي خطوات الحركة بالأسفل.' : 'Follow the steps below.')}
+            </p>
+          </article>
+
+          <article className="min-w-0 overflow-hidden rounded-xl border border-rose-400/30 bg-rose-950/20 p-2 sm:p-3" data-testid={`exercise-common-mistake-image-${exercise.id}`}>
+            <h2 className="mb-2 flex items-center justify-center gap-1.5 text-center text-[11px] font-extrabold text-rose-300 sm:text-sm">
+              <X size={16} aria-hidden="true" /> {isArabic ? 'خطأ شائع' : 'Common mistake'}
+            </h2>
+            {comparison ? (
+              <img
+                src={comparison.mistake}
+                alt={isArabic ? `صورة توضيحية لخطأ شائع في ${exercise.name}` : `Common form mistake for ${exercise.latin}`}
+                className="aspect-[16/10] w-full rounded-lg border border-rose-300/20 object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div className="aspect-[16/10] w-full rounded-lg bg-white/5" role="img" aria-label={isArabic ? 'لا توجد صورة متاحة' : 'No image available'} />
+            )}
+            <p className="mt-2 text-center text-[10px] font-bold leading-4 text-slate-200 sm:text-xs">
+              {commonError?.title[locale] ?? (isArabic ? 'حافظي على التحكم في الحركة' : 'Keep the movement controlled')}
+            </p>
+            {commonError && (
+              <p className="mt-1 text-center text-[10px] leading-4 text-slate-400">
+                {isArabic ? 'التصحيح: ' : 'Correction: '}{commonError.correction[locale]}
+              </p>
+            )}
+          </article>
+        </div>
+        <p className="mt-3 flex items-start gap-2 text-[10px] leading-5 text-slate-400">
+          <ShieldCheck size={14} className="mt-0.5 shrink-0 text-emerald-300" />
+          {isArabic ? 'صور ثابتة للتوضيح فقط؛ أوقفي الحركة إذا شعرتِ بألم.' : 'Still reference images only; stop if you feel pain.'}
+        </p>
       </section>
 
       <section className="grid gap-3 lg:grid-cols-[.92fr_1.08fr_1fr]">

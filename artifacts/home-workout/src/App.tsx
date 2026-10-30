@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import {
   ClerkProvider,
   SignIn,
@@ -44,6 +44,7 @@ import { Link, Redirect, Route, Switch, useLocation, Router as WouterRouter } fr
 import { Apple } from 'lucide-react';
 
 const queryClient = new QueryClient();
+const LiveAnalysis = lazy(() => import('@/pages/live-analysis'));
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 const clerkPubKey = publishableKeyFromHost(
   window.location.hostname,
@@ -131,6 +132,11 @@ function WorkoutRoutes({
           <Route path="/plans" component={PlansPage} />
           <Route path="/plans/:planId" component={PlanDetailPage} />
           <Route path="/progress" component={ProgressPage} />
+          <Route path="/live-analysis">
+            <Suspense fallback={<LoadingScreen />}>
+              <LiveAnalysis />
+            </Suspense>
+          </Route>
           <Route path="/movement-guide" component={MovementGuidePage} />
           {/* Keep old local bookmarks working; this route is the in-app guide, not a video embed. */}
           <Route path="/videos" component={MovementGuidePage} />

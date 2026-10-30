@@ -7,6 +7,7 @@ export type Exercise = {
   id: string;
   name: string;
   latin: string;
+  nameEn?: string;
   category: Category;
   level: Level;
   image: string; // path under public/
@@ -106,7 +107,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'squat',
-    name: 'سكوات',
+    name: 'القرفصاء',
     latin: 'Squat',
     category: 'lower',
     level: 'beginner',
@@ -124,7 +125,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'glute-bridge',
-    name: 'جسر الأرداف',
+    name: 'رفع الحوض',
     latin: 'Glute Bridge',
     category: 'lower',
     level: 'beginner',
@@ -142,7 +143,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'lunge',
-    name: 'اندفاع للأمام',
+    name: 'الطعن الأمامي',
     latin: 'Forward Lunge',
     category: 'lower',
     level: 'intermediate',
@@ -160,7 +161,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'deadlift',
-    name: 'رفعة ميتة',
+    name: 'الرفعة الأرضية',
     latin: 'Deadlift',
     category: 'lower',
     level: 'intermediate',
@@ -196,7 +197,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'bench-press',
-    name: 'ضغط الصدر بالبار',
+    name: 'ضغط الصدر',
     latin: 'Bench Press',
     category: 'upper',
     level: 'intermediate',
@@ -214,7 +215,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'bicep-curl',
-    name: 'ثني الذراعين بالدامبل',
+    name: 'ثني العضلة ذات الرأسين',
     latin: 'Bicep Curl',
     category: 'upper',
     level: 'beginner',
@@ -232,7 +233,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'shoulder-press',
-    name: 'ضغط الكتف بالدامبل',
+    name: 'ضغط الكتف',
     latin: 'Shoulder Press',
     category: 'upper',
     level: 'intermediate',
@@ -320,7 +321,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'plank',
-    name: 'بلانك',
+    name: 'بلانك ثبات البطن',
     latin: 'Plank',
     category: 'abs',
     level: 'beginner',
@@ -337,7 +338,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'crunch',
-    name: 'كرنش بطن',
+    name: 'كرنش البطن',
     latin: 'Crunch',
     category: 'abs',
     level: 'beginner',
@@ -355,7 +356,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'bicycle',
-    name: 'دراجة الهواء',
+    name: 'كرنش الدراجة',
     latin: 'Bicycle Crunch',
     category: 'abs',
     level: 'intermediate',
@@ -443,7 +444,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'wall-sit',
-    name: 'جلوس الحائط',
+    name: 'القرفصاء على الحائط',
     latin: 'Wall Sit',
     category: 'lower',
     level: 'beginner',
@@ -460,7 +461,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'calf-raise',
-    name: 'رفع الكعبين',
+    name: 'رفع السمانة',
     latin: 'Calf Raise',
     category: 'lower',
     level: 'beginner',
@@ -567,7 +568,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'push-up',
-    name: 'ضغط أرضي',
+    name: 'الضغط',
     latin: 'Push-up',
     category: 'upper',
     level: 'intermediate',
@@ -810,7 +811,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'cat-cow',
-    name: 'القطة والبقرة',
+    name: 'مرونة العمود الفقري',
     latin: 'Cat-Cow',
     category: 'stretch',
     level: 'beginner',
@@ -844,9 +845,25 @@ const retainedExerciseOrder = [
 ];
 const retainedExerciseIds = new Set(retainedExerciseOrder);
 
-export const exercises: Exercise[] = exerciseCatalog
+export let exercises: Exercise[] = exerciseCatalog
   .filter((exercise) => retainedExerciseIds.has(exercise.id))
   .sort((a, b) => retainedExerciseOrder.indexOf(a.id) - retainedExerciseOrder.indexOf(b.id));
+
+export function replaceExerciseCatalogFromDatabase(items: Exercise[]) {
+  const expectedIds = new Set(retainedExerciseOrder);
+  const actualIds = new Set(items.map((exercise) => exercise.id));
+  if (items.length !== expectedIds.size || actualIds.size !== items.length ||
+      retainedExerciseOrder.some((id) => !actualIds.has(id))) {
+    throw new Error('The database exercise catalog does not contain the complete active catalog.');
+  }
+
+  exercises = [...items].sort(
+    (a, b) => retainedExerciseOrder.indexOf(a.id) - retainedExerciseOrder.indexOf(b.id),
+  );
+  plans.forEach((plan) => {
+    plan.minutes = Math.max(1, Math.round(estimateSeconds(planExercises(plan)) / 60));
+  });
+}
 
 export const exerciseById = (id: string) => exercises.find((e) => e.id === id);
 

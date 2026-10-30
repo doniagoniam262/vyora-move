@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: Storage
     description: Public App Storage assets.
+  - name: Exercises
+    description: Exercise catalog.
 paths:
   /healthz:
     get:
@@ -47,6 +49,20 @@ paths:
                 format: binary
         "404":
           description: File not found
+  /exercises:
+    get:
+      operationId: getExercises
+      tags: [Exercises]
+      summary: Get the exercise catalog
+      responses:
+        "200":
+          description: The complete ordered exercise catalog
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ExerciseCatalogItem"
 components:
   schemas:
     HealthStatus:
@@ -56,4 +72,54 @@ components:
           type: string
       required:
         - status
+    ExerciseCatalogItem:
+      type: object
+      required:
+        - id
+        - name
+        - latin
+        - nameEn
+        - category
+        - level
+        - image
+        - duration
+        - reps
+        - sets
+        - instructions
+        - safety
+        - easier
+        - sortOrder
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        latin:
+          type: string
+        nameEn:
+          type: string
+        category:
+          type: string
+          enum: [full, upper, lower, abs, warmup, stretch]
+        level:
+          type: string
+          enum: [beginner, intermediate]
+        image:
+          type: string
+        duration:
+          type: integer
+        reps:
+          type: ["integer", "null"]
+        sets:
+          type: integer
+        instructions:
+          type: array
+          items:
+            type: string
+        safety:
+          type: string
+        easier:
+          type: string
+        sortOrder:
+          type: integer
 

@@ -542,9 +542,13 @@ const planText: Record<string, { name: string; description: string; frequency: s
 export function localizeExercise(ex: Exercise, locale: Locale): Exercise {
   if (locale === 'ar') return ex;
   const x = exerciseText[ex.id];
-  return x
-    ? { ...ex, name: x.name, instructions: x.instructions, safety: x.safety, easier: x.easier }
-    : ex;
+  return {
+    ...ex,
+    name: ex.nameEn ?? x?.name ?? ex.name,
+    ...(x
+      ? { instructions: x.instructions, safety: x.safety, easier: x.easier }
+      : {}),
+  };
 }
 export function localizePlan(plan: WorkoutPlan, locale: Locale): WorkoutPlan {
   if (locale === 'ar') return plan;

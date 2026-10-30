@@ -55,3 +55,9 @@ Bug fixes must preserve saved user data and all existing app sections.
 **Why:** The user explicitly repeated that repairing a crash must not lose any data or sections already added.
 
 **How to apply:** Do not clear browser storage or reset profiles to address rendering failures. Preserve backward compatibility and verify saved-profile round trips. For motion bugs, test timing boundaries as well as initial rendering: a valid first image does not prove later frame indices are safe.
+
+The exercise catalog, titles, instructions, and plan IDs are shared across female and male profiles; profile gender changes the selected visual assets, not the exercise list.
+
+**Why:** The user confirmed that the same set of 16 exercises and names applies to both groups while imagery is matched by gender.
+
+**How to apply:** Keep one database-backed catalog for both profiles. Do not fork exercise records by gender; choose gender-specific media at presentation time.

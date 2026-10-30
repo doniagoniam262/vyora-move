@@ -12,6 +12,7 @@ import { publishableKeyFromHost } from '@clerk/react/internal';
 import { arSA, enUS } from '@clerk/localizations';
 import { shadcn } from '@clerk/themes';
 import { QueryClient, QueryClientProvider, useQueryClient } from '@tanstack/react-query';
+import { useGetExercises } from '@workspace/api-client-react';
 import { toast } from 'sonner';
 import { LocaleProvider, useLocale } from '@/lib/locale';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -19,6 +20,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Logo } from '@/components/vyora';
 import { useVYORAProfile, VYORAProfileContext } from '@/lib/profile-context';
+import { replaceExerciseCatalogFromDatabase, type Exercise } from '@/lib/data';
 import {
   readVYORAProfile,
   saveVYORAProfile,
@@ -156,6 +158,60 @@ function WorkoutRoutes({
       </RoutedErrorBoundary>
     </SiteLayout>
   );
+}
+
+function ExerciseCatalogGate() {
+  const { data, isLoading, error, refetch } = useGetExercises();
+  const { locale } = useLocale();
+  const [catalogReady, setCatalogReady] = useState(false);
+  const [invalidCatalog, setInvalidCatalog] = useState(false);
+
+  useEffect(() => {
+    if (!data) return;
+    try {
+      const catalog: Exercise[] = data.map(({ sortOrder: _sortOrder, ...exercise }) => ({
+        ...exercise,
+        reps: exercise.reps ?? undefined,
+      }));
+      replaceExerciseCatalogFromDatabase(catalog);
+      setInvalidCatalog(false);
+      setCatalogReady(true);
+    } catch {
+      setCatalogReady(false);
+      setInvalidCatalog(true);
+    }
+  }, [data]);
+
+  if (isLoading || (data && !catalogReady && !invalidCatalog)) {
+    return <LoadingScreen />;
+  }
+
+  if (error || invalidCatalog || !data) {
+    const isArabic = locale === 'ar';
+    return (
+      <main className="grid min-h-[100dvh] place-items-center bg-background px-5 text-foreground">
+        <section className="card-dark max-w-md space-y-4 p-5 text-center">
+          <h1 className="text-lg font-extrabold">
+            {isArabic ? 'تعذّر تحميل مكتبة التمارين' : 'The exercise library could not load'}
+          </h1>
+          <p className="text-sm leading-6 text-muted-foreground">
+            {isArabic
+              ? 'تحققي من الاتصال بقاعدة البيانات ثم حاولي مرة أخرى.'
+              : 'Check the database connection, then try again.'}
+          </p>
+          <button
+            type="button"
+            onClick={() => void refetch()}
+            className="btn-lime focus-ring rounded-xl px-5 py-2.5 text-sm font-bold"
+          >
+            {isArabic ? 'إعادة المحاولة' : 'Try again'}
+          </button>
+        </section>
+      </main>
+    );
+  }
+
+  return <UserAppGate />;
 }
 
 function UserAppGate() {
@@ -453,7 +509,7 @@ function ClerkRouter() {
         <Switch>
           <Route path="/sign-in/*?" component={SignInPage} />
           <Route path="/sign-up/*?" component={SignUpPage} />
-          <Route component={UserAppGate} />
+          <Route component={ExerciseCatalogGate} />
         </Switch>
       </QueryClientProvider>
     </ClerkProvider>

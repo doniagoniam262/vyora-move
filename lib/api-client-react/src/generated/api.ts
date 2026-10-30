@@ -16,6 +16,7 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  ExerciseCatalogItem,
   HealthStatus
 } from './api.schemas';
 
@@ -189,6 +190,83 @@ export function useGetPublicObject<TData = Awaited<ReturnType<typeof getPublicOb
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetPublicObjectQueryOptions(filePath,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetExercisesUrl = () => {
+
+
+
+
+  return `/api/exercises`
+}
+
+/**
+ * @summary Get the exercise catalog
+ */
+export const getExercises = async ( options?: Parameters<typeof customFetch>[1]): Promise<ExerciseCatalogItem[]> => {
+
+  return customFetch<ExerciseCatalogItem[]>(getGetExercisesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetExercisesQueryKey = () => {
+    return [
+    `/api/exercises`
+    ] as const;
+    }
+
+
+export const getGetExercisesQueryOptions = <TData = Awaited<ReturnType<typeof getExercises>>, TError = ErrorType<unknown>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getExercises>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetExercisesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getExercises>>> = ({ signal }) => getExercises({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getExercises>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetExercisesQueryResult = NonNullable<Awaited<ReturnType<typeof getExercises>>>
+export type GetExercisesQueryError = ErrorType<unknown>
+
+
+/**
+ * @summary Get the exercise catalog
+ */
+
+export function useGetExercises<TData = Awaited<ReturnType<typeof getExercises>>, TError = ErrorType<unknown>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getExercises>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetExercisesQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

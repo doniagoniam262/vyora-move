@@ -6,4 +6,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from './exerciseCatalogItem';
+export * from './exerciseCatalogItemCategory';
+export * from './exerciseCatalogItemLevel';
 export * from './healthStatus';

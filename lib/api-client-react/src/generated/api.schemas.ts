@@ -9,3 +9,41 @@ export interface HealthStatus {
   status: string;
 }
 
+export type ExerciseCatalogItemCategory = typeof ExerciseCatalogItemCategory[keyof typeof ExerciseCatalogItemCategory];
+
+
+export const ExerciseCatalogItemCategory = {
+  full: 'full',
+  upper: 'upper',
+  lower: 'lower',
+  abs: 'abs',
+  warmup: 'warmup',
+  stretch: 'stretch',
+} as const;
+
+export type ExerciseCatalogItemLevel = typeof ExerciseCatalogItemLevel[keyof typeof ExerciseCatalogItemLevel];
+
+
+export const ExerciseCatalogItemLevel = {
+  beginner: 'beginner',
+  intermediate: 'intermediate',
+} as const;
+
+export interface ExerciseCatalogItem {
+  id: string;
+  name: string;
+  latin: string;
+  nameEn: string;
+  category: ExerciseCatalogItemCategory;
+  level: ExerciseCatalogItemLevel;
+  image: string;
+  duration: number;
+  /** @nullable */
+  reps: number | null;
+  sets: number;
+  instructions: string[];
+  safety: string;
+  easier: string;
+  sortOrder: number;
+}
+

@@ -27,3 +27,25 @@ export const GetPublicObjectParams = zod.object({
 export const GetPublicObjectResponse = zod.unknown()
 
 
+/**
+ * @summary Get the exercise catalog
+ */
+export const GetExercisesResponseItem = zod.object({
+  "id": zod.string(),
+  "name": zod.string(),
+  "latin": zod.string(),
+  "nameEn": zod.string(),
+  "category": zod.enum(['full', 'upper', 'lower', 'abs', 'warmup', 'stretch']),
+  "level": zod.enum(['beginner', 'intermediate']),
+  "image": zod.string(),
+  "duration": zod.number().int(),
+  "reps": zod.number().int().nullable(),
+  "sets": zod.number().int(),
+  "instructions": zod.array(zod.string()),
+  "safety": zod.string(),
+  "easier": zod.string(),
+  "sortOrder": zod.number().int()
+})
+export const GetExercisesResponse = zod.array(GetExercisesResponseItem)
+
+

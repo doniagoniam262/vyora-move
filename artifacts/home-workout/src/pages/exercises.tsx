@@ -1,18 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useParams } from 'wouter';
 import {
-  Activity,
   ArrowRight,
-  Layers,
   Search,
   ChevronLeft,
-  ShieldAlert,
-  Timer,
   SearchX,
-  Play,
-  Lightbulb,
-  Dumbbell,
-  Gauge,
 } from 'lucide-react';
 import {
   CATEGORIES,
@@ -29,9 +21,6 @@ import { ExerciseRow } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise } from '@/lib/localized-data';
 import { getMovementInsight } from '@/lib/movement-details';
-import { MuscleMap } from '@/components/muscle-map';
-import { ExerciseMotionPlayer } from '@/components/exercise-motion-player';
-import { AnatomyPair } from '@/components/anatomy-pair';
 import { ExerciseTechniqueExperience } from '@/components/squat-technique-experience';
 import { recordVideoWatch } from '@/lib/store';
 import { useVYORAProfile } from '@/lib/profile-context';
@@ -201,7 +190,7 @@ export function ExerciseDetailPage() {
       </EmptyState>
     );
   return (
-    <div className={`page-enter mx-auto ${['squat', 'push-up', 'plank', 'lunge', 'glute-bridge', 'deadlift'].includes(ex.id) ? 'max-w-7xl' : 'max-w-3xl'} space-y-4`}>
+    <div className="page-enter mx-auto max-w-7xl space-y-4">
       <div className="flex items-start gap-3">
         <button
           onClick={() => (window.history.length > 1 ? window.history.back() : nav('/exercises'))}
@@ -226,192 +215,14 @@ export function ExerciseDetailPage() {
           </div>
         </div>
       </div>
-      {['squat', 'push-up', 'plank', 'lunge', 'glute-bridge', 'deadlift'].includes(ex.id) && insight ? (
-        <ExerciseTechniqueExperience
-          exercise={ex}
-          locale={locale}
-          gender={previewGender}
-          onGenderChange={setPreviewGender}
-          primary={insight.primary}
-          secondary={insight.secondary}
-        />
-      ) : (
-      <>
-      <ExerciseMotionPlayer
+      <ExerciseTechniqueExperience
         exercise={ex}
         locale={locale}
         gender={previewGender}
         onGenderChange={setPreviewGender}
+        primary={insight?.primary ?? []}
+        secondary={insight?.secondary ?? []}
       />
-      {insight && (
-        <AnatomyPair
-          primary={insight.primary}
-          secondary={insight.secondary}
-          gender={previewGender}
-          locale={locale}
-        />
-      )}
-      {insight && (
-        <section
-          className="grid gap-3 md:grid-cols-[.9fr_1.1fr]"
-          data-testid="exercise-muscle-focus"
-        >
-          <MuscleMap primary={insight.primary} secondary={insight.secondary} locale={locale} />
-          <div className="card-dark space-y-4 p-4">
-            <div>
-              <h2 className="text-sm font-extrabold">
-                {locale === 'ar' ? 'العضلات المستهدفة' : 'Target muscles'}
-              </h2>
-              <p className="mt-2 text-xs leading-6 text-muted-foreground">
-                <b className="text-foreground">
-                  {locale === 'ar' ? 'أساسية: ' : 'Primary: '}
-                </b>
-                {insight.primaryNames.join(locale === 'ar' ? '، ' : ', ')}
-              </p>
-              <p className="mt-1 text-xs leading-6 text-muted-foreground">
-                <b className="text-foreground">
-                  {locale === 'ar' ? 'مساعدة: ' : 'Secondary: '}
-                </b>
-                {insight.secondaryNames.join(locale === 'ar' ? '، ' : ', ')}
-              </p>
-            </div>
-            <div className="border-t border-border pt-3">
-              <h3 className="text-xs font-bold">{locale === 'ar' ? 'مفاتيح الأداء' : 'Form cues'}</h3>
-              <ul className="mt-2 space-y-2">
-                {insight.cues.map((cue, index) => (
-                  <li key={index} className="text-xs leading-5 text-muted-foreground">
-                    {cue}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <p className="border-t border-border pt-3 text-xs leading-5 text-muted-foreground">
-              <b className="text-foreground">{locale === 'ar' ? 'التنفس: ' : 'Breathing: '}</b>
-              {insight.breathing}
-            </p>
-          </div>
-        </section>
-      )}
-      <div className="grid grid-cols-2 gap-2" data-testid="exercise-equipment-level">
-        <div className="card-dark flex min-h-20 items-center gap-3 p-3">
-          <Dumbbell className="shrink-0 text-primary" size={19} />
-          <div>
-            <span className="block text-[11px] text-muted-foreground">{locale === 'ar' ? 'الأدوات' : 'Equipment'}</span>
-            <b className="mt-1 block text-xs">{locale === 'ar' ? 'وزن الجسم · دامبل خفيف اختياري للحركات المناسبة' : 'Bodyweight · optional light dumbbell for suitable variations'}</b>
-          </div>
-        </div>
-        <div className="card-dark flex min-h-20 items-center gap-3 p-3">
-          <Gauge className="shrink-0 text-primary" size={19} />
-          <div>
-            <span className="block text-[11px] text-muted-foreground">{locale === 'ar' ? 'المستوى' : 'Level'}</span>
-            <b className="mt-1 block text-xs">{t(levelLabel(ex.level))}</b>
-          </div>
-        </div>
-      </div>
-      <section className="card-dark p-4">
-        <h2 className="text-sm font-extrabold">{t('خطوات الأداء الصحيح')}</h2>
-        <ol className="mt-3 space-y-3">
-          {ex.instructions.map((s, i) => (
-            <li key={i} data-testid={`text-step-${i + 1}`} className="flex gap-3 text-sm leading-7">
-              <span className="num mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/15 text-xs font-bold text-primary">
-                {i + 1}
-              </span>
-              {s}
-            </li>
-          ))}
-        </ol>
-      </section>
-      <div className="grid grid-cols-3 gap-2">
-        <div className="card-dark flex flex-col items-center gap-1 p-3 text-center">
-          <Layers className="text-primary" size={18} />
-          <span className="text-[11px] text-muted-foreground">{t('المجموعات')}</span>
-          <b data-testid="text-sets" className="num block text-sm">
-            {ex.sets} {locale === 'ar' ? 'مجموعات' : 'sets'}
-          </b>
-        </div>
-        <div className="card-dark flex flex-col items-center gap-1 p-3 text-center">
-          <Timer className="text-primary" size={18} />
-          <div>
-            <span className="text-[11px] text-muted-foreground">{t('المدة')}</span>
-            <b data-testid="text-duration" className="block text-sm">
-              {ex.duration} {t('ثانية')}
-            </b>
-          </div>
-        </div>
-        <div className="card-dark flex flex-col items-center gap-1 p-3 text-center">
-          <Layers className="text-primary" size={18} />
-          <div>
-            <span className="text-[11px] text-muted-foreground">{t('التكرارات')}</span>
-            <b data-testid="text-reps" className="num block text-sm">
-              {ex.reps ? `${ex.sets} x ${ex.reps}` : `${ex.sets} x ${ex.duration}s`}
-            </b>
-          </div>
-        </div>
-      </div>
-      {insight && (
-        <section className="card-dark space-y-3 p-4" data-testid="exercise-common-errors">
-          <h2 className="text-sm font-extrabold">
-            {locale === 'ar' ? 'أخطاء شائعة' : 'Common form errors'}
-          </h2>
-          <ul className="space-y-2">
-            {insight.mistakes.map((mistake, index) => (
-              <li key={index} className="flex gap-2 text-xs leading-5 text-muted-foreground">
-                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-                {mistake}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-      <div className="card-dark flex gap-3 border-primary/30 bg-primary/5 p-3 text-xs leading-6">
-        <ShieldAlert className="mt-1 shrink-0 text-primary" size={18} />
-        <div>
-          <b>{t('ملاحظة أمان')}</b>
-          <p data-testid="text-safety" className="text-muted-foreground">
-            {ex.safety}
-          </p>
-        </div>
-      </div>
-      <div className="card-dark flex gap-3 p-3 text-xs leading-6">
-        <Lightbulb className="mt-1 shrink-0 text-primary" size={18} />
-        <div>
-          <b>{t('نسخة أسهل')}</b>
-          <p data-testid="text-easier" className="text-muted-foreground">
-            {ex.easier}
-          </p>
-        </div>
-      </div>
-      <Link
-        href={`/movement-guide#movement-${ex.id}`}
-        data-testid="link-exercise-movement-guide"
-        className="card-dark focus-ring lift flex items-center gap-3 p-4"
-      >
-        <Activity className="shrink-0 text-primary" size={20} />
-        <span className="flex-1">
-          <b className="block text-sm">
-            {locale === 'ar' ? 'افتح دليل الحركة' : 'Open the movement guide'}
-          </b>
-          <span className="text-xs text-muted-foreground">
-            {locale === 'ar'
-              ? 'راجعي العضلات المستهدفة ومفاتيح الأداء'
-              : 'Review target muscles and movement cues'}
-          </span>
-        </span>
-        <ArrowRight
-          size={16}
-          className={locale === 'en' ? 'rotate-180 text-muted-foreground' : 'text-muted-foreground'}
-        />
-      </Link>
-      <Link
-        href={`/session/${ex.id}`}
-        data-testid="button-start-exercise"
-        className="btn-lime focus-ring press flex w-full items-center justify-center gap-2 rounded-xl py-3 text-base"
-      >
-        <Play size={18} fill="currentColor" />
-        {t('ابدأ التمرين')}
-      </Link>
-      </>
-      )}
     </div>
   );
 }

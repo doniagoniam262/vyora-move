@@ -9,6 +9,8 @@ export type ExerciseVideoSource = {
   licenseUrl: string;
   external: boolean;
   orientation: 'portrait' | 'landscape';
+  exerciseSpecific?: boolean;
+  genderMatched?: boolean;
 };
 
 const pexelsLicense = 'https://www.pexels.com/license/';
@@ -39,6 +41,8 @@ export const exerciseVideoSources: Record<string, Record<UserGender, ExerciseVid
       licenseUrl: '',
       external: false,
       orientation: 'portrait',
+      exerciseSpecific: true,
+      genderMatched: true,
     },
     male: {
       src: 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Squat_-_exercise_demonstration_video.webm',
@@ -48,29 +52,33 @@ export const exerciseVideoSources: Record<string, Record<UserGender, ExerciseVid
       licenseUrl: 'https://creativecommons.org/licenses/by/3.0/',
       external: true,
       orientation: 'landscape',
+      exerciseSpecific: true,
+      genderMatched: true,
     },
   },
-  'push-up': {
-    female: pexels('8472764', '8472764-uhd_2560_1440_25fps.mp4', 'Yaroslav Shuraev', 'woman-doing-push-ups'),
-    male: pexels('6388436', '6388436-uhd_2560_1440_25fps.mp4', 'Tima Miroshnichenko', 'man-doing-push-ups'),
-  },
-  plank: {
-    female: pexels('8836970', '8836970-uhd_2732_1440_25fps.mp4', 'MART PRODUCTION', 'a-woman-doing-a-plank'),
-    male: pexels('4325592', '4325592-uhd_2732_1440_25fps.mp4', 'cottonbro studio', 'man-doing-a-plank'),
-  },
-  lunge: {
-    female: pexels('4488004', '4488004-hd_1080_1920_25fps.mp4', 'olia danilevich', 'woman-doing-leg-lunges', 'portrait'),
-    male: pexels('35585591', '15079561_1080_1920_30fps.mp4', 'khezez | خزاز', 'man-performing-dumbbell-lunges-in-gym', 'portrait'),
-  },
-  'glute-bridge': {
-    female: pexels('6525487', '6525487-hd_1920_1080_25fps.mp4', 'Polina Tankilevitch', 'woman-doing-glute-bridge-exercise'),
-    male: pexels('8520042', '8520042-uhd_2732_1122_25fps.mp4', 'KoolShooters', 'a-man-doing-glute-bridges'),
-  },
-  deadlift: {
-    female: pexels('7674502', '7674502-uhd_2732_1440_25fps.mp4', 'cottonbro studio', 'a-woman-lifting-a-barbell'),
-    male: pexels('5837708', '5837708-uhd_2560_1440_24fps.mp4', 'RDNE Stock project', 'muscular-man-lifting-a-barbell'),
-  },
 };
+
+const sharedTemporaryExerciseVideo: ExerciseVideoSource = {
+  ...pexels('6740278', '6740278-hd_1080_1920_25fps.mp4', 'Mikhail Nilov', 'a-man-and-a-woman-exercising-on-the-floor', 'portrait'),
+  exerciseSpecific: false,
+  genderMatched: false,
+};
+
+// One verified temporary Pexels clip is shared across the non-squat movements.
+for (const exerciseId of [
+  'march', 'shoulder-circles', 'push-up', 'glute-bridge', 'lunge', 'deadlift',
+  'jacks-low', 'mountain-climber', 'incline-push', 'chair-dip', 'plank', 'crunch',
+  'bicycle', 'hamstring', 'childs-pose', 'wall-push-up', 'prone-w-raise', 'wall-sit',
+  'calf-raise', 'dead-bug', 'side-plank', 'fire-hydrant', 'hip-hinge',
+  'pike-push-up', 'knee-push-up', 'wide-push-up', 'close-grip-push-up',
+  'bicep-self-curl', 'superman-pull', 'reverse-snow-angel', 'prone-t-raise',
+  'scapular-push-up',
+]) {
+  exerciseVideoSources[exerciseId] = {
+    female: sharedTemporaryExerciseVideo,
+    male: sharedTemporaryExerciseVideo,
+  };
+}
 
 export const exerciseVideoSource = (exerciseId: string, gender: UserGender) =>
   exerciseVideoSources[exerciseId]?.[gender];

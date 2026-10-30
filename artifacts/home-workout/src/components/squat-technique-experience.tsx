@@ -141,7 +141,9 @@ export function ExerciseTechniqueExperience({
         <article className="overflow-hidden rounded-[1.35rem] border border-emerald-400/20 bg-[#0b1420] p-3" dir={isArabic ? 'rtl' : 'ltr'}>
           <header className="mb-3 flex items-center justify-between gap-2">
             <span className="inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-400/10 px-3 py-1.5 text-xs font-bold text-emerald-200">
-              <Check size={15} /> {isArabic ? 'الأداء الصحيح' : 'Correct form'}
+              <Check size={15} /> {videoSource?.exerciseSpecific
+                ? (isArabic ? 'فيديو الحركة' : 'Exercise demo')
+                : (isArabic ? 'فيديو توضيحي مؤقت' : 'Temporary exercise footage')}
             </span>
             <div className="flex items-center gap-1 rounded-full border border-white/10 bg-[#080d15] p-1" role="group" aria-label={isArabic ? 'اختيار نوع الشخصية' : 'Choose demonstration'}>
               {(['female', 'male'] as const).map((option) => (
@@ -164,12 +166,16 @@ export function ExerciseTechniqueExperience({
           </header>
           <p className="mb-3 text-[11px] leading-5 text-slate-400" aria-live="polite" data-testid="exercise-gender-guidance">
             {isArabic
-              ? gender === 'female'
-                ? 'العرض الحالي بنسخة الأنثى، ويمكنك التبديل سريعًا من الأعلى.'
-                : 'العرض الحالي بنسخة الذكر، ويمكنك التبديل سريعًا من الأعلى.'
-              : gender === 'female'
-                ? 'Female demonstration is selected. Switch quickly above.'
-                : 'Male demonstration is selected. Switch quickly above.'}
+              ? videoSource?.genderMatched
+                ? gender === 'female'
+                  ? 'العرض الحالي بنسخة الأنثى، ويمكنك التبديل سريعًا من الأعلى.'
+                  : 'العرض الحالي بنسخة الذكر، ويمكنك التبديل سريعًا من الأعلى.'
+                : 'المقطع العام نفسه للجنسين مؤقتًا؛ اختيارك يخصص اللون والخريطة والتوجيه فقط.'
+              : videoSource?.genderMatched
+                ? gender === 'female'
+                  ? 'Female demonstration is selected. Switch quickly above.'
+                  : 'Male demonstration is selected. Switch quickly above.'
+                : 'The same general clip is temporarily used for both genders; selection personalizes the anatomy and coaching tone.'}
           </p>
           {videoSource && !videoError ? (
             <video
@@ -177,7 +183,9 @@ export function ExerciseTechniqueExperience({
               controls
               playsInline
               preload="metadata"
-              aria-label={isArabic ? `فيديو توضيحي حقيقي لأداء ${exercise.name}` : `Real ${exercise.latin} exercise demonstration`}
+              aria-label={isArabic
+                ? videoSource.exerciseSpecific ? `فيديو توضيحي حقيقي لأداء ${exercise.name}` : 'فيديو رياضي عام مؤقت'
+                : videoSource.exerciseSpecific ? `Real ${exercise.latin} exercise demonstration` : 'Temporary general exercise footage'}
               data-testid={`exercise-real-video-${gender}`}
               onError={() => setVideoError(true)}
               className={`${mediaFrameClass} w-full rounded-xl bg-black object-contain`}
@@ -215,6 +223,13 @@ export function ExerciseTechniqueExperience({
               ) : (
                 isArabic ? 'فيديو توضيحي محفوظ ضمن أصول ڤايورا.' : 'Demonstration video included with VYORA assets.'
               )}
+            </p>
+          )}
+          {videoSource && !videoSource.exerciseSpecific && (
+            <p className="mt-2 rounded-lg border border-amber-300/15 bg-amber-300/[.05] px-3 py-2 text-[10px] leading-5 text-amber-100/75" data-testid="exercise-video-temporary-note">
+              {isArabic
+                ? 'تنبيه: هذا مقطع عام مؤقت وليس شرحًا مصورًا خاصًا بهذه الحركة. اتبعي خطوات الأداء المكتوبة حتى يُضاف فيديو مطابق للتمرين.'
+                : 'Note: this is temporary general footage, not a filmed demonstration of this exact movement. Follow the written steps until exercise-specific footage is added.'}
             </p>
           )}
           <p className="mt-3 flex items-start gap-2 text-[11px] leading-5 text-slate-400">

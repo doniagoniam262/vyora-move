@@ -130,31 +130,20 @@ test('profile persistence round-trips new fields without replacing another user 
 });
 
 test('every existing exercise has bilingual muscle education with three technique checkpoints', () => {
-  assert.equal(exercises.length, 27);
+  assert.equal(exercises.length, 16);
   assert.deepEqual(
     new Set(exercises.map((exercise) => exercise.id)),
     new Set([
-      'jacks-low',
-      'shoulder-circles',
-      'arm-circles',
-      'chest-expansion',
-      'torso-twists',
       'squat',
+      'push-up',
+      'plank',
+      'crunch',
+      'bicycle',
       'glute-bridge',
       'leg-raise',
       'lunge',
       'calf-raise',
-      'march',
-      'high-knees',
       'wall-sit',
-      'push-up',
-      'plank',
-      'superman-pull',
-      'crunch',
-      'bicycle',
-      'side-plank',
-      'chair-dip',
-      'standing-side-stretch',
       'cat-cow',
       'pull-up',
       'deadlift',
@@ -163,6 +152,20 @@ test('every existing exercise has bilingual muscle education with three techniqu
       'shoulder-press',
     ]),
   );
+  const removedIds = [
+    'superman-pull',
+    'side-plank',
+    'standing-side-stretch',
+    'jacks-low',
+    'march',
+    'high-knees',
+    'shoulder-circles',
+    'arm-circles',
+    'chest-expansion',
+    'torso-twists',
+    'chair-dip',
+  ];
+  for (const removedId of removedIds) assert.equal(exercises.some((exercise) => exercise.id === removedId), false);
   for (const exercise of exercises) {
     const insight = movementInsights[exercise.id];
     assert.ok(insight, exercise.id);

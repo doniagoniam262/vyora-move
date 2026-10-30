@@ -21,7 +21,6 @@ const publicVideo = (fileName: string) =>
   `/api/storage/public-objects/vyora/videos/${fileName}`;
 
 const femaleVideos: Record<string, string> = {
-  'jacks-low': publicVideo('jumping-jacks-female.mp4'),
   squat: publicVideo('squat-female.mp4'),
   'push-up': publicVideo('pushups-female.mp4'),
   plank: publicVideo('plank-female.mp4'),
@@ -56,27 +55,16 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
 };
 
 const supportedExerciseIds = [
-  'jacks-low',
-  'shoulder-circles',
-  'arm-circles',
-  'chest-expansion',
-  'torso-twists',
   'squat',
+  'push-up',
+  'plank',
+  'crunch',
+  'bicycle',
   'glute-bridge',
   'leg-raise',
   'lunge',
   'calf-raise',
-  'march',
-  'high-knees',
   'wall-sit',
-  'push-up',
-  'plank',
-  'superman-pull',
-  'crunch',
-  'bicycle',
-  'side-plank',
-  'chair-dip',
-  'standing-side-stretch',
   'cat-cow',
   'pull-up',
   'deadlift',

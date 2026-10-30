@@ -825,27 +825,16 @@ const exerciseCatalog: Exercise[] = [
 ];
 
 const retainedExerciseOrder = [
-  'jacks-low',
-  'shoulder-circles',
-  'arm-circles',
-  'chest-expansion',
-  'torso-twists',
   'squat',
+  'push-up',
+  'plank',
+  'crunch',
+  'bicycle',
   'glute-bridge',
   'leg-raise',
   'lunge',
   'calf-raise',
-  'march',
-  'high-knees',
   'wall-sit',
-  'push-up',
-  'plank',
-  'superman-pull',
-  'crunch',
-  'bicycle',
-  'side-plank',
-  'chair-dip',
-  'standing-side-stretch',
   'cat-cow',
   'pull-up',
   'deadlift',
@@ -857,10 +846,7 @@ const retainedExerciseIds = new Set(retainedExerciseOrder);
 
 export const exercises: Exercise[] = exerciseCatalog
   .filter((exercise) => retainedExerciseIds.has(exercise.id))
-  .sort((a, b) => retainedExerciseOrder.indexOf(a.id) - retainedExerciseOrder.indexOf(b.id))
-  .map((exercise) =>
-    exercise.id === 'march' ? { ...exercise, latin: 'Marching in Place' } : exercise,
-  );
+  .sort((a, b) => retainedExerciseOrder.indexOf(a.id) - retainedExerciseOrder.indexOf(b.id));
 
 export const exerciseById = (id: string) => exercises.find((e) => e.id === id);
 
@@ -1065,9 +1051,20 @@ export const plans: WorkoutPlan[] = [
 
 const legacyPlanExerciseReplacements: Record<string, string> = {
   'incline-push': 'push-up',
-  'mountain-climber': 'high-knees',
-  hamstring: 'standing-side-stretch',
+  'mountain-climber': 'plank',
+  hamstring: 'cat-cow',
   'childs-pose': 'cat-cow',
+  march: 'cat-cow',
+  'jacks-low': 'squat',
+  'shoulder-circles': 'cat-cow',
+  'arm-circles': 'cat-cow',
+  'chest-expansion': 'cat-cow',
+  'torso-twists': 'cat-cow',
+  'high-knees': 'squat',
+  'superman-pull': 'plank',
+  'side-plank': 'plank',
+  'chair-dip': 'push-up',
+  'standing-side-stretch': 'cat-cow',
 };
 const currentExerciseIds = new Set(exercises.map((exercise) => exercise.id));
 plans.forEach((plan) => {

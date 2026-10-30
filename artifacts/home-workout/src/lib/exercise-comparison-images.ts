@@ -19,9 +19,18 @@ const comparisons: Record<string, Partial<Record<Gender, { correct: string; mist
     male: { correct: 'bench-press-male-correct.jpg', mistake: 'bench-press-male-error.jpg' },
     female: { correct: 'bench-press-female-correct.jpg', mistake: 'bench-press-female-error.jpg' },
   },
-  'glute-bridge': { male: { correct: 'glute-bridge-male-correct.jpg', mistake: 'glute-bridge-male-error.jpg' } },
-  'wall-sit': { male: { correct: 'wall-sit-male-correct.jpg', mistake: 'wall-sit-male-error.jpg' } },
-  'leg-raise': { male: { correct: 'leg-raise-male-correct.jpg', mistake: 'leg-raise-male-error.jpg' } },
+  'glute-bridge': {
+    male: { correct: 'glute-bridge-male-correct.jpg', mistake: 'glute-bridge-male-error.jpg' },
+    female: { correct: 'glute-bridge-female-correct.jpg', mistake: 'glute-bridge-female-error.jpg' },
+  },
+  'wall-sit': {
+    male: { correct: 'wall-sit-male-correct.jpg', mistake: 'wall-sit-male-error.jpg' },
+    female: { correct: 'wall-sit-female-correct.jpg', mistake: 'wall-sit-female-error.jpg' },
+  },
+  'leg-raise': {
+    male: { correct: 'leg-raise-male-correct.jpg', mistake: 'leg-raise-male-error.jpg' },
+    female: { correct: 'leg-raise-female-correct.jpg', mistake: 'leg-raise-female-error.jpg' },
+  },
   'cat-cow': { male: { correct: 'cat-cow-male-correct.jpg', mistake: 'cat-cow-male-error.jpg' } },
   bicycle: {
     female: { correct: 'bicycle-female-correct.jpg', mistake: 'bicycle-female-error.jpg' },

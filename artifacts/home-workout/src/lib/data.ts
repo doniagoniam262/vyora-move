@@ -39,7 +39,10 @@ export type SavedSession = {
   durationSeconds: number;
   completedExerciseIds: string[];
   completedCount: number;
+  difficulty?: SessionDifficulty;
 };
+
+export type SessionDifficulty = 'easy' | 'just-right' | 'hard';
 
 export const CATEGORIES: { id: Category; label: string; blurb: string }[] = [
   { id: 'full', label: 'الجسم بالكامل', blurb: 'حركات مركبة لكل الجسم' },

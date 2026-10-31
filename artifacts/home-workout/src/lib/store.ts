@@ -1,5 +1,5 @@
 import { useMemo, useSyncExternalStore } from 'react';
-import type { Level, SavedSession } from './data';
+import type { Level, SavedSession, SessionDifficulty } from './data';
 
 export const KEYS = {
   sessions: 'vyora-sessions-v1',
@@ -53,6 +53,8 @@ function arr(s: string | null): unknown[] {
   }
 }
 const isRec = (v: unknown): v is Record<string, unknown> => !!v && typeof v === 'object';
+const isSessionDifficulty = (value: unknown): value is SessionDifficulty =>
+  value === 'easy' || value === 'just-right' || value === 'hard';
 
 export function parseSessions(current: string | null, legacy: string | null): SavedSession[] {
   const out = new Map<string, SavedSession>();
@@ -80,6 +82,7 @@ export function parseSessions(current: string | null, legacy: string | null): Sa
       durationSeconds,
       completedExerciseIds: ids,
       completedCount: Math.max(storedCount, durationSeconds > 0 || ids.length > 0 ? 1 : 0),
+      ...(isSessionDifficulty(e.difficulty) ? { difficulty: e.difficulty } : {}),
     });
   }
   for (const e of arr(legacy)) {
@@ -159,6 +162,15 @@ export function saveSession(s: SavedSession): boolean {
   const list = parseSessions(raw(KEYS.sessions), raw(KEYS.legacyHistory));
   if (list.some((x) => x.id === s.id)) return false;
   write(KEYS.sessions, JSON.stringify([s, ...list]));
+  return true;
+}
+export function updateSessionDifficulty(id: string, difficulty: SessionDifficulty): boolean {
+  const list = parseSessions(raw(KEYS.sessions), raw(KEYS.legacyHistory));
+  if (!list.some((session) => session.id === id)) return false;
+  const updated = list.map((session) =>
+    session.id === id ? { ...session, difficulty } : session,
+  );
+  write(KEYS.sessions, JSON.stringify(updated));
   return true;
 }
 export function newSessionId() {

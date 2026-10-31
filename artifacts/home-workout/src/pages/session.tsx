@@ -7,14 +7,22 @@ import {
   formatTime,
   planById,
   type Exercise,
+  type SessionDifficulty,
   type Step,
 } from '@/lib/data';
-import { newSessionId, saveSession, useSettings } from '@/lib/store';
+import {
+  newSessionId,
+  saveSession,
+  updateSessionDifficulty,
+  useSettings,
+  useWeeklySchedule,
+} from '@/lib/store';
 import { EmptyState, Modal, SmartImg } from '@/components/vyora';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
 import { useVYORAProfile } from '@/lib/profile-context';
 import { exercisesAvailableForGender, planExercisesAvailableForGender } from '@/lib/exercise-visibility';
+import { adjustLevelForFeedback } from '@/lib/session-difficulty';
 
 type S = {
   idx: number;
@@ -107,7 +115,8 @@ export function SessionPage() {
 
 function Runner({ planId, name, list }: { planId: string; name: string; list: Exercise[] }) {
   const { locale, t } = useLocale();
-  const [settings] = useSettings();
+  const [settings, updateSettings] = useSettings();
+  const [schedule, updateSchedule] = useWeeklySchedule();
   const [, nav] = useLocation();
   const steps = useMemo(() => buildSteps(list), [list]);
   const rest = settings.restSeconds;
@@ -122,8 +131,11 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
     done: false,
   } as S);
   const [leave, setLeave] = useState(false);
+  const [difficultyRating, setDifficultyRating] = useState<SessionDifficulty | null>(null);
   const runId = useRef(newSessionId());
   const saved = useRef(false);
+  const sessionLevel =
+    planById(planId)?.level ?? exerciseById(planId)?.level ?? settings.homeFitLevel;
 
   useEffect(() => {
     if (!s.running || s.done) return;
@@ -132,8 +144,7 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
   }, [s.running, s.done]);
 
   useEffect(() => {
-    if (!s.done || saved.current) return;
-    saved.current = true;
+    if (!s.done) return;
     if (s.elapsed > 0 || s.completed.length > 0) {
       const inProgressId = steps[Math.min(s.idx, steps.length - 1)]?.ex.id;
       const completedExerciseIds =
@@ -142,7 +153,7 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
           : s.elapsed > 0 && inProgressId
             ? [inProgressId]
             : [];
-      saveSession({
+      const sessionRecord = {
         id: runId.current,
         planId,
         planName: name,
@@ -150,15 +161,43 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
         durationSeconds: Math.max(1, s.elapsed),
         completedExerciseIds,
         completedCount: Math.max(s.completed.length, completedExerciseIds.length),
-      });
+        ...(difficultyRating ? { difficulty: difficultyRating } : {}),
+      };
+      if (!saved.current) {
+        saved.current = true;
+        saveSession(sessionRecord);
+      } else if (difficultyRating) {
+        updateSessionDifficulty(runId.current, difficultyRating);
+      }
     }
-  }, [s.done, s.elapsed, s.completed, s.idx, steps, planId, name]);
+  }, [s.done, s.elapsed, s.completed, s.idx, steps, planId, name, difficultyRating]);
 
   const step = steps[Math.min(s.idx, steps.length - 1)];
   const nextStep = steps[s.idx + 1];
 
   if (s.done) {
     const wrote = s.elapsed > 0 || s.completed.length > 0;
+    const adjustedSessionLevel = difficultyRating
+      ? adjustLevelForFeedback(sessionLevel, difficultyRating)
+      : sessionLevel;
+    const difficultyMessage = !difficultyRating
+      ? 'تقييمك يساعدنا على ضبط مستوى اقتراحك القادم.'
+      : difficultyRating === 'just-right'
+        ? 'هنحافظ على نفس المستوى في التمرين القادم.'
+        : adjustedSessionLevel === sessionLevel
+          ? difficultyRating === 'easy'
+            ? 'هنحافظ على المستوى الحالي لأنه أعلى مستوى متاح.'
+            : 'هنحافظ على المستوى الحالي لأنه أقل مستوى متاح.'
+          : difficultyRating === 'easy'
+            ? 'هنقترح مستوى أصعب في التمرين القادم.'
+            : 'هنقترح مستوى أسهل في التمرين القادم.';
+    const rateSession = (difficulty: SessionDifficulty) => {
+      setDifficultyRating(difficulty);
+      updateSessionDifficulty(runId.current, difficulty);
+      const nextLevel = adjustLevelForFeedback(sessionLevel, difficulty);
+      updateSettings({ homeFitLevel: nextLevel });
+      updateSchedule({ ...schedule, level: nextLevel });
+    };
     return (
       <div className="page-enter mx-auto max-w-md py-10 text-center" data-testid="session-complete">
         <span className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-primary text-primary-foreground">
@@ -184,6 +223,45 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
             <span className="text-xs text-muted-foreground">{t('تمارين مكتملة')}</span>
           </div>
         </div>
+        {wrote && (
+          <section
+            className="card-dark mt-6 space-y-3 p-4 text-start"
+            data-testid="session-difficulty-rating"
+          >
+            <div>
+              <h2 className="text-sm font-extrabold">{t('كيف كانت صعوبة الجلسة؟')}</h2>
+              <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                {t(difficultyMessage)}
+              </p>
+            </div>
+            <div
+              className="grid grid-cols-3 gap-2"
+              role="group"
+              aria-label={t('كيف كانت صعوبة الجلسة؟')}
+            >
+              {([
+                ['easy', 'سهل'],
+                ['just-right', 'مناسب'],
+                ['hard', 'صعب'],
+              ] as const).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  data-testid={`button-session-difficulty-${value}`}
+                  aria-pressed={difficultyRating === value}
+                  onClick={() => rateSession(value)}
+                  className={`focus-ring press rounded-xl border px-2 py-3 text-sm font-bold transition-colors ${
+                    difficultyRating === value
+                      ? 'border-primary bg-primary/15 text-primary'
+                      : 'border-border bg-background/60 text-muted-foreground hover:border-primary/40'
+                  }`}
+                >
+                  {t(label)}
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
         <div className="mt-8 flex flex-col gap-3">
           <Link
             href="/progress"

@@ -161,6 +161,14 @@ export default function ProgressPage() {
                     {fmtDate(s.completedAt, locale)} · {s.completedCount}{' '}
                     {locale === 'ar' ? 'تمارين' : 'exercises'}
                   </span>
+                  {s.difficulty && (
+                    <span
+                      className="mt-1 block text-[10px] font-bold text-primary"
+                      data-testid={`badge-session-difficulty-${s.id}`}
+                    >
+                      {t(s.difficulty === 'easy' ? 'سهل' : s.difficulty === 'hard' ? 'صعب' : 'مناسب')}
+                    </span>
+                  )}
                 </span>
                 <span className="num text-sm font-bold">{formatTime(s.durationSeconds)}</span>
               </li>

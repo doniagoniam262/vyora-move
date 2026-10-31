@@ -210,3 +210,17 @@ mtime_ms = 1793456982043
 storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/740b0b4e-ce2a-4460-b2ae-25d0466e1a7a/2c840a38-e8e8-46d0-b51e-5de43ed787ba"
 storage_version_token = "1793456982973330"
 content_type = "application/pdf"
+
+[[outputs]]
+id = "pC1hnAY9jOUkvH2AEhkgo"
+uri = "file://.local/outputs/VYORA-MOVE-Updated.pdf"
+type = "pdf"
+title = "VYORA MOVE — PDF المحدّث"
+description = "12 شريحة، تشمل النص المعدّل في صفحة THANK YOU."
+logical_id = "0f24e2ba-20b4-4c4f-ae7d-411c788edb0a"
+content_hash = "sha256:2e4a91475783775f5ce3223aeb2026dcd5f549e22405788418b260e70520ce86"
+size = 1727841
+mtime_ms = 1793459668888
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/0f24e2ba-20b4-4c4f-ae7d-411c788edb0a/40f905bc-e709-43ae-8e9e-e84ac69923f7"
+storage_version_token = "1793459669347295"
+content_type = "application/pdf"

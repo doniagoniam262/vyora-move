@@ -9,6 +9,12 @@ Inspect every video-generation job separately and only connect files that actual
 
 **How to apply:** Prefer logo-free references with the complete body visible. Reuse successful outputs, retry only failed jobs with a genuinely different approach, cap retries, visually review representative frames, and verify MP4 dimensions, duration, endpoint, and content type before publishing.
 
+Portrait exercise clips need portrait references with the full body in frame. A landscape still can produce a portrait MP4 whose active picture is a small horizontal inset or crops the athlete during movement; metadata alone will not catch this.
+
+**Why:** Two 9:16 outputs based on landscape exercise cards had cropped or letterboxed movement despite valid portrait dimensions.
+
+**How to apply:** Use a clean portrait reference for portrait clips, inspect frames from the beginning, middle, and end, and do not wire the video until the exercise and full-body framing are clear.
+
 Provide a browser-compatible fallback when generated H.264 MP4 clips fail decoding, and do not let a failed child source unmount the video before the browser tries other sources.
 
 **Why:** HTTP 200 and valid ffprobe metadata did not establish playback: the testing browser rejected generated H.264 streams, while locally transcoded VP9 WebM copies played successfully. React's bubbling source errors also prematurely displayed the still-image fallback.

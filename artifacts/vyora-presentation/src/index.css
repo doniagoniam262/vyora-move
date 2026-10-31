@@ -33,10 +33,10 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .refined-arabic-copy {font-size:1.9vw;line-height:1.6;}
 .journey-step-title.refined-arabic {font-size:1.35vw;line-height:1.6;}
 .journey-step-copy.refined-arabic {font-size:1vw;line-height:1.6;}
-.journey-cards {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;}
-.journey-card {box-sizing:border-box;width:100%;height:220px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
-.journey-card .journey-step-title {font-size:18px;font-weight:600;line-height:1.5;}
-.journey-card .journey-step-copy {font-size:13px;font-weight:400;line-height:1.5;}
+.journey-cards {display:grid;grid-template-columns:repeat(4,23%);gap:16px;margin:28vh 6vw 0;}
+.journey-card {position:relative;box-sizing:border-box;width:100%;height:250px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
+.journey-card .journey-step-title {width:100%;margin:0;font-size:28px;font-weight:600;line-height:1.5;white-space:nowrap;overflow:hidden;}
+.journey-card .journey-step-copy {width:100%;margin:0;font-size:12px;font-weight:400;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .vyora-slide-active > section .journey-card {animation:none !important;transform:none !important;translate:none !important;scale:1 !important;}
 .refined-arabic-detail {font-size:1.35vw;line-height:1.6;}
 .thank-you-arabic {font-size:2.7vw;line-height:1.6;}

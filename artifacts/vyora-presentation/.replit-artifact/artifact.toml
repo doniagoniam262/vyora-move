@@ -1,0 +1,28 @@
+kind = "slides"
+previewPath = "/vyora-presentation/"
+title = "VYORA MOVE — عرض مشروع التخرج"
+description = "عرض أكاديمي عربي من 12 شريحة يشرح تطبيق VYORA MOVE الفعلي وخصائصه وتقنياته وتجربتي البنات والولاد."
+version = "1.0.0"
+id = "artifacts/vyora-presentation"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/vyora-presentation/" ]
+localPort = 20155
+
+[services.development]
+run = "pnpm --filter @workspace/vyora-presentation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/vyora-presentation", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/vyora-presentation/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20155"
+BASE_PATH = "/vyora-presentation/"

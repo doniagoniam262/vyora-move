@@ -1,0 +1,19 @@
+@import 'tailwindcss';
+@theme inline {
+ --color-primary: var(--slide-primary); --color-accent: var(--slide-accent); --color-bg: var(--slide-bg); --color-text: var(--slide-text); --color-muted: var(--slide-muted); --font-display: var(--font-display-family); --font-body: var(--font-body-family);
+}
+:root { --slide-primary:#ef2b91; --slide-accent:#38bdf8; --slide-bg:#0c0e19; --slide-text:#f5f6fc; --slide-muted:#bcc3d9; --font-display-family:'Tajawal',sans-serif; --font-body-family:'Tajawal',sans-serif; color-scheme:dark; }
+html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-bg);color:var(--slide-text);font-family:var(--font-body-family);}
+.slide {width:100vw;height:100vh;overflow:hidden;} .slide-viewer {touch-action:none;user-select:none;-webkit-user-select:none;}
+.deck {font-family:var(--font-body-family);background:linear-gradient(130deg,#101222,#080a12);color:var(--slide-text);}
+.pink-deck {background:linear-gradient(130deg,#29132e,#100c1c 72%);} .blue-deck {background:linear-gradient(130deg,#122b54,#091323 75%);}
+.english {font-family:'Barlow Condensed',sans-serif;direction:ltr;} .heading {font-size:4.3vw;line-height:1.2;font-weight:800;margin:0;}
+.hero-title {font-size:8.1vw;line-height:.94;font-weight:700;margin:0;} .copy {font-size:2.15vw;line-height:1.45;font-weight:400;margin:0;}
+.sub {font-size:2.8vw;line-height:1.25;font-weight:800;margin:0;} .detail {font-size:1.5vw;line-height:1.4;font-weight:400;margin:0;}
+.kicker {font-size:1.5vw;line-height:1.4;letter-spacing:.08em;color:#bfc7df;margin:0;} .foot {position:absolute;bottom:3.3vh;left:6vw;right:6vw;display:flex;justify-content:space-between;font-size:1.5vw;color:#aab3cd;}
+.top {position:absolute;top:7vh;left:6vw;right:6vw;text-align:right;direction:rtl;} .top .kicker {margin-top:1vh;}
+.blob {position:absolute;pointer-events:none;border-radius:48% 52% 70% 30% / 40% 55% 45% 60%;}
+.logo-plate {background:#f5f6fb;border-radius:1.1vw;display:flex;align-items:center;justify-content:center;gap:2.2vw;padding:1.1vh 1.4vw;}
+.logo-plate img {object-fit:contain;height:4.8vh;max-width:13vw;}
+.photo {object-fit:cover;} .rule {height:1px;background:#ffffff25;}
+svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;object-fit:contain;background:#090909;}

@@ -10,7 +10,6 @@ import { exercisesAvailableForGender } from './exercise-visibility';
 import { movementInsights } from './movement-details';
 import { exerciseFormErrors } from './exercise-form-errors';
 import { muscleEducation } from './muscle-education';
-import { athleteExerciseIds } from '../components/athlete-movement';
 import { BodyShapeGuide, femaleBodyShapes } from '../components/body-shape-guide';
 import BodyShapesPage from '../pages/body-shapes';
 import { LocaleProvider } from './locale';
@@ -199,8 +198,4 @@ test('male exercise library only exposes male videos without reducing the female
     ['pull-up', 'deadlift', 'bench-press', 'shoulder-press'],
   );
   assert.equal(exercisesAvailableForGender(exercises, 'female').length, 15);
-});
-
-test('every existing exercise has its own internal movement configuration', () => {
-  assert.deepEqual(new Set(athleteExerciseIds), new Set(exercises.map(exercise => exercise.id)));
 });

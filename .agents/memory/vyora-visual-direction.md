@@ -8,11 +8,11 @@ VYORA is one product for women and men. The onboarding choice controls a pink th
 
 **How to apply:** Keep one VYORA brand and shared goal-based plans. If athlete photography is used, filter it to the selected profile and never infer gender from account data.
 
-Keep polished gradient fitness cards for browsing. Exercise details and the movement guide should also provide an internal animated athlete: one consistent female character for female profiles and one consistent male character for male profiles.
+Keep polished gradient fitness cards for browsing. The movement guide must not show cartoon human figures; use non-figurative icons, written technique, and the exercise's existing photos or video.
 
-**Why:** After rejecting simplistic characters and asking for cards, the user explicitly requested internal animations again, with a stable girl/boy identity matching the selected profile. Do not restore the rejected stick-figure style.
+**Why:** The user clarified that cartoon figures should be removed for both women and men, while the exercises themselves remain.
 
-**How to apply:** Preserve the organized cards, navigation, timers, plans, and progress. Add articulated, clothed characters only in movement education, never the opposite profile's character. Clearly distinguish illustrative animation from filmed video.
+**How to apply:** Remove human-figure animation from exercise guidance without deleting catalog exercises, photos, videos, or written instructions.
 
 Never embed or link YouTube videos. Keep movement education fully inside VYORA, with primary and secondary muscle targets, exercise steps, breathing, common errors, and easier variations in Arabic and English.
 

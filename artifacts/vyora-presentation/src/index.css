@@ -16,6 +16,10 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .logo-plate {background:#f5f6fb;border-radius:1.1vw;display:flex;align-items:center;justify-content:center;gap:2.2vw;padding:1.1vh 1.4vw;}
 .logo-plate img {object-fit:contain;height:4.8vh;max-width:13vw;}
 .photo {object-fit:cover;} .rule {height:1px;background:#ffffff25;}
+.problem-label,.problem-copy {color:#111111;}
+.problem-label {text-shadow:0 0 4px rgb(255 230 240 / 90%),0 0 7px rgb(255 230 240 / 75%);}
+.problem-copy {font-weight:700;}
+.solution-label,.solution-copy {color:#ffffff;text-shadow:0 1px 4px rgb(0 0 0 / 35%);}
 svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;object-fit:contain;background:#090909;}
 
 @keyframes vyora-content-enter { from { opacity: 0; translate: 1.5vw 1.2vh; } to { opacity: 1; translate: 0 0; } }

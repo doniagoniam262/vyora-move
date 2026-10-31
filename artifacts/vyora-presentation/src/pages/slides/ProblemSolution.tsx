@@ -7,17 +7,17 @@ export default function ProblemSolution() {
 <div className="blob left-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#9B6BFF] opacity-30" />
 <div className="blob right-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#FFE6F0] opacity-20" />
 <header className="top"><h1 className="heading">المشكلة والحل</h1><p className="kicker english">Problem & Solution</p></header>
-<div className="absolute top-[31vh] right-[6vw] w-[39vw] text-right" dir="rtl">
-<p className="english text-[6vw] font-bold text-primary m-0">PROBLEM</p>
-<p className="copy mt-[4vh]">محتوى متفرّق يصعّب اختيار التمرين.</p>
-<div className="rule my-[3vh]" /><p className="copy">غياب التنظيم والمتابعة المستمرة.</p>
-<div className="rule my-[3vh]" /><p className="copy">التباس طريقة الأداء والأخطاء الشائعة.</p>
+<div className="problem-column absolute top-[31vh] right-[6vw] w-[39vw] text-right" dir="rtl">
+<p className="problem-label english text-[6vw] font-bold m-0">PROBLEM</p>
+<p className="copy problem-copy mt-[4vh]">محتوى متفرّق يصعّب اختيار التمرين.</p>
+<div className="rule my-[3vh]" /><p className="copy problem-copy">غياب التنظيم والمتابعة المستمرة.</p>
+<div className="rule my-[3vh]" /><p className="copy problem-copy">التباس طريقة الأداء والأخطاء الشائعة.</p>
 </div>
-<div className="absolute top-[31vh] left-[6vw] w-[39vw] text-right" dir="rtl">
-<p className="english text-[6vw] font-bold text-accent m-0">SOLUTION</p>
-<p className="copy mt-[4vh]">مكتبة مصنّفة وفيديو لكل تمرين متاح.</p>
-<div className="rule my-[3vh]" /><p className="copy">خطة أسبوعية ومؤقت وسجل للجلسات.</p>
-<div className="rule my-[3vh]" /><p className="copy">إرشادات عربية وصور للصح والخطأ.</p>
+<div className="solution-column absolute top-[31vh] left-[6vw] w-[39vw] text-right" dir="rtl">
+<p className="solution-label english text-[6vw] font-bold m-0">SOLUTION</p>
+<p className="copy solution-copy mt-[4vh]">مكتبة مصنّفة وفيديو لكل تمرين متاح.</p>
+<div className="rule my-[3vh]" /><p className="copy solution-copy">خطة أسبوعية ومؤقت وسجل للجلسات.</p>
+<div className="rule my-[3vh]" /><p className="copy solution-copy">إرشادات عربية وصور للصح والخطأ.</p>
 </div>
 <footer className="foot english"><span>VYORA MOVE</span><span>03 / 12</span></footer>
   </section>

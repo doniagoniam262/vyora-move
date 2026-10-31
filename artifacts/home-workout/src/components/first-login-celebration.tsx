@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { chooseWelcomeVoice } from '@/lib/welcome-voice';
 
 const CONFETTI_COLORS = ['#FF2D8E', '#FF77B5', '#A4F477', '#FFFFFF', '#8CC8FF'];
 const CONFETTI_PARTICLES = Array.from({ length: 38 }, (_, index) => index);
@@ -9,6 +10,42 @@ export function FirstLoginCelebration() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let hideTimer = 0;
+    let voiceFallbackTimer = 0;
+    let synthesis: SpeechSynthesis | null = null;
+    let previousVoicesChanged: SpeechSynthesis['onvoiceschanged'] = null;
+    let voicesChangedHandler: SpeechSynthesis['onvoiceschanged'] = null;
+    let speechStarted = false;
+
+    const restoreVoicesChangedHandler = () => {
+      if (
+        synthesis &&
+        voicesChangedHandler &&
+        synthesis.onvoiceschanged === voicesChangedHandler
+      ) {
+        synthesis.onvoiceschanged = previousVoicesChanged;
+      }
+      voicesChangedHandler = null;
+    };
+
+    const speakWelcome = (voices: SpeechSynthesisVoice[]) => {
+      if (!synthesis || speechStarted) return;
+      speechStarted = true;
+
+      try {
+        const message = new SpeechSynthesisUtterance('Welcome to Vyora');
+        message.lang = 'en-US';
+        message.voice = chooseWelcomeVoice(voices) ?? null;
+        message.rate = 0.85;
+        message.pitch = 0.8;
+        message.onend = () => setVisible(false);
+        message.onerror = () => setVisible(false);
+        synthesis.speak(message);
+        hideTimer = window.setTimeout(() => setVisible(false), 7000);
+      } catch {
+        setVisible(false);
+      }
+    };
+
     const speechTimer = window.setTimeout(() => {
       if (
         !('speechSynthesis' in window) ||
@@ -18,24 +55,45 @@ export function FirstLoginCelebration() {
         return;
       }
 
-      try {
-        const message = new SpeechSynthesisUtterance('أهلا بيك في فايورا');
-        message.lang = 'ar-EG';
-        message.rate = 0.9;
-        message.pitch = 1.1;
-        message.onend = () => setVisible(false);
-        message.onerror = () => setVisible(false);
-        window.speechSynthesis.speak(message);
-        hideTimer = window.setTimeout(() => setVisible(false), 7000);
-      } catch {
-        setVisible(false);
+      synthesis = window.speechSynthesis;
+      const voices = synthesis.getVoices();
+
+      if (voices.length > 0) {
+        speakWelcome(voices);
+        return;
       }
+
+      previousVoicesChanged = synthesis.onvoiceschanged;
+      const handler: NonNullable<SpeechSynthesis['onvoiceschanged']> = (event) => {
+        try {
+          previousVoicesChanged?.call(synthesis, event);
+        } catch {
+          // Keep voice loading independent from any existing page listener.
+        }
+
+        const loadedVoices = synthesis?.getVoices() ?? [];
+        if (loadedVoices.length === 0) return;
+
+        restoreVoicesChangedHandler();
+        window.clearTimeout(voiceFallbackTimer);
+        speakWelcome(loadedVoices);
+      };
+      voicesChangedHandler = handler;
+      synthesis.onvoiceschanged = handler;
+
+      // Some browsers never fire voiceschanged; use the system default after waiting briefly.
+      voiceFallbackTimer = window.setTimeout(() => {
+        restoreVoicesChangedHandler();
+        speakWelcome(synthesis?.getVoices() ?? []);
+      }, 1800);
     }, reduceMotion ? 0 : 2200);
 
     return () => {
       window.clearTimeout(speechTimer);
       window.clearTimeout(hideTimer);
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      window.clearTimeout(voiceFallbackTimer);
+      restoreVoicesChangedHandler();
+      synthesis?.cancel();
     };
   }, []);
 

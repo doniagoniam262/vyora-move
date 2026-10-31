@@ -9,7 +9,7 @@ export default function ThankYou() {
 <div className="absolute left-[6vw] top-[6vh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9vw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13vw]" /></div></div>
 <div className="absolute right-[5vw] top-[12vh] w-[59vw] text-center" dir="ltr">
  <h1 className="english signature-title text-[9vw] leading-none m-0">THANK YOU</h1>
-<p className="text-[3vw] leading-[1.3] font-bold text-primary mt-[2vh]" dir="rtl">مش مجرد تمرين، دي بداية لحياة أقوى</p>
+<p className="thank-you-arabic refined-arabic text-primary mt-[2vh]" dir="rtl">مش مجرد تمرين، دي بداية لحياة أقوى</p>
  <p className="english signature-font text-[2.1vw] tracking-[.05em] mt-[2vh]">HOME FITNESS • LIVE YOUR MOVE</p>
 <div className="h-px bg-white/20 my-[4vh] mx-[6vw]" />
  <p className="detail text-muted signature-font">Special Thanks to the Project Supervisor:</p>

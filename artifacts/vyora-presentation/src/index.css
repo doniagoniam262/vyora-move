@@ -20,9 +20,6 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .problem-label {text-shadow:0 0 4px rgb(255 230 240 / 90%),0 0 7px rgb(255 230 240 / 75%);}
 .problem-copy {font-weight:700;}
 .solution-label,.solution-copy {color:#ffffff;text-shadow:0 1px 4px rgb(0 0 0 / 35%);}
-.journey-step-number {font-size:clamp(1.2rem,2vw,2rem);}
-.journey-step-title {font-size:clamp(1.1rem,1.55vw,1.75rem);line-height:1.2;}
-.journey-step-copy {font-size:clamp(.8rem,1.05vw,1.25rem);line-height:1.35;}
 .signature-font {font-family:'Montserrat',sans-serif;}
 .signature-title {font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:-.04em;}
 .signature-name {font-family:'Cormorant Garamond',serif;font-size:1.45vw;font-style:italic;font-weight:400;letter-spacing:.01em;line-height:1.6;}
@@ -31,13 +28,16 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .refined-arabic {font-family:'IBM Plex Sans Arabic',sans-serif;font-weight:400;line-height:1.6;}
 .refined-arabic-title {font-size:3.65vw;line-height:1.6;}
 .refined-arabic-copy {font-size:1.9vw;line-height:1.6;}
-.journey-step-title.refined-arabic {font-size:1.35vw;line-height:1.6;}
-.journey-step-copy.refined-arabic {font-size:1vw;line-height:1.6;}
-.journey-cards {display:grid;grid-template-columns:repeat(4,23%);gap:16px;margin:28vh 6vw 0;}
-.journey-card {position:relative;box-sizing:border-box;width:100%;height:250px;padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;}
-.journey-card .journey-step-title {width:100%;margin:0;font-size:28px;font-weight:600;line-height:1.5;white-space:nowrap;overflow:hidden;}
-.journey-card .journey-step-copy {width:100%;margin:0;font-size:12px;font-weight:400;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.vyora-slide-active > section .journey-card {animation:none !important;transform:none !important;translate:none !important;scale:1 !important;}
+.how-it-works-header {position:absolute;top:6.5vh;left:6vw;right:6vw;text-align:right;direction:rtl;}
+.how-it-works-title {font-family:'IBM Plex Sans Arabic',sans-serif;font-size:3.6vw;font-weight:700;line-height:1.35;color:#fff;margin:0;}
+.how-it-works-subtitle {font-family:'Barlow Condensed',sans-serif;font-size:1.2vw;line-height:1.4;letter-spacing:.08em;color:#aeb4c5;margin:1vh 0 0;}
+.how-it-works-blob {position:absolute;top:10vh;left:4vw;width:26vw;height:26vh;background:#112a43;opacity:1;}
+.how-it-works-cards {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin:36vh 6vw 0;direction:rtl;}
+.how-it-works-card {box-sizing:border-box;width:100%;height:42vh;padding:20px;border-radius:16px;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:8px;text-align:right;direction:rtl;}
+.how-it-works-number {align-self:flex-end;direction:ltr;font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:400;line-height:1.15;}
+.how-it-works-card-title {font-family:'IBM Plex Sans Arabic',sans-serif;font-size:20px;font-weight:700;line-height:1.5;color:#fff;margin:0;white-space:nowrap;}
+.how-it-works-card-copy {font-family:'IBM Plex Sans Arabic',sans-serif;font-size:13px;font-weight:400;line-height:1.6;color:#d1d5df;margin:0;}
+.vyora-slide-active > section .how-it-works-card {animation:none !important;transform:none !important;translate:none !important;scale:1 !important;}
 .refined-arabic-detail {font-size:1.35vw;line-height:1.6;}
 .thank-you-arabic {font-size:2.7vw;line-height:1.6;}
 svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;object-fit:contain;background:#090909;}

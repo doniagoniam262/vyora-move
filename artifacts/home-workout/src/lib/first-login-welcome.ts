@@ -1,4 +1,4 @@
-const WELCOME_KEY_PREFIX = 'vyora-first-login-welcome-v1:';
+const WELCOME_KEY_PREFIX = 'vyora-first-login-welcome-v2:';
 
 export function claimFirstLoginWelcome(userId: string): boolean {
   if (!userId) return false;

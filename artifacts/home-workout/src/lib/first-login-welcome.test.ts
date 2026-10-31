@@ -4,6 +4,7 @@ import { claimFirstLoginWelcome } from './first-login-welcome';
 
 test('first-login greeting is claimed once per account on this device', () => {
   const values = new Map<string, string>();
+  values.set('vyora-first-login-welcome-v1:user-a', 'played');
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, 'window');
   Object.defineProperty(globalThis, 'window', {
     configurable: true,

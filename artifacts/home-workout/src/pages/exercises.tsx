@@ -10,7 +10,6 @@ import {
   CATEGORIES,
   LEVELS,
   categoryLabel,
-  exerciseById,
   exercises,
   levelLabel,
   type Category,
@@ -169,9 +168,8 @@ export function ExerciseDetailPage() {
   const [, nav] = useLocation();
   const profile = useVYORAProfile();
   const [previewGender, setPreviewGender] = useState<UserGender>(profile?.gender ?? 'female');
-  const rawEx = profile?.gender === 'male'
-    ? exercisesAvailableForGender(exercises, profile.gender).find((exercise) => exercise.id === exerciseId)
-    : exerciseById(exerciseId ?? '');
+  const rawEx = exercisesAvailableForGender(exercises, profile?.gender)
+    .find((exercise) => exercise.id === exerciseId);
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
   useEffect(() => {

@@ -192,10 +192,13 @@ test('all workout plans use only retained exercises', () => {
   }
 });
 
-test('male exercise library only exposes male videos without reducing the female catalog', () => {
+test('gender exercise libraries expose intended video-backed exercises', () => {
   assert.deepEqual(
     exercisesAvailableForGender(exercises, 'male').map((exercise) => exercise.id),
     ['pull-up', 'deadlift', 'bench-press', 'shoulder-press'],
   );
-  assert.equal(exercisesAvailableForGender(exercises, 'female').length, 15);
+  const femaleExercises = exercisesAvailableForGender(exercises, 'female');
+  assert.equal(femaleExercises.length, 13);
+  assert.equal(femaleExercises.some((exercise) => ['calf-raise', 'pull-up'].includes(exercise.id)), false);
+  assert.equal(exercisesAvailableForGender(exercises).length, 15);
 });

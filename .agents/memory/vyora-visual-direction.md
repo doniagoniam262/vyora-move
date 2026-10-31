@@ -8,6 +8,12 @@ VYORA is one product for women and men. The onboarding choice controls a pink th
 
 **How to apply:** Keep one VYORA brand and shared goal-based plans. If athlete photography is used, filter it to the selected profile and never infer gender from account data.
 
+Animation, typography, and palette requests explicitly assigned to the VYORA presentation apply to the presentation, not the workout website.
+
+**Why:** The user corrected an earlier change that applied presentation-specific requests to the website.
+
+**How to apply:** Keep presentation-only visual changes inside the slides artifact unless the user separately requests website changes.
+
 Keep polished gradient fitness cards for browsing. The movement guide must not show cartoon human figures; use non-figurative icons, written technique, and the exercise's existing photos or video.
 
 **Why:** The user clarified that cartoon figures should be removed for both women and men, while the exercises themselves remain.

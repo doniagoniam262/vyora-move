@@ -7,7 +7,7 @@ export default function Technology() {
 <header className="top"><h1 className="heading">التقنيات المستخدمة فعليًا</h1><p className="kicker english">Technologies Used</p></header>
 <div className="absolute top-[31vh] left-[6vw] right-[6vw] grid grid-cols-3 gap-[3vw] text-right" dir="rtl">
 <div><div className="h-[1vh] w-[7vw] bg-primary mb-[4vh]"/><h2 className="sub">الواجهة</h2><p className="copy mt-[3vh]" dir="ltr">TypeScript • React</p><p className="copy mt-[2vh]" dir="ltr">Vite • Tailwind CSS</p><p className="copy mt-[3vh] text-muted">واجهة عربية RTL وتخطيط متجاوب.</p></div>
-<div><div className="h-[1vh] w-[7vw] bg-[#9780e8] mb-[4vh]"/><h2 className="sub">الحساب والكتالوج</h2><p className="copy mt-[3vh]" dir="ltr">Clerk • Node.js • Express</p><p className="copy mt-[2vh]" dir="ltr">PostgreSQL • Drizzle</p><p className="copy mt-[3vh] text-muted">تسجيل دخول وكتالوج تمارين في قاعدة بيانات.</p></div>
+<div><div className="h-[1vh] w-[7vw] bg-[#9B6BFF] mb-[4vh]"/><h2 className="sub">الحساب والكتالوج</h2><p className="copy mt-[3vh]" dir="ltr">Clerk • Node.js • Express</p><p className="copy mt-[2vh]" dir="ltr">PostgreSQL • Drizzle</p><p className="copy mt-[3vh] text-muted">تسجيل دخول وكتالوج تمارين في قاعدة بيانات.</p></div>
 <div><div className="h-[1vh] w-[7vw] bg-accent mb-[4vh]"/><h2 className="sub">داخل المتصفح</h2><p className="copy mt-[3vh]" dir="ltr">localStorage • MediaPipe</p><p className="copy mt-[2vh]" dir="ltr">Web Speech • Web Audio</p><p className="copy mt-[3vh] text-muted">حفظ محلي، تتبّع حركة، وصوت ترحيبي.</p></div>
 </div>
 <p className="detail absolute bottom-[14vh] left-[6vw] right-[6vw] text-center text-accent" dir="rtl">تم التطوير داخل Replit • لغات الواجهة: TypeScript / JavaScript، HTML وCSS</p>

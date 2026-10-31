@@ -4,7 +4,7 @@ export default function Challenges() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck ">
 
-<div className="blob left-[3vw] bottom-[8vh] w-[42vw] h-[52vh] bg-[#205c83] opacity-20" />
+<div className="blob left-[3vw] bottom-[8vh] w-[42vw] h-[52vh] bg-[#9B6BFF] opacity-20" />
 <header className="top"><h1 className="heading">التحديات والتطوير المستقبلي</h1><p className="kicker english">Challenges & Future Development</p></header>
 <div className="absolute right-[6vw] top-[31vh] w-[40vw] text-right" dir="rtl">
 <h2 className="sub text-primary">تحديات تعاملت معها</h2>

@@ -4,8 +4,8 @@ export default function ProblemSolution() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck ">
 
-<div className="blob left-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#164f88] opacity-30" />
-<div className="blob right-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#8b2459] opacity-25" />
+<div className="blob left-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#9B6BFF] opacity-30" />
+<div className="blob right-[3vw] bottom-[8vh] w-[40vw] h-[58vh] bg-[#FFE6F0] opacity-20" />
 <header className="top"><h1 className="heading">المشكلة والحل</h1><p className="kicker english">Problem & Solution</p></header>
 <div className="absolute top-[31vh] right-[6vw] w-[39vw] text-right" dir="rtl">
 <p className="english text-[6vw] font-bold text-primary m-0">PROBLEM</p>

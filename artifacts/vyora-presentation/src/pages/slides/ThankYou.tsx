@@ -4,7 +4,7 @@ export default function ThankYou() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck ">
 
-<div className="blob left-[6vw] top-[24vh] w-[32vw] h-[62vh] bg-gradient-to-br from-[#db2a8c] via-[#7739a3] to-[#2c84d9] opacity-60" />
+<div className="blob left-[6vw] top-[24vh] w-[32vw] h-[62vh] bg-gradient-to-br from-[#9B6BFF] via-[#6435A5] to-[#FFE6F0] opacity-60" />
 <img src={base + 'media/athletes.png'} crossOrigin="anonymous" alt="رياضيان في ختام العرض" className="absolute left-[2vw] top-[22vh] w-[38vw] h-[65vh] object-contain" />
 <div className="absolute left-[6vw] top-[6vh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9vw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13vw]" /></div></div>
 <div className="absolute right-[5vw] top-[12vh] w-[59vw] text-center" dir="ltr">

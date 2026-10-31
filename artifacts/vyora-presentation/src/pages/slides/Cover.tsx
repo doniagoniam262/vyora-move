@@ -10,13 +10,13 @@ export default function Cover() {
 <div className="absolute left-[6vw] top-[5vh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9vw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13vw]" /></div></div>
 <div className="absolute right-[6vw] top-[12vh] w-[48vw] text-right" dir="rtl">
 <p className="detail text-primary font-bold">مشروع التخرج • 2026</p>
-<h1 className="hero-title english mt-[3vh] text-right">VYORA<span className="block text-accent">MOVE</span></h1>
+ <h1 className="hero-title english signature-title mt-[3vh] text-right">VYORA<span className="block text-accent">MOVE</span></h1>
 <p className="copy mt-[3vh]">تدريبك في بيتك… بخطوات واضحة وتجربة تناسبك.</p>
-<div className="mt-[4vh] space-y-[1.6vh] text-left" dir="ltr">
-<p className="detail text-muted">Student Name: <span className="text-text font-bold">Donia Nabil Mesaad Ghoneim</span></p>
-<p className="detail text-muted">Academic Year: <span className="text-text font-bold">Fourth Year</span></p>
-<p className="detail text-muted">Project Supervisor:</p>
-<p className="copy font-bold">Taha Mahmoud Metwally Nour El-Dein</p>
+ <div className="mt-[4vh] space-y-[1.6vh] text-left signature-font" dir="ltr">
+ <p className="detail text-muted">Project Supervisor:</p>
+ <p className="signature-name signature-supervisor">Dr. Taha Mahmoud Metwally Nour El-Dein</p>
+ <p className="detail text-muted">Student Name: <span className="signature-name text-text">Donia Nabil Mesaad Ghoneim</span></p>
+ <p className="detail text-muted">Academic Year: <span className="font-bold text-text">Fourth Year</span></p>
 </div>
 </div>
 <footer className="foot english"><span>VYORA MOVE</span><span>01 / 12</span></footer>

@@ -224,3 +224,31 @@ mtime_ms = 1793459668888
 storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/0f24e2ba-20b4-4c4f-ae7d-411c788edb0a/40f905bc-e709-43ae-8e9e-e84ac69923f7"
 storage_version_token = "1793459669347295"
 content_type = "application/pdf"
+
+[[outputs]]
+id = "UiCABGrFuh2B5HtNTkaAR"
+uri = "file://.local/outputs/VYORA-MOVE.pdf"
+type = "pdf"
+title = "VYORA MOVE (PDF)"
+description = "النسخة النهائية من العرض بصيغة PDF."
+logical_id = "7d2fd41b-e5f5-49ab-8686-08d7946a0e5b"
+content_hash = "sha256:e322006236174e0a2725b4838e2d753da729c0fdfda8ab4d4cf3987962d336b2"
+size = 3360318
+mtime_ms = 1793473292212
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/7d2fd41b-e5f5-49ab-8686-08d7946a0e5b/1e79f450-40ba-4f45-9ae1-7b69f38667d0"
+storage_version_token = "1793473292963167"
+content_type = "application/pdf"
+
+[[outputs]]
+id = "tDJaJxMdNtq6hpzZD41Ki"
+uri = "file://.local/outputs/VYORA-MOVE.pptx"
+type = "slides"
+title = "VYORA MOVE (PPTX)"
+description = "النسخة القابلة للتعديل من العرض بصيغة PowerPoint."
+logical_id = "c00eed38-4ae5-4cbe-a270-4f38824dad4a"
+content_hash = "sha256:3693feef72a1fa2d6d4c454b8a7f335129939554a66033a0d97229b042d27a3a"
+size = 6222735
+mtime_ms = 1793473298484
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/c00eed38-4ae5-4cbe-a270-4f38824dad4a/00a2cf63-803b-447f-b23c-b798890e862a"
+storage_version_token = "1793473298905694"
+content_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"

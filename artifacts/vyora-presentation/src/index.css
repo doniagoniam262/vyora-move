@@ -22,6 +22,10 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .solution-label,.solution-copy {color:#ffffff;text-shadow:0 1px 4px rgb(0 0 0 / 35%);}
 .signature-font {font-family:'Montserrat',sans-serif;}
 .signature-title {font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:-.04em;}
+.cover-brand {font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;letter-spacing:.015em;line-height:.84;}
+.cover-brand-vyora,.cover-brand-move {background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0.3vh 1.2vh rgb(155 107 255 / 22%));}
+.cover-brand-vyora {background-image:linear-gradient(105deg,#74C7FF 0%,#9B6BFF 100%);}
+.cover-brand-move {background-image:linear-gradient(105deg,#FFE6F0 0%,#FF70B5 52%,#9B6BFF 100%);}
 .thank-you-brand {font-family:'Cormorant Garamond',serif;font-size:8.5vw;font-style:italic;font-weight:600;letter-spacing:.015em;line-height:1.05;background:linear-gradient(100deg,#FFE6F0 0%,#D566FF 48%,#74C7FF 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0.35vh 1.5vh rgb(155 107 255 / 25%));}
 .signature-name {font-family:'Cormorant Garamond',serif;font-size:1.6vw;font-style:italic;font-weight:400;letter-spacing:.01em;line-height:1.6;}
 .signature-copy {font-family:'Montserrat',sans-serif;font-size:clamp(1rem,1.6vw,1.9rem);line-height:1.4;}

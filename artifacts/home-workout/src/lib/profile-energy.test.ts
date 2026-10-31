@@ -6,6 +6,7 @@ import { Router, type BaseLocationHook } from 'wouter';
 import { estimateEnergy } from './energy';
 import { isVYORAProfile, readVYORAProfile, saveVYORAProfile, type VYORAProfile } from './profile';
 import { exercises, plans } from './data';
+import { exercisesAvailableForGender } from './exercise-visibility';
 import { movementInsights } from './movement-details';
 import { exerciseFormErrors } from './exercise-form-errors';
 import { muscleEducation } from './muscle-education';
@@ -190,6 +191,14 @@ test('all workout plans use only retained exercises', () => {
     assert.ok(plan.exerciseIds.length > 0, plan.id);
     for (const id of plan.exerciseIds) assert.ok(activeIds.has(id), `${plan.id}: ${id}`);
   }
+});
+
+test('male exercise library only exposes male videos without reducing the female catalog', () => {
+  assert.deepEqual(
+    exercisesAvailableForGender(exercises, 'male').map((exercise) => exercise.id),
+    ['pull-up', 'deadlift', 'bench-press', 'shoulder-press'],
+  );
+  assert.equal(exercisesAvailableForGender(exercises, 'female').length, 15);
 });
 
 test('every existing exercise has its own internal movement configuration', () => {

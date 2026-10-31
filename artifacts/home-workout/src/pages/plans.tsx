@@ -6,7 +6,6 @@ import {
   formatTime,
   levelLabel,
   planById,
-  planExercises,
   plans,
 } from '@/lib/data';
 import { useSettings } from '@/lib/store';
@@ -15,6 +14,7 @@ import { PlanCard } from '@/components/cards';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
 import { useVYORAProfile } from '@/lib/profile-context';
+import { planExercisesAvailableForGender } from '@/lib/exercise-visibility';
 
 export function PlansPage() {
   const { locale, t } = useLocale();
@@ -22,6 +22,7 @@ export function PlansPage() {
   const [f, setF] = useState<'all' | 'short' | 'long'>('all');
   const list = plans
     .filter((p) => !p.goal || p.goal === profile?.goal)
+    .filter((p) => planExercisesAvailableForGender(p, profile?.gender).length > 0)
     .filter((p) => f === 'all' || (f === 'short' ? p.minutes <= 15 : p.minutes > 15));
   return (
     <div className="page-enter space-y-5">
@@ -55,7 +56,7 @@ export function PlansPage() {
       ) : (
         <div className="grid gap-2.5 md:grid-cols-2">
           {list.map((p) => (
-            <PlanCard key={p.id} plan={p} />
+            <PlanCard key={p.id} plan={p} gender={profile?.gender} />
           ))}
         </div>
       )}
@@ -70,6 +71,7 @@ export function PlanDetailPage() {
   const { locale, t } = useLocale();
   const { planId } = useParams<{ planId: string }>();
   const [settings] = useSettings();
+  const profile = useVYORAProfile();
   const rawPlan = planById(planId ?? '');
   const plan = rawPlan ? localizePlan(rawPlan, locale) : undefined;
   if (!plan)
@@ -89,7 +91,20 @@ export function PlanDetailPage() {
         </Link>
       </EmptyState>
     );
-  const list = planExercises(plan).map((ex) => localizeExercise(ex, locale));
+  const list = planExercisesAvailableForGender(plan, profile?.gender).map((ex) => localizeExercise(ex, locale));
+  if (list.length === 0)
+    return (
+      <EmptyState
+        testId="empty-plan-exercises"
+        icon={<CalendarX size={26} />}
+        title={t('لا توجد تمارين متاحة لهذه الخطة.')}
+        body={t('اختر خطة أخرى تحتوي على تمارين متاحة لملفك.')}
+      >
+        <Link href="/plans" className="btn-lime rounded-xl px-6 py-2.5 text-sm">
+          {t('كل الخطط')}
+        </Link>
+      </EmptyState>
+    );
   return (
     <div className="page-enter mx-auto max-w-3xl space-y-4">
       <div className="relative overflow-hidden rounded-2xl">

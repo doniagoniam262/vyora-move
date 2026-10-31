@@ -11,7 +11,7 @@ import {
 import {
   exercises,
   plans,
-  planExercises,
+  estimateSeconds,
   categoryLabel,
   recommendHomePlan,
   scheduledPlanForDay,
@@ -24,19 +24,26 @@ import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
 import { useVYORAProfile } from '@/lib/profile-context';
 import { goalWorkoutPlan } from '@/lib/personalization';
+import { exercisesAvailableForGender, planExercisesAvailableForGender } from '@/lib/exercise-visibility';
 
 export default function HomePage() {
   const { locale, t } = useLocale();
   const profile = useVYORAProfile();
+  const availableExercises = exercisesAvailableForGender(exercises, profile?.gender);
   const sessions = useSessions();
   const [settings, updateSettings] = useSettings();
   const [schedule] = useWeeklySchedule();
   const day = new Date().getDay();
-  const rawToday =
+  const preferredToday =
     (profile ? goalWorkoutPlan(profile.goal, schedule.level) : undefined) ?? plans[0];
+  const rawToday = [preferredToday, ...plans].find(
+    (plan) => planExercisesAvailableForGender(plan, profile?.gender).length > 0,
+  ) ?? preferredToday;
   const today = localizePlan(rawToday, locale);
+  const todayExercises = planExercisesAvailableForGender(today, profile?.gender);
+  const todayMinutes = Math.max(1, Math.round(estimateSeconds(todayExercises, settings.restSeconds) / 60));
   const daily = [0, 1, 2].map((i) =>
-    localizeExercise(exercises[(day * 3 + i * 4 + 2) % exercises.length], locale),
+    localizeExercise(availableExercises[(day * 3 + i * 4 + 2) % availableExercises.length], locale),
   );
   const start = weekStart();
   const weekCount = sessions.filter((s) => new Date(s.completedAt) >= start).length;
@@ -46,7 +53,7 @@ export default function HomePage() {
     locale === 'ar' ? ['س', 'ح', 'ن', 'ث', 'ر', 'خ', 'ج'] : ['S', 'S', 'M', 'T', 'W', 'T', 'F'];
   const scheduledToday = schedule.days.includes(day);
   const scheduledPlan = scheduledPlanForDay(schedule, day, profile?.goal);
-  const homePlan = recommendHomePlan({
+  const recommendedHomePlan = recommendHomePlan({
     level: settings.homeFitLevel,
     minutes: settings.homeFitMinutes,
     quiet: settings.homeFitQuiet,
@@ -54,9 +61,18 @@ export default function HomePage() {
     goal: profile?.goal,
     recentPlanIds: sessions.slice(0, 2).map((session) => session.planId),
   });
+  const homePlan = recommendedHomePlan
+    && planExercisesAvailableForGender(recommendedHomePlan, profile?.gender).length > 0
+    ? recommendedHomePlan
+    : plans.find((plan) => planExercisesAvailableForGender(plan, profile?.gender).length > 0);
   const localizedHomePlan = homePlan ? localizePlan(homePlan, locale) : undefined;
+  const homeFitExercises = localizedHomePlan
+    ? planExercisesAvailableForGender(localizedHomePlan, profile?.gender)
+    : [];
+  const homeFitMinutes = Math.max(1, Math.round(estimateSeconds(homeFitExercises, settings.restSeconds) / 60));
   const visiblePlans = plans
     .filter((plan) => !plan.goal || plan.goal === profile?.goal)
+    .filter((plan) => planExercisesAvailableForGender(plan, profile?.gender).length > 0)
     .sort((a, b) => Number(b.goal === profile?.goal) - Number(a.goal === profile?.goal))
     .slice(0, 3);
   const choiceClass = (active: boolean) =>
@@ -97,7 +113,7 @@ export default function HomePage() {
               {today.name}
             </h2>
             <p className="mt-0.5 max-w-xs text-xs leading-6 text-white/75">
-              {today.minutes} {locale === 'ar' ? 'دقيقة' : 'min'} · {planExercises(today).length}{' '}
+              {todayMinutes} {locale === 'ar' ? 'دقيقة' : 'min'} · {todayExercises.length}{' '}
               {locale === 'ar' ? 'تمارين' : 'exercises'} · {t('بدون معدات')}
             </p>
           </div>
@@ -205,8 +221,8 @@ export default function HomePage() {
               <p className="text-[10px] font-bold text-primary">{t('اختيار ڤايورا لك اليوم')}</p>
               <h3 className="mt-0.5 text-sm font-extrabold">{localizedHomePlan.name}</h3>
               <p className="mt-1 text-[11px] text-muted-foreground">
-                {localizedHomePlan.minutes} {locale === 'ar' ? 'دقيقة' : 'min'} ·{' '}
-                {planExercises(localizedHomePlan).length} {locale === 'ar' ? 'تمارين' : 'exercises'}
+                {homeFitMinutes} {locale === 'ar' ? 'دقيقة' : 'min'} ·{' '}
+                {homeFitExercises.length} {locale === 'ar' ? 'تمارين' : 'exercises'}
               </p>
               <Link
                 href={`/session/${localizedHomePlan.id}`}
@@ -406,7 +422,7 @@ export default function HomePage() {
         </div>
         <div className="grid gap-2.5 md:grid-cols-3">
           {visiblePlans.map((p) => (
-            <PlanCard key={p.id} plan={p} />
+            <PlanCard key={p.id} plan={p} gender={profile?.gender} />
           ))}
         </div>
       </section>

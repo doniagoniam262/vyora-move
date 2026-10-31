@@ -19,6 +19,7 @@ import { localizeExercise } from '@/lib/localized-data';
 import { useLocale } from '@/lib/locale';
 import { getMovementInsight, muscleNames, type MuscleId } from '@/lib/movement-details';
 import { useVYORAProfile } from '@/lib/profile-context';
+import { exercisesAvailableForGender } from '@/lib/exercise-visibility';
 import {
   recordVideoWatch,
   toggleVideoFavorite,
@@ -200,22 +201,26 @@ export default function MovementGuidePage() {
   const profile = useVYORAProfile();
   const favorites = useVideoFavorites();
   const history = useVideoHistory();
+  const availableExercises = useMemo(
+    () => exercisesAvailableForGender(exercises, profile?.gender),
+    [profile?.gender],
+  );
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<Category | 'all'>('all');
   const [difficulty, setDifficulty] = useState<Difficulty>('all');
   const [selectedMuscle, setSelectedMuscle] = useState<MuscleId | 'all'>('all');
   const [view, setView] = useState<View>('all');
-  const [selectedId, setSelectedId] = useState(exercises[0]?.id ?? '');
+  const [selectedId, setSelectedId] = useState(availableExercises[0]?.id ?? '');
 
   const localizedExercises = useMemo(
-    () => exercises.map((exercise) => localizeExercise(exercise, locale)),
-    [locale],
+    () => availableExercises.map((exercise) => localizeExercise(exercise, locale)),
+    [availableExercises, locale],
   );
   const byId = useMemo(
     () => new Map(localizedExercises.map((exercise) => [exercise.id, exercise])),
     [localizedExercises],
   );
-  const catalogIds = useMemo(() => new Set(exercises.map((exercise) => exercise.id)), []);
+  const catalogIds = useMemo(() => new Set(availableExercises.map((exercise) => exercise.id)), [availableExercises]);
   const catalogFavorites = useMemo(
     () => favorites.filter((id) => catalogIds.has(id)),
     [favorites, catalogIds],
@@ -226,6 +231,10 @@ export default function MovementGuidePage() {
   );
   const selected = byId.get(selectedId) ?? localizedExercises[0];
   const insight = selected ? getMovementInsight(selected.id, locale) : undefined;
+
+  useEffect(() => {
+    if (!catalogIds.has(selectedId)) setSelectedId(availableExercises[0]?.id ?? '');
+  }, [availableExercises, catalogIds, selectedId]);
 
   useEffect(() => {
     const match = /^#movement-([\w-]{1,128})$/.exec(window.location.hash);
@@ -300,7 +309,7 @@ export default function MovementGuidePage() {
           <div className="flex shrink-0 items-center gap-3 self-start rounded-2xl border border-border bg-background/60 px-4 py-3 sm:self-auto">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><Dumbbell size={19} /></span>
             <span>
-              <span className="latin block text-lg font-bold" dir="ltr">{String(exercises.length).padStart(2, '0')}</span>
+              <span className="latin block text-lg font-bold" dir="ltr">{String(availableExercises.length).padStart(2, '0')}</span>
               <span className="block text-[10px] text-muted-foreground">{locale === 'ar' ? 'حركة موضّحة' : 'coached movements'}</span>
             </span>
           </div>
@@ -308,7 +317,7 @@ export default function MovementGuidePage() {
         <div className="relative mt-6 flex items-center gap-3 border-t border-border/80 pt-4">
           <span className="latin text-[9px] tracking-[.2em] text-muted-foreground" dir="ltr">MOVE WITH INTENT</span>
           <span className="h-px flex-1 bg-border" />
-          <span className="latin text-[9px] text-muted-foreground" dir="ltr">01 — {String(exercises.length).padStart(2, '0')}</span>
+          <span className="latin text-[9px] text-muted-foreground" dir="ltr">01 — {String(availableExercises.length).padStart(2, '0')}</span>
         </div>
       </header>
 
@@ -319,7 +328,7 @@ export default function MovementGuidePage() {
               <p className="text-[10px] font-bold uppercase tracking-[.17em] text-primary">{text.library}</p>
               <h2 className="mt-1 text-xl font-bold">{countLabel}</h2>
             </div>
-            <span className="latin text-[10px] text-muted-foreground" dir="ltr">{String(list.length).padStart(2, '0')} / {String(exercises.length).padStart(2, '0')}</span>
+            <span className="latin text-[10px] text-muted-foreground" dir="ltr">{String(list.length).padStart(2, '0')} / {String(availableExercises.length).padStart(2, '0')}</span>
           </div>
           <label className="relative block">
             <Search size={17} className={`pointer-events-none absolute top-1/2 -translate-y-1/2 text-muted-foreground ${isArabic ? 'right-4' : 'left-4'}`} />

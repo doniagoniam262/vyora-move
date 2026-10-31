@@ -61,3 +61,9 @@ The exercise catalog, titles, instructions, and plan IDs are shared across femal
 **Why:** The user confirmed that the same set of 16 exercises and names applies to both groups while imagery is matched by gender.
 
 **How to apply:** Keep one database-backed catalog for both profiles. Do not fork exercise records by gender; choose gender-specific media at presentation time.
+
+When a video exists only for one gender, filter that exercise only from the other gender's video-led experience; preserve the shared catalog and the matching-gender experience.
+
+**Why:** The user clarified that removing exercises without boys' videos must not remove those exercises from the girls' catalog.
+
+**How to apply:** Keep database records shared, and apply gender-specific video availability in library, workout-plan, and session views.

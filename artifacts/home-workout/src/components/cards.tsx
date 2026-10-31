@@ -3,13 +3,15 @@ import { ChevronLeft, Clock3 } from 'lucide-react';
 import {
   categoryLabel,
   levelLabel,
-  planExercises,
+  estimateSeconds,
   type Exercise,
   type WorkoutPlan,
 } from '@/lib/data';
 import { SmartImg, Tag } from '@/components/vyora';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
+import { planExercisesAvailableForGender } from '@/lib/exercise-visibility';
+import type { UserGender } from '@/lib/profile';
 
 export function ExerciseRow({ ex }: { ex: Exercise }) {
   const { locale } = useLocale();
@@ -65,10 +67,12 @@ export function ExerciseRow({ ex }: { ex: Exercise }) {
   );
 }
 
-export function PlanCard({ plan }: { plan: WorkoutPlan }) {
+export function PlanCard({ plan, gender }: { plan: WorkoutPlan; gender?: UserGender }) {
   const { locale } = useLocale();
   plan = localizePlan(plan, locale);
-  const count = planExercises(plan).length;
+  const visibleExercises = planExercisesAvailableForGender(plan, gender);
+  const count = visibleExercises.length;
+  const minutes = Math.max(1, Math.round(estimateSeconds(visibleExercises) / 60));
   return (
     <article
       data-testid={`card-plan-${plan.id}`}
@@ -82,7 +86,7 @@ export function PlanCard({ plan }: { plan: WorkoutPlan }) {
         <div className="min-w-0">
           <h3 className="text-base font-extrabold">{plan.name}</h3>
           <p className="mt-0.5 text-[11px] leading-5 text-white/70">
-            {plan.frequency} · {plan.minutes} {locale === 'ar' ? 'دقيقة' : 'min'} · {count}{' '}
+            {plan.frequency} · {minutes} {locale === 'ar' ? 'دقيقة' : 'min'} · {count}{' '}
             {locale === 'ar' ? 'تمارين' : 'exercises'}
           </p>
         </div>

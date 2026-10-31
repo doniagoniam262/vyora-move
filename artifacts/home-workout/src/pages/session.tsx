@@ -6,7 +6,6 @@ import {
   exerciseById,
   formatTime,
   planById,
-  planExercises,
   type Exercise,
   type Step,
 } from '@/lib/data';
@@ -14,6 +13,8 @@ import { newSessionId, saveSession, useSettings } from '@/lib/store';
 import { EmptyState, Modal, SmartImg } from '@/components/vyora';
 import { useLocale } from '@/lib/locale';
 import { localizeExercise, localizePlan } from '@/lib/localized-data';
+import { useVYORAProfile } from '@/lib/profile-context';
+import { exercisesAvailableForGender, planExercisesAvailableForGender } from '@/lib/exercise-visibility';
 
 type S = {
   idx: number;
@@ -64,11 +65,20 @@ function makeReducer(steps: Step[], rest: number) {
 export function SessionPage() {
   const { locale, t } = useLocale();
   const { workoutId } = useParams<{ workoutId: string }>();
+  const profile = useVYORAProfile();
   const rawPlan = planById(workoutId ?? '');
-  const rawSingle = exerciseById(workoutId ?? '');
+  const rawSingleUnfiltered = exerciseById(workoutId ?? '');
+  const rawSingle = rawSingleUnfiltered
+    ? exercisesAvailableForGender([rawSingleUnfiltered], profile?.gender)[0]
+    : undefined;
   const plan = rawPlan ? localizePlan(rawPlan, locale) : undefined;
   const single = rawSingle ? localizeExercise(rawSingle, locale) : undefined;
-  if (!plan && !single)
+  const list: Exercise[] = plan
+    ? planExercisesAvailableForGender(plan, profile?.gender).map((ex) => localizeExercise(ex, locale))
+    : single
+      ? [single]
+      : [];
+  if ((!plan && !single) || list.length === 0)
     return (
       <EmptyState
         testId="error-session-missing"
@@ -85,9 +95,6 @@ export function SessionPage() {
         </Link>
       </EmptyState>
     );
-  const list: Exercise[] = plan
-    ? planExercises(plan).map((ex) => localizeExercise(ex, locale))
-    : [single as Exercise];
   return (
     <Runner
       key={workoutId}

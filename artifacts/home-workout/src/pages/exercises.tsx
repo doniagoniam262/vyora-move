@@ -25,15 +25,21 @@ import { ExerciseTechniqueExperience } from '@/components/squat-technique-experi
 import { recordVideoWatch } from '@/lib/store';
 import { useVYORAProfile } from '@/lib/profile-context';
 import type { UserGender } from '@/lib/profile';
+import { exercisesAvailableForGender } from '@/lib/exercise-visibility';
 
 export function ExercisesPage() {
   const { locale, t } = useLocale();
+  const profile = useVYORAProfile();
   const [q, setQ] = useState('');
   const [cat, setCat] = useState<'all' | Category>('all');
   const [lvl, setLvl] = useState<'all' | Level>('all');
+  const availableExercises = exercisesAvailableForGender(exercises, profile?.gender);
+  const availableCategories = CATEGORIES.filter((category) =>
+    availableExercises.some((exercise) => exercise.category === category.id),
+  );
   const list = useMemo(() => {
     const n = q.trim().toLowerCase();
-    return exercises.filter((e) => {
+    return availableExercises.filter((e) => {
       const x = localizeExercise(e, locale);
       return (
         (cat === 'all' || e.category === cat) &&
@@ -41,7 +47,7 @@ export function ExercisesPage() {
         (!n || x.name.toLowerCase().includes(n) || e.latin.toLowerCase().includes(n))
       );
     });
-  }, [q, cat, lvl, locale]);
+  }, [availableExercises, q, cat, lvl, locale]);
   const browse = cat === 'all' && lvl === 'all' && !q.trim();
   const reset = () => {
     setQ('');
@@ -70,7 +76,7 @@ export function ExercisesPage() {
         <Chip testId="filter-category-all" active={cat === 'all'} onClick={() => setCat('all')}>
           {t('الكل')}
         </Chip>
-        {CATEGORIES.map((c) => (
+        {availableCategories.map((c) => (
           <Chip
             key={c.id}
             testId={`filter-category-${c.id}`}
@@ -105,8 +111,8 @@ export function ExercisesPage() {
       </p>
       {browse && (
         <section aria-label={t('أقسام التمارين')} className="space-y-2">
-          {CATEGORIES.map((c) => {
-            const first = exercises.find((x) => x.category === c.id);
+          {availableCategories.map((c) => {
+            const first = availableExercises.find((x) => x.category === c.id);
             return (
               <button
                 key={c.id}
@@ -163,7 +169,9 @@ export function ExerciseDetailPage() {
   const [, nav] = useLocation();
   const profile = useVYORAProfile();
   const [previewGender, setPreviewGender] = useState<UserGender>(profile?.gender ?? 'female');
-  const rawEx = exerciseById(exerciseId ?? '');
+  const rawEx = profile?.gender === 'male'
+    ? exercisesAvailableForGender(exercises, profile.gender).find((exercise) => exercise.id === exerciseId)
+    : exerciseById(exerciseId ?? '');
   const ex = rawEx ? localizeExercise(rawEx, locale) : undefined;
   const insight = ex ? getMovementInsight(ex.id, locale) : undefined;
   useEffect(() => {

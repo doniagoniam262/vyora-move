@@ -320,7 +320,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'crunch',
-    name: 'كرنش البطن',
+    name: 'طحن البطن',
     latin: 'Crunch',
     category: 'abs',
     level: 'beginner',
@@ -338,7 +338,7 @@ const exerciseCatalog: Exercise[] = [
   },
   {
     id: 'bicycle',
-    name: 'كرنش الدراجة',
+    name: 'الدراجة للبطن',
     latin: 'Bicycle Crunch',
     category: 'abs',
     level: 'intermediate',

@@ -23,6 +23,7 @@ import { localizeExercise, localizePlan } from '@/lib/localized-data';
 import { useVYORAProfile } from '@/lib/profile-context';
 import { exercisesAvailableForGender, planExercisesAvailableForGender } from '@/lib/exercise-visibility';
 import { adjustLevelForFeedback } from '@/lib/session-difficulty';
+import { playDing, prepareDingAudio } from '@/lib/ding-sound';
 
 type S = {
   idx: number;
@@ -134,6 +135,7 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
   const [difficultyRating, setDifficultyRating] = useState<SessionDifficulty | null>(null);
   const runId = useRef(newSessionId());
   const saved = useRef(false);
+  const completionSoundPlayed = useRef(false);
   const sessionLevel =
     planById(planId)?.level ?? exerciseById(planId)?.level ?? settings.homeFitLevel;
 
@@ -146,6 +148,10 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
   useEffect(() => {
     if (!s.done) return;
     if (s.elapsed > 0 || s.completed.length > 0) {
+      if (!completionSoundPlayed.current) {
+        completionSoundPlayed.current = true;
+        playDing();
+      }
       const inProgressId = steps[Math.min(s.idx, steps.length - 1)]?.ex.id;
       const completedExerciseIds =
         s.completed.length > 0
@@ -193,6 +199,7 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
             : 'هنقترح مستوى أسهل في التمرين القادم.';
     const rateSession = (difficulty: SessionDifficulty) => {
       setDifficultyRating(difficulty);
+      playDing();
       updateSessionDifficulty(runId.current, difficulty);
       const nextLevel = adjustLevelForFeedback(sessionLevel, difficulty);
       updateSettings({ homeFitLevel: nextLevel });
@@ -372,7 +379,10 @@ function Runner({ planId, name, list }: { planId: string; name: string; list: Ex
       </p>
       <div className="mt-6 flex items-start justify-center gap-6">
         <button
-          onClick={() => dispatch({ t: 'toggle' })}
+          onClick={() => {
+            if (!s.running) prepareDingAudio();
+            dispatch({ t: 'toggle' });
+          }}
           data-testid={s.running ? 'button-pause-session' : 'button-start-session'}
           className="focus-ring press flex flex-col items-center gap-1.5 text-xs font-bold"
         >

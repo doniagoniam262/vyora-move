@@ -16,6 +16,7 @@ import { useGetExercises } from '@workspace/api-client-react';
 import { toast } from 'sonner';
 import { LocaleProvider, useLocale } from '@/lib/locale';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { FirstLoginCelebration } from '@/components/first-login-celebration';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Logo } from '@/components/vyora';
@@ -27,6 +28,7 @@ import {
   type UserGender,
   type VYORAProfile,
 } from '@/lib/profile';
+import { claimFirstLoginWelcome } from '@/lib/first-login-welcome';
 import NotFound from '@/pages/not-found';
 import { SiteLayout } from '@/components/layout';
 import HomePage from '@/pages/home';
@@ -223,14 +225,22 @@ function UserAppGate() {
     profile: VYORAProfile | null;
   } | null>(null);
   const [draftGender, setDraftGender] = useState<UserGender | null>(null);
+  const [firstLoginWelcome, setFirstLoginWelcome] = useState(false);
+  const welcomeClaimedFor = useRef<string | null>(null);
 
   useEffect(() => {
     if (!authLoaded || !isSignedIn || !userLoaded || !user?.id) {
       setProfileState(null);
       setDraftGender(null);
+      setFirstLoginWelcome(false);
+      welcomeClaimedFor.current = null;
       return;
     }
     setProfileState({ userId: user.id, profile: readVYORAProfile(user.id) });
+    if (welcomeClaimedFor.current !== user.id) {
+      welcomeClaimedFor.current = user.id;
+      setFirstLoginWelcome(claimFirstLoginWelcome(user.id));
+    }
   }, [authLoaded, isSignedIn, userLoaded, user?.id]);
 
   const profileReady = Boolean(user?.id && profileState?.userId === user.id);
@@ -274,23 +284,29 @@ function UserAppGate() {
 
   if (!profile) {
     return (
-      <OnboardingPage
-        initialProfile={null}
-        onGenderChange={setDraftGender}
-        onComplete={(nextProfile) => {
-          return persistProfile(nextProfile);
-        }}
-      />
+      <>
+        <OnboardingPage
+          initialProfile={null}
+          onGenderChange={setDraftGender}
+          onComplete={(nextProfile) => {
+            return persistProfile(nextProfile);
+          }}
+        />
+        {firstLoginWelcome && <FirstLoginCelebration key={user.id} />}
+      </>
     );
   }
 
   return (
-    <VYORAProfileContext.Provider value={profile}>
-      <WorkoutRoutes
-        onSaveProfile={persistProfile}
-        onDraftGenderChange={setDraftGender}
-      />
-    </VYORAProfileContext.Provider>
+    <>
+      <VYORAProfileContext.Provider value={profile}>
+        <WorkoutRoutes
+          onSaveProfile={persistProfile}
+          onDraftGenderChange={setDraftGender}
+        />
+      </VYORAProfileContext.Provider>
+      {firstLoginWelcome && <FirstLoginCelebration key={user.id} />}
+    </>
   );
 }
 

@@ -326,16 +326,6 @@ const exerciseText: Record<
     safety: 'Use a light load and a spotter; never train alone with a heavy bar.',
     easier: 'Use light dumbbells or perform a floor press.',
   },
-  'bicep-curl': {
-    name: 'Bicep Curl',
-    instructions: [
-      'Stand tall with dumbbells by your sides and palms facing forward.',
-      'Keep your elbows beside your torso and curl the weights toward your shoulders.',
-      'Lower slowly without swinging your body.',
-    ],
-    safety: 'Choose a load you can fully control and stop for elbow or wrist pain.',
-    easier: 'Use a lighter load or curl one arm at a time.',
-  },
   'shoulder-press': {
     name: 'Shoulder Press',
     instructions: [

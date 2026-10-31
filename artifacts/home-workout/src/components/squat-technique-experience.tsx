@@ -65,7 +65,6 @@ export function ExerciseTechniqueExperience({
     'pull-up': { ar: 'بار عقلة', en: 'Pull-up bar' },
     deadlift: { ar: 'بار أو دامبلز', en: 'Barbell or dumbbells' },
     'bench-press': { ar: 'مقعد وبار', en: 'Bench and barbell' },
-    'bicep-curl': { ar: 'دامبلز', en: 'Dumbbells' },
     'shoulder-press': { ar: 'دامبلز', en: 'Dumbbells' },
   };
   const equipment = equipmentByExercise[exercise.id] ?? { ar: 'وزن الجسم', en: 'Bodyweight' };

@@ -153,11 +153,6 @@ export const exerciseFormErrors: Record<string, ExerciseErrorGuide[]> = {
     guide('wrists-back', 'hands', 'انثناء الرسغين للخلف', 'Wrists bending backward', 'وضع البار بعيدًا عن قاعدة الكف يضغط على الرسغ.', 'Holding the bar away from the heel of the palm strains the wrist.', 'ضع البار فوق قاعدة الكف وأبقِ الرسغ فوق المرفق.', 'Set the bar over the heel of your palm and stack wrist over elbow.'),
     guide('feet-lift', 'feet', 'رفع القدمين أو فقدان الثبات', 'Feet lifting or losing stability', 'عدم ضبط المقعد أو القدمين يقلل ثبات الجسم.', 'Poor bench or foot setup reduces body stability.', 'ثبّت القدمين والكتفين قبل فك البار.', 'Plant your feet and shoulders before unracking.'),
   ],
-  'bicep-curl': [
-    guide('body-swing', 'torso', 'تأرجح الجذع', 'Swinging the torso', 'الوزن الثقيل يدفع الجسم لاستخدام الاندفاع.', 'A heavy load encourages momentum.', 'خفف الوزن وثبّت الأضلاع فوق الحوض.', 'Reduce the load and keep your ribs stacked over your hips.'),
-    guide('elbows-forward', 'elbows', 'تحرك المرفقين للأمام', 'Elbows drifting forward', 'رفع الكتف يحول الحركة بعيدًا عن ثني المرفق.', 'Shoulder movement shifts work away from the elbow curl.', 'ثبّت المرفقين بجانب الجسم طوال التكرار.', 'Keep your elbows beside your torso for the whole rep.'),
-    guide('fast-lower', 'jerk', 'إسقاط الدامبلز سريعًا', 'Dropping the dumbbells quickly', 'التركيز على الرفع فقط يفقد التحكم في العودة.', 'Focusing only on lifting loses control on the return.', 'اخفض الدامبلز ببطء حتى تمد الذراعين.', 'Lower slowly until your arms extend.'),
-  ],
   'shoulder-press': [
     guide('back-arch', 'back', 'تقويس أسفل الظهر', 'Arching the lower back', 'الوزن الزائد أو ضعف شد الجذع يدفع الأضلاع للأمام.', 'Excess load or weak bracing pushes the ribs forward.', 'خفف الوزن وشد البطن مع إبقاء الأضلاع فوق الحوض.', 'Reduce the load, brace your abs, and stack ribs over hips.'),
     guide('elbows-far', 'elbows', 'دفع المرفقين بعيدًا للخلف', 'Elbows drifting too far back', 'بداية غير مريحة قد تزيد ضغط مقدمة الكتف.', 'An awkward start can increase front-shoulder strain.', 'ابدأ بمرفقين تحت الرسغين وفي مستوى مريح.', 'Start with elbows under wrists at a comfortable angle.'),

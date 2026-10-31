@@ -88,8 +88,6 @@ const CONFIGS: Record<string, Config> = {
     frames: [{ ...ST, y: 185, aN: [175, 175], aF: [175, 175] }, { ...ST, y: 155, aN: [145, 35], aF: [145, 35] }] },
   'bench-press': { dur: 1200, prop: 'bench', floor: true, focus: { en: 'Lower with control', ar: 'اخفض بتحكم' },
     frames: [{ ...SU, aN: [178, 178], aF: [180, 180] }, { ...SU, aN: [145, 40], aF: [145, 40] }] },
-  'bicep-curl': { dur: 1100, focus: { en: 'Elbows stay beside torso', ar: 'المرفقان بجانب الجذع' },
-    frames: [{ ...ST, aN: [2, 4], aF: [-2, 4] }, { ...ST, aN: [8, 155], aF: [-8, 155] }] },
   'shoulder-press': { dur: 1100, focus: { en: 'Brace and press overhead', ar: 'ثبّت الجذع وادفع للأعلى' },
     frames: [{ ...ST, aN: [90, 90], aF: [90, 90] }, { ...ST, aN: [175, 175], aF: [175, 175] }] },
   'pike-push-up': { dur: 1200, floor: true, focus: { en: 'Head toward the hands', ar: 'الرأس نحو اليدين' },

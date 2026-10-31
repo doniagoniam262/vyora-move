@@ -336,16 +336,6 @@ export const movementInsights: Record<string, MovementInsight> = {
     mistakes: [cue('تجنب ارتداد البار أو رفع الكتفين عن المقعد.', 'Avoid bouncing the bar or lifting your shoulders from the bench.')],
     breathing: cue('شهيق عند النزول وزفير عند الدفع.', 'Inhale as you lower and exhale as you press.'),
   },
-  'bicep-curl': {
-    primary: ['arms'],
-    secondary: ['core'],
-    cues: [
-      cue('ثبّت المرفقين بجانب الجذع طوال الحركة.', 'Keep your elbows beside your torso throughout.'),
-      cue('اخفض الوزن بنفس التحكم المستخدم في الرفع.', 'Lower with the same control used to lift.'),
-    ],
-    mistakes: [cue('تجنب التأرجح أو دفع المرفقين للأمام.', 'Avoid swinging or driving your elbows forward.')],
-    breathing: cue('ازفر عند الثني وخذ شهيقًا عند الخفض.', 'Exhale as you curl and inhale as you lower.'),
-  },
   'shoulder-press': {
     primary: ['shoulders', 'arms'],
     secondary: ['core', 'upper-back'],

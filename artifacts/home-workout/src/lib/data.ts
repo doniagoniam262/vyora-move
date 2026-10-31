@@ -214,24 +214,6 @@ const exerciseCatalog: Exercise[] = [
     easier: 'استخدم دامبلز خفيفة أو نفّذ ضغط الصدر على الأرض.',
   },
   {
-    id: 'bicep-curl',
-    name: 'ثني العضلة ذات الرأسين',
-    latin: 'Bicep Curl',
-    category: 'upper',
-    level: 'beginner',
-    image: 'images/egyptian_boy_full.jpg',
-    duration: 35,
-    reps: 12,
-    sets: 3,
-    instructions: [
-      'قف مستقيمًا والدامبلز بجانب الجسم والكفان للأمام.',
-      'ثبّت المرفقين بجانب الجذع وارفع الدامبلز نحو الكتفين.',
-      'اخفض الوزن ببطء دون تأرجح الجذع.',
-    ],
-    safety: 'اختر وزنًا يسمح لك بالتحكم الكامل، وأوقف التمرين عند ألم المرفق أو الرسغ.',
-    easier: 'استخدم وزنًا أخف أو نفّذ ذراعًا واحدة في كل مرة.',
-  },
-  {
     id: 'shoulder-press',
     name: 'ضغط الكتف',
     latin: 'Shoulder Press',
@@ -840,7 +822,6 @@ const retainedExerciseOrder = [
   'pull-up',
   'deadlift',
   'bench-press',
-  'bicep-curl',
   'shoulder-press',
 ];
 const retainedExerciseIds = new Set(retainedExerciseOrder);

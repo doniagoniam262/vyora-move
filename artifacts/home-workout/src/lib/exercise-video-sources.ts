@@ -36,7 +36,6 @@ const femaleVideos: Record<string, string> = {
   'leg-raise': localVideo('female-leg-raise-demo.mp4'),
   'glute-bridge': localVideo('female-glute-bridge-demo.mp4'),
   'bench-press': localVideo('female-bench-press-demo.mp4'),
-  'bicep-curl': localVideo('female-bicep-curl-demo.mp4'),
   'shoulder-press': localVideo('female-shoulder-press-demo.mp4'),
 };
 
@@ -44,7 +43,6 @@ const maleVideos: Record<string, string> = {
   'pull-up': publicVideo('pullups-male.mp4'),
   deadlift: publicVideo('deadlift-male.mp4'),
   'bench-press': publicVideo('bench-press-male.mp4'),
-  'bicep-curl': publicVideo('bicep-curls-male.mp4'),
   'shoulder-press': publicVideo('shoulder-press-male.mp4'),
 };
 
@@ -71,7 +69,6 @@ const sourceFor = (exerciseId: string, gender: UserGender): ExerciseVideoSource 
       'crunch',
       'bicycle',
       'bench-press',
-      'bicep-curl',
       'shoulder-press',
     ].includes(exerciseId) ? 'landscape' : 'portrait',
     exerciseSpecific: Boolean(src),
@@ -94,7 +91,6 @@ const supportedExerciseIds = [
   'pull-up',
   'deadlift',
   'bench-press',
-  'bicep-curl',
   'shoulder-press',
 ];
 

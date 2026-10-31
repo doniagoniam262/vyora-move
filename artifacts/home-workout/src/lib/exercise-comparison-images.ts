@@ -7,10 +7,6 @@ const comparisons: Record<string, Partial<Record<Gender, { correct: string; mist
     male: { correct: 'deadlift-male-correct.jpg', mistake: 'deadlift-male-error.jpg' },
     female: { correct: 'deadlift-female-correct.jpg', mistake: 'deadlift-female-error.jpg' },
   },
-  'bicep-curl': {
-    male: { correct: 'bicep-curl-male-correct.jpg', mistake: 'bicep-curl-male-error.jpg' },
-    female: { correct: 'bicep-curl-female-correct.jpg', mistake: 'bicep-curl-female-error.jpg' },
-  },
   'shoulder-press': {
     male: { correct: 'shoulder-press-male-correct.jpg', mistake: 'shoulder-press-male-error.jpg' },
     female: { correct: 'shoulder-press-female-correct.jpg', mistake: 'shoulder-press-female-error.jpg' },

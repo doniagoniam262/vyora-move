@@ -7,7 +7,7 @@ export default function HowItWorks({ active = false }: { active?: boolean }) {
     src={slideImage}
     alt="شريحة رحلة المستخدم في أربع خطوات"
     crossOrigin="anonymous"
-    className="absolute inset-0 h-full w-full object-contain"
+     className="how-it-works-image absolute inset-0 h-full w-full object-cover"
    />
   </section>
   );

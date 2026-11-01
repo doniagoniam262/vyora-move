@@ -47,9 +47,12 @@ html,body,#root {width:100%;height:100%;margin:0;} body {background:var(--slide-
 .thank-you-arabic {font-size:2.7vw;line-height:1.6;}
 svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;object-fit:contain;background:#090909;}
 
-@keyframes vyora-slide-enter { from { opacity: 0; transform: translate3d(0,1.4vh,0) scale(.994); filter: blur(2px); } to { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0); } }
+@keyframes vyora-slide-enter { from { opacity: 0; transform: translate3d(5vw,0,0) scale(.994); filter: blur(2px); } to { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0); } }
 @keyframes vyora-content-enter { from { opacity: 0; translate: 0 1.7vh; scale: .99; } to { opacity: 1; translate: 0 0; scale: 1; } }
 @keyframes vyora-heading-zoom { from { opacity: 0; scale: .95; } to { opacity: 1; scale: 1; } }
+@keyframes vyora-text-type-rtl { from { clip-path: inset(0 0 0 100%); } to { clip-path: inset(0 0 0 0); } }
+@keyframes vyora-text-type-ltr { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes vyora-image-zoom { from { opacity: 0; transform: scale(1.035); } to { opacity: 1; transform: scale(1); } }
 @keyframes vyora-blob-float { to { translate: 1.2vw -1.5vh; rotate: 3deg; } }
 .vyora-slide-active > section {
  animation: vyora-slide-enter 1.05s cubic-bezier(.22,.72,.1,1) both;
@@ -89,6 +92,58 @@ svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;obj
 .vyora-slide-active > section [class*="grid"] > *:nth-child(7) { animation-delay: .72s; }
 .vyora-slide-active > section .blob {
  animation: vyora-content-enter 1.1s both, vyora-blob-float 28s ease-in-out 1.1s infinite alternate;
+}
+.vyora-slide-active > section :is(h1,h2,h3,p) {
+ animation-name: vyora-content-enter,vyora-text-type-rtl;
+ animation-duration: .92s,1.45s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section :is(.heading,.sub,.hero-title,.thank-you-brand) {
+ animation-name: vyora-heading-zoom,vyora-text-type-rtl;
+ animation-duration: 1.05s,1.5s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section :is(.english,[dir="ltr"]) :is(h1,h2,h3,p),
+.vyora-slide-active > section :is(h1,h2,h3,p).english,
+.vyora-slide-active > section :is(h1,h2,h3,p)[dir="ltr"],
+.vyora-slide-active > section :is(.hero-title,.thank-you-brand) {
+ animation-name: vyora-content-enter,vyora-text-type-ltr;
+ animation-duration: .92s,1.45s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section :is(.hero-title,.thank-you-brand) {
+ animation-name: vyora-heading-zoom,vyora-text-type-ltr;
+ animation-duration: 1.05s,1.5s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section :is(.heading,.sub).english {
+ animation-name: vyora-heading-zoom,vyora-text-type-ltr;
+ animation-duration: 1.05s,1.5s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section .top :is(.heading,.kicker) {
+ animation-name: vyora-heading-zoom,vyora-text-type-rtl;
+ animation-duration: 1.05s,1.5s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section .top .english {
+ animation-name: vyora-content-enter,vyora-text-type-ltr;
+ animation-duration: .92s,1.45s;
+ animation-timing-function: cubic-bezier(.22,.72,.1,1),steps(38,end);
+ animation-fill-mode: both,both;
+}
+.vyora-slide-active > section img {
+ animation: vyora-image-zoom 1.45s cubic-bezier(.22,.72,.1,1) both;
+ transform-origin:center;
+}
+.vyora-slide-active > section .logo-plate img {
+ animation:none;
 }
 .vyora-music-control {
  position:absolute;
@@ -155,8 +210,10 @@ svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;obj
  .vyora-slide-active > section,
  .vyora-slide-active > section * {
    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
    animation-iteration-count: 1 !important;
    translate: none !important;
    scale: none !important;
+    clip-path: none !important;
  }
 }

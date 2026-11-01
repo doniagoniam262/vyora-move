@@ -40,19 +40,27 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
   const lock = useRef(false);
+  const activeIndexRef = useRef(0);
   const transitionTimer = useRef<number | undefined>(undefined);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const navigate = useCallback((direction: Direction) => {
     if (lock.current) return;
-    const target = activeIndex + (direction === 'forward' ? 1 : -1);
+    const from = activeIndexRef.current;
+    const target = from + (direction === 'forward' ? 1 : -1);
     if (target < 0 || target >= slides.length) return;
     lock.current = true;
-    setTransition({ from: activeIndex, to: target, direction });
+    activeIndexRef.current = target;
+    setActiveIndex(target);
+    setTransition({ from, to: target, direction });
     transitionTimer.current = window.setTimeout(() => {
-      setActiveIndex(target);
       setTransition(null);
       lock.current = false;
     }, 600);
+  }, []);
+
+  useEffect(() => {
+    console.info(`[VYORA MOVE] Current slide: ${activeIndex + 1}/${slides.length}`);
   }, [activeIndex]);
 
   useEffect(() => {
@@ -75,6 +83,19 @@ function App() {
   const goPrevious = () => navigate('backward');
   const goNext = () => navigate('forward');
   const currentIndex = transition?.to ?? activeIndex;
+  const onTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    const touch = event.changedTouches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+  const onTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (!touchStart.current) return;
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStart.current.x;
+    const deltaY = touch.clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(deltaX) < 45 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+    navigate(deltaX < 0 ? 'forward' : 'backward');
+  };
 
   return (
     <main className="presentation-shell" data-testid="presentation-shell">
@@ -88,7 +109,13 @@ function App() {
       </header>
 
       <section className="presentation-stage-wrap" aria-label="VYORA MOVE presentation">
-        <div className="presentation-stage" data-testid="presentation-stage">
+        <div
+          className="presentation-stage"
+          data-testid="presentation-stage"
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onTouchCancel={() => { touchStart.current = null; }}
+        >
           {transition ? (
             <>
               <div className={`presentation-scene scene-exit-${transition.direction}`} aria-hidden="true">

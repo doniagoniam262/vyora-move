@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Experience() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+  <section className="w-screen h-screen overflow-hidden relative deck slide-experience">
 
 <header className="top"><h1 className="heading">هوية واحدة، وتجربتان</h1><p className="kicker english">User Experience</p></header>
 <div className="experience-panel absolute right-[6cqw] top-[24cqh] w-[42cqw] h-[64cqh] bg-gradient-to-br from-[#e956a9] via-[#985cff] to-[#31173f] rounded-[2cqw] overflow-hidden">

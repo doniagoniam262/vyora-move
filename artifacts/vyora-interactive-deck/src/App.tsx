@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ComponentType } from 'react';
+import { useCallback, useEffect, useRef, useState, type ComponentType, type PointerEvent, type TouchEvent, type WheelEvent } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Cover from '@/pages/slides/Cover';
 import Introduction from '@/pages/slides/Introduction';
@@ -42,6 +42,8 @@ function App() {
   const lock = useRef(false);
   const activeIndexRef = useRef(0);
   const transitionTimer = useRef<number | undefined>(undefined);
+  const wheelTimer = useRef<number | undefined>(undefined);
+  const wheelDelta = useRef(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const navigate = useCallback((direction: Direction) => {
@@ -56,7 +58,20 @@ function App() {
     transitionTimer.current = window.setTimeout(() => {
       setTransition(null);
       lock.current = false;
-    }, 600);
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 40 : 880);
+  }, []);
+
+  const goToSlide = useCallback((target: number) => {
+    if (lock.current || target < 0 || target >= slides.length || target === activeIndexRef.current) return;
+    const from = activeIndexRef.current;
+    lock.current = true;
+    activeIndexRef.current = target;
+    setActiveIndex(target);
+    setTransition({ from, to: target, direction: target > from ? 'forward' : 'backward' });
+    transitionTimer.current = window.setTimeout(() => {
+      setTransition(null);
+      lock.current = false;
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 40 : 880);
   }, []);
 
   useEffect(() => {
@@ -77,17 +92,18 @@ function App() {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
       if (transitionTimer.current) window.clearTimeout(transitionTimer.current);
+      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
     };
   }, [navigate]);
 
   const goPrevious = () => navigate('backward');
   const goNext = () => navigate('forward');
   const currentIndex = transition?.to ?? activeIndex;
-  const onTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+  const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     const touch = event.changedTouches[0];
     touchStart.current = { x: touch.clientX, y: touch.clientY };
   };
-  const onTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+  const onTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
     if (!touchStart.current) return;
     const touch = event.changedTouches[0];
     const deltaX = touch.clientX - touchStart.current.x;
@@ -96,6 +112,47 @@ function App() {
     if (Math.abs(deltaX) < 45 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
     navigate(deltaX < 0 ? 'forward' : 'backward');
   };
+  const onWheel = (event: WheelEvent<HTMLDivElement>) => {
+    if (Math.abs(event.deltaY) < Math.abs(event.deltaX) || event.deltaY === 0) return;
+    event.preventDefault();
+    if (lock.current) return;
+    if (wheelDelta.current && Math.sign(wheelDelta.current) !== Math.sign(event.deltaY)) wheelDelta.current = 0;
+    wheelDelta.current += event.deltaY;
+    if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
+    wheelTimer.current = window.setTimeout(() => { wheelDelta.current = 0; }, 140);
+    if (Math.abs(wheelDelta.current) >= 42) {
+      const direction = wheelDelta.current > 0 ? 'forward' : 'backward';
+      wheelDelta.current = 0;
+      if (wheelTimer.current) window.clearTimeout(wheelTimer.current);
+      navigate(direction);
+    }
+  };
+  const resetParallax = (stage: HTMLDivElement) => {
+    stage.style.setProperty('--parallax-photo-x', '0px');
+    stage.style.setProperty('--parallax-photo-y', '0px');
+    stage.style.setProperty('--parallax-blob-x', '0px');
+    stage.style.setProperty('--parallax-blob-y', '0px');
+    stage.style.setProperty('--parallax-backdrop-x', '0px');
+    stage.style.setProperty('--parallax-backdrop-y', '0px');
+  };
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (
+      event.pointerType === 'touch' ||
+      !window.matchMedia('(hover: hover) and (pointer: fine)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+    const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+    const stage = event.currentTarget;
+    stage.style.setProperty('--parallax-photo-x', `${x * -8}px`);
+    stage.style.setProperty('--parallax-photo-y', `${y * -6}px`);
+    stage.style.setProperty('--parallax-blob-x', `${x * 13}px`);
+    stage.style.setProperty('--parallax-blob-y', `${y * 10}px`);
+    stage.style.setProperty('--parallax-backdrop-x', `${x * -3}px`);
+    stage.style.setProperty('--parallax-backdrop-y', `${y * -2}px`);
+  };
+  const onPointerLeave = (event: PointerEvent<HTMLDivElement>) => resetParallax(event.currentTarget);
 
   return (
     <main className="presentation-shell" data-testid="presentation-shell">
@@ -112,6 +169,9 @@ function App() {
         <div
           className="presentation-stage"
           data-testid="presentation-stage"
+          onWheel={onWheel}
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           onTouchCancel={() => { touchStart.current = null; }}
@@ -144,9 +204,17 @@ function App() {
           <span className="status-divider">/</span>
           <span className="status-total">12</span>
         </div>
-        <div className="progress-rail" aria-label={`Slide ${currentIndex + 1} of 12`}>
+        <div className="progress-rail" role="group" aria-label={`Slide ${currentIndex + 1} of 12`}>
           {slides.map((_, index) => (
-            <span key={index} className={`progress-segment ${index <= currentIndex ? 'is-passed' : ''} ${index === currentIndex ? 'is-current' : ''}`} />
+            <button
+              key={index}
+              type="button"
+              className={`progress-segment ${index <= currentIndex ? 'is-passed' : ''} ${index === currentIndex ? 'is-current' : ''}`}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+              aria-current={index === currentIndex ? 'step' : undefined}
+              disabled={Boolean(transition)}
+            />
           ))}
         </div>
         <button className="nav-button next-button" type="button" onClick={goNext} disabled={activeIndex === slides.length - 1 || Boolean(transition)} aria-label="Next slide" data-testid="button-next">

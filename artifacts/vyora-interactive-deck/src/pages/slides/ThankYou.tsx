@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function ThankYou() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+  <section className="w-screen h-screen overflow-hidden relative deck slide-thank-you">
 
 <div className="blob left-[6cqw] top-[24cqh] w-[32cqw] h-[62cqh] bg-gradient-to-br from-[#9B6BFF] via-[#6435A5] to-[#FFE6F0] opacity-60" />
 <img src={base + 'media/athletes.png'} crossOrigin="anonymous" alt="رياضيان في ختام العرض" className="absolute left-[2cqw] top-[22cqh] w-[38cqw] h-[65cqh] object-contain" />

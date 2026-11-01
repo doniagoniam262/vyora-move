@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Cover() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+   <section className="w-screen h-screen overflow-hidden relative deck slide-cover">
 
 <div className="blob left-[4cqw] top-[15cqh] w-[42cqw] h-[70cqh] bg-gradient-to-br from-[#9B6BFF] via-[#6435A5] to-[#FFE6F0] opacity-75" />
 <div className="absolute left-[5cqw] top-[10cqh] w-[39cqw] h-[77cqh] border border-white/15 rounded-[4cqw]" />

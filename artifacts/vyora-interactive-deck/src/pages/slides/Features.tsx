@@ -3,7 +3,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Features({ active = false }: { active?: boolean }) {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck pink-deck">
+  <section className="w-screen h-screen overflow-hidden relative deck pink-deck slide-features">
 
 <div className="absolute right-0 top-0 w-[32cqw] h-[100cqh] bg-gradient-to-b from-[#9B6BFF]/30 to-transparent" />
 <header className="top"><h1 className="heading">خصائص موجودة بالفعل</h1><p className="kicker english"><CountUpNumber value={6} active={active} /> • Main Features</p></header>

@@ -4,7 +4,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Audience({ active = false }: { active?: boolean }) {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck blue-deck">
+  <section className="w-screen h-screen overflow-hidden relative deck blue-deck slide-audience">
 
 <img src={base + 'media/man-home.jpg'} crossOrigin="anonymous" alt="صورة أصلية لرجل يتدرّب في مساحة منزلية" className="absolute right-0 top-0 w-[48cqw] h-[100cqh] photo" />
 <div className="absolute right-0 bottom-0 w-[48cqw] h-[20cqh] bg-gradient-to-t from-[#091323] to-transparent" />

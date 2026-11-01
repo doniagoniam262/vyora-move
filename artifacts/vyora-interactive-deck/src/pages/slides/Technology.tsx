@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Technology() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck blue-deck">
+  <section className="w-screen h-screen overflow-hidden relative deck blue-deck slide-technology">
 
 <header className="top"><h1 className="heading">التقنيات المستخدمة فعليًا</h1><p className="kicker english">Technologies Used</p></header>
 <div className="absolute top-[31cqh] left-[6cqw] right-[6cqw] grid grid-cols-3 gap-[3cqw] text-right" dir="rtl">

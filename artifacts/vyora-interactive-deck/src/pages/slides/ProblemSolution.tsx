@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function ProblemSolution() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+   <section className="w-screen h-screen overflow-hidden relative deck slide-problem">
 
 <div className="blob left-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#9B6BFF] opacity-30" />
 <div className="blob right-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#FFE6F0] opacity-20" />

@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Screens() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+  <section className="w-screen h-screen overflow-hidden relative deck slide-screens">
 
 <header className="top"><h1 className="heading">صور حقيقية من المشروع</h1><p className="kicker english">Application Screens</p></header>
 <img src={base + 'media/app-login.jpg'} crossOrigin="anonymous" alt="لقطة حقيقية حديثة لواجهة الدخول في VYORA MOVE" className="screen absolute left-[6cqw] top-[26cqh] w-[21cqw] h-[59cqh]" />

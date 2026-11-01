@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Introduction() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck pink-deck">
+   <section className="w-screen h-screen overflow-hidden relative deck pink-deck slide-introduction">
 
 <img src={base + 'media/woman-home.jpg'} crossOrigin="anonymous" alt="تصوير رياضي مولد لتدريب منزلي للبنات" className="absolute left-0 top-0 w-[47cqw] h-[100cqh] photo" />
 <div className="absolute left-0 bottom-0 w-[47cqw] h-[24cqh] bg-gradient-to-t from-[#140b21] to-transparent" />

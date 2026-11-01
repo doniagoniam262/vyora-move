@@ -2,7 +2,7 @@ const base = import.meta.env.BASE_URL;
 
 export default function Challenges() {
  return (
-  <section className="w-screen h-screen overflow-hidden relative deck ">
+  <section className="w-screen h-screen overflow-hidden relative deck slide-challenges">
 
 <div className="blob left-[3cqw] bottom-[8cqh] w-[42cqw] h-[52cqh] bg-[#9B6BFF] opacity-20" />
 <header className="top"><h1 className="heading">التحديات والتطوير المستقبلي</h1><p className="kicker english">Challenges & Future Development</p></header>

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState, type ComponentType, type PointerEvent, type TouchEvent, type WheelEvent } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ComponentType, type PointerEvent, type TouchEvent, type WheelEvent } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { AnimatePresence, LayoutGroup, animate, motion, stagger } from 'framer-motion';
 import Cover from '@/pages/slides/Cover';
 import Introduction from '@/pages/slides/Introduction';
 import ProblemSolution from '@/pages/slides/ProblemSolution';
@@ -29,50 +30,79 @@ const slides = [
 ];
 
 type Direction = 'forward' | 'backward';
-type Transition = { from: number; to: number; direction: Direction };
 
-function SlideView({ index }: { index: number }) {
-  const Slide = slides[index] as ComponentType<{ active?: boolean }>;
-  return <Slide active={index === 4 || index === 5 || index === 7} />;
+function SlideView({
+  index,
+  onNavigateToSlide,
+}: {
+  index: number;
+  onNavigateToSlide: (target: number) => void;
+}) {
+  const Slide = slides[index] as ComponentType<{
+    active?: boolean;
+    onNavigateToSlide?: (target: number) => void;
+  }>;
+  return (
+    <Slide
+      active={index === 4 || index === 5 || index === 7}
+      onNavigateToSlide={onNavigateToSlide}
+    />
+  );
 }
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [transition, setTransition] = useState<Transition | null>(null);
+  const [direction, setDirection] = useState<Direction>('forward');
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const lock = useRef(false);
   const activeIndexRef = useRef(0);
   const transitionTimer = useRef<number | undefined>(undefined);
   const wheelTimer = useRef<number | undefined>(undefined);
   const wheelDelta = useRef(0);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-
-  const navigate = useCallback((direction: Direction) => {
-    if (lock.current) return;
-    const from = activeIndexRef.current;
-    const target = from + (direction === 'forward' ? 1 : -1);
-    if (target < 0 || target >= slides.length) return;
-    lock.current = true;
-    activeIndexRef.current = target;
-    setActiveIndex(target);
-    setTransition({ from, to: target, direction });
-    transitionTimer.current = window.setTimeout(() => {
-      setTransition(null);
-      lock.current = false;
-    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 40 : 880);
-  }, []);
+  const sceneRef = useRef<HTMLDivElement>(null);
 
   const goToSlide = useCallback((target: number) => {
     if (lock.current || target < 0 || target >= slides.length || target === activeIndexRef.current) return;
     const from = activeIndexRef.current;
     lock.current = true;
     activeIndexRef.current = target;
+    setDirection(target > from ? 'forward' : 'backward');
     setActiveIndex(target);
-    setTransition({ from, to: target, direction: target > from ? 'forward' : 'backward' });
+    setIsTransitioning(true);
     transitionTimer.current = window.setTimeout(() => {
-      setTransition(null);
+      setIsTransitioning(false);
       lock.current = false;
-    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 40 : 880);
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 40 : 850);
   }, []);
+
+  const navigate = useCallback((move: Direction) => {
+    goToSlide(activeIndexRef.current + (move === 'forward' ? 1 : -1));
+  }, [goToSlide]);
+
+  useLayoutEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene || scene.querySelector('.how-it-works-live')) return;
+
+    const visibleContent = Array.from(
+      scene.querySelectorAll<HTMLElement | SVGElement>(
+        'h2, h3, p, li, img, svg, .logo-plate, .foot',
+      ),
+    ).filter((element) => element.getClientRects().length > 0);
+    if (!visibleContent.length) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reveal = animate(
+      visibleContent,
+      { opacity: [0, 1], y: [30, 0] },
+      {
+        duration: reducedMotion ? 0.01 : 0.62,
+        delay: reducedMotion ? 0 : stagger(0.15),
+        ease: [0.4, 0, 0.2, 1],
+      },
+    );
+    return () => reveal.stop();
+  }, [activeIndex]);
 
   useEffect(() => {
     console.info(`[VYORA MOVE] Current slide: ${activeIndex + 1}/${slides.length}`);
@@ -98,7 +128,7 @@ function App() {
 
   const goPrevious = () => navigate('backward');
   const goNext = () => navigate('forward');
-  const currentIndex = transition?.to ?? activeIndex;
+  const currentIndex = activeIndex;
   const onTouchStart = (event: TouchEvent<HTMLDivElement>) => {
     const touch = event.changedTouches[0];
     touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -156,6 +186,30 @@ function App() {
 
   return (
     <main className="presentation-shell" data-testid="presentation-shell">
+      <div className="cinematic-backdrop" aria-hidden="true">
+        <img className="cinematic-backdrop-photo" src={import.meta.env.BASE_URL + 'media/fitness-tools.jpg'} alt="" />
+        <div className="cinematic-backdrop-glow cinematic-backdrop-glow-pink" />
+        <div className="cinematic-backdrop-glow cinematic-backdrop-glow-blue" />
+        <div className="cinematic-backdrop-grid" />
+        <svg className="cinematic-neural-lines" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <g className="neural-web" fill="none" stroke="currentColor" strokeWidth="1">
+            <path d="M-50 220 150 140 290 260 430 170 590 290 720 190 910 280 1060 150 1240 250 1500 120" />
+            <path d="M-40 600 130 490 300 620 460 470 620 610 790 480 960 640 1130 470 1310 610 1500 460" />
+            <path d="m150 140 20 350m120-230 160 210m140-180 30 320m100-420 170 290m170-420 70 550m180-360 70 220" />
+            <path d="m290 260 10 360m140-450 30 300m260-280 50 300m270-210 40 350m250-390 0 400" />
+          </g>
+          <g className="neural-nodes">
+            <circle cx="150" cy="140" r="4" /><circle cx="290" cy="260" r="5" />
+            <circle cx="430" cy="170" r="3" /><circle cx="590" cy="290" r="5" />
+            <circle cx="720" cy="190" r="4" /><circle cx="910" cy="280" r="5" />
+            <circle cx="1060" cy="150" r="4" /><circle cx="1240" cy="250" r="5" />
+            <circle cx="130" cy="490" r="4" /><circle cx="300" cy="620" r="5" />
+            <circle cx="460" cy="470" r="4" /><circle cx="620" cy="610" r="5" />
+            <circle cx="790" cy="480" r="4" /><circle cx="960" cy="640" r="5" />
+            <circle cx="1130" cy="470" r="4" /><circle cx="1310" cy="610" r="5" />
+          </g>
+        </svg>
+      </div>
       <header className="viewer-header">
         <div className="viewer-brand" aria-label="VYORA MOVE">
           <span className="viewer-mark">V</span>
@@ -176,25 +230,42 @@ function App() {
           onTouchEnd={onTouchEnd}
           onTouchCancel={() => { touchStart.current = null; }}
         >
-          {transition ? (
-            <>
-              <div className={`presentation-scene scene-exit-${transition.direction}`} aria-hidden="true">
-                <SlideView index={transition.from} />
-              </div>
-              <div className={`presentation-scene scene-enter-${transition.direction}`} aria-live="polite">
-                <SlideView index={transition.to} />
-              </div>
-            </>
-          ) : (
-            <div className="presentation-scene scene-current" aria-live="polite">
-              <SlideView index={activeIndex} />
-            </div>
-          )}
+          <LayoutGroup id="vyora-move-deck">
+            <AnimatePresence initial={false} mode="sync" custom={direction}>
+              <motion.div
+                key={activeIndex}
+                ref={sceneRef}
+                className="presentation-scene framer-scene"
+                custom={direction}
+                variants={{
+                  enter: (move: Direction) => ({
+                    x: move === 'forward' ? '100%' : '-100%',
+                    opacity: 0.55,
+                  }),
+                  center: { x: '0%', opacity: 1 },
+                  exit: (move: Direction) => ({
+                    x: move === 'forward' ? '-100%' : '100%',
+                    opacity: 0.45,
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0.01 : 0.8,
+                  ease: [0.4, 0, 0.2, 1],
+                }}
+                aria-live="polite"
+              >
+                <SlideView index={activeIndex} onNavigateToSlide={goToSlide} />
+              </motion.div>
+            </AnimatePresence>
+          </LayoutGroup>
         </div>
       </section>
 
       <footer className="viewer-controls">
-        <button className="nav-button previous-button" type="button" onClick={goPrevious} disabled={activeIndex === 0 || Boolean(transition)} aria-label="Previous slide" data-testid="button-previous">
+        <button className="nav-button previous-button" type="button" onClick={goPrevious} disabled={activeIndex === 0 || isTransitioning} aria-label="Previous slide" data-testid="button-previous">
           <ArrowLeft size={17} strokeWidth={1.8} />
           <span>Previous</span>
         </button>
@@ -213,11 +284,11 @@ function App() {
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
               aria-current={index === currentIndex ? 'step' : undefined}
-              disabled={Boolean(transition)}
+              disabled={isTransitioning}
             />
           ))}
         </div>
-        <button className="nav-button next-button" type="button" onClick={goNext} disabled={activeIndex === slides.length - 1 || Boolean(transition)} aria-label="Next slide" data-testid="button-next">
+        <button className="nav-button next-button" type="button" onClick={goNext} disabled={activeIndex === slides.length - 1 || isTransitioning} aria-label="Next slide" data-testid="button-next">
           <span>Next</span>
           <ArrowRight size={17} strokeWidth={1.8} />
         </button>

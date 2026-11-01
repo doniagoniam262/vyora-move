@@ -1,4 +1,5 @@
 const base = import.meta.env.BASE_URL;
+import { SlideTitle } from '@/components/SlideTitle';
 
 export default function ProblemSolution() {
  return (
@@ -6,7 +7,7 @@ export default function ProblemSolution() {
 
 <div className="blob left-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#9B6BFF] opacity-30" />
 <div className="blob right-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#FFE6F0] opacity-20" />
-<header className="top"><h1 className="heading">المشكلة والحل</h1><p className="kicker english">Problem & Solution</p></header>
+<header className="top"><SlideTitle className="heading">المشكلة والحل</SlideTitle><p className="kicker english">Problem & Solution</p></header>
 <div className="problem-column absolute top-[31cqh] right-[6cqw] w-[39cqw] text-right" dir="rtl">
 <p className="problem-label english text-[6cqw] font-bold m-0">PROBLEM</p>
 <p className="copy problem-copy mt-[4cqh]">محتوى متفرّق يصعّب اختيار التمرين.</p>

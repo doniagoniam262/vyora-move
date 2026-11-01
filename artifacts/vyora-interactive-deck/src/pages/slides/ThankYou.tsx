@@ -1,4 +1,5 @@
 const base = import.meta.env.BASE_URL;
+import { SlideTitle } from '@/components/SlideTitle';
 
 export default function ThankYou() {
  return (
@@ -8,7 +9,7 @@ export default function ThankYou() {
 <img src={base + 'media/athletes.png'} crossOrigin="anonymous" alt="رياضيان في ختام العرض" className="absolute left-[2cqw] top-[22cqh] w-[38cqw] h-[65cqh] object-contain" />
 <div className="absolute left-[6cqw] top-[6cqh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9cqw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13cqw]" /></div></div>
 <div className="absolute right-[5cqw] top-[12cqh] w-[59cqw] text-center" dir="ltr">
-  <h1 className="thank-you-brand m-0">VYORA MOVE</h1>
+  <SlideTitle className="thank-you-brand m-0">VYORA MOVE</SlideTitle>
 <p className="thank-you-arabic refined-arabic text-primary mt-[2cqh]" dir="rtl">مش مجرد تمرين، دي بداية لحياة أقوى</p>
  <p className="english signature-font text-[2.1cqw] tracking-[.05em] mt-[2cqh]">HOME FITNESS • LIVE YOUR MOVE</p>
 <div className="h-px bg-white/20 my-[4cqh] mx-[6cqw]" />

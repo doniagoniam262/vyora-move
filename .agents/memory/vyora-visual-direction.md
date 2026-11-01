@@ -14,6 +14,12 @@ Animation, typography, and palette requests explicitly assigned to the VYORA pre
 
 **How to apply:** Keep presentation-only visual changes inside the slides artifact unless the user separately requests website changes.
 
+Do not change VYORA MOVE presentation wording, facts, or slide content when the user asks only for motion or visual styling.
+
+**Why:** The user explicitly requires presentation text and project content to remain 100% unchanged during animation work.
+
+**How to apply:** Limit those requests to animation and presentation styling. If a static slide must become interactive, reproduce its existing text exactly.
+
 Keep polished gradient fitness cards for browsing. The movement guide must not show cartoon human figures; use non-figurative icons, written technique, and the exercise's existing photos or video.
 
 **Why:** The user clarified that cartoon figures should be removed for both women and men, while the exercises themselves remain.

@@ -1,10 +1,12 @@
 const base = import.meta.env.BASE_URL;
 
+import { SlideTitle } from '@/components/SlideTitle';
+
 export default function Screens() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck slide-screens">
 
-<header className="top"><h1 className="heading">صور حقيقية من المشروع</h1><p className="kicker english">Application Screens</p></header>
+<header className="top"><SlideTitle className="heading">صور حقيقية من المشروع</SlideTitle><p className="kicker english">Application Screens</p></header>
 <img src={base + 'media/app-login.jpg'} crossOrigin="anonymous" alt="لقطة حقيقية حديثة لواجهة الدخول في VYORA MOVE" className="screen absolute left-[6cqw] top-[26cqh] w-[21cqw] h-[59cqh]" />
 <img src={base + 'media/app-exercise.jpg'} crossOrigin="anonymous" alt="لقطة حقيقية لصفحة معاينة القرفصاء داخل التطبيق" className="screen absolute left-[30cqw] top-[26cqh] w-[21cqw] h-[59cqh]" />
 <div className="absolute right-[6cqw] top-[30cqh] w-[38cqw] text-right" dir="rtl">

@@ -1,10 +1,11 @@
 const base = import.meta.env.BASE_URL;
+import { SlideTitle } from '@/components/SlideTitle';
 
 export default function Experience() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck slide-experience">
 
-<header className="top"><h1 className="heading">هوية واحدة، وتجربتان</h1><p className="kicker english">User Experience</p></header>
+<header className="top"><SlideTitle className="heading">هوية واحدة، وتجربتان</SlideTitle><p className="kicker english">User Experience</p></header>
 <div className="experience-panel absolute right-[6cqw] top-[24cqh] w-[42cqw] h-[64cqh] bg-gradient-to-br from-[#e956a9] via-[#985cff] to-[#31173f] rounded-[2cqw] overflow-hidden">
 <div className="experience-photo-frame">
  <img src={base + 'media/experience-woman-squat.jpg'} crossOrigin="anonymous" alt="" aria-hidden="true" className="experience-photo-backdrop" />

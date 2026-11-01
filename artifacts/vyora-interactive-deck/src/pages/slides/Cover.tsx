@@ -1,4 +1,5 @@
 const base = import.meta.env.BASE_URL;
+import { SlideTitle } from '@/components/SlideTitle';
 
 export default function Cover() {
  return (
@@ -9,7 +10,7 @@ export default function Cover() {
 <img src={base + 'media/athletes.png'} crossOrigin="anonymous" alt="صورة رياضية أصلية مولدة بالذكاء الاصطناعي لامرأة ورجل" className="absolute left-[3cqw] top-[17cqh] w-[43cqw] h-[76cqh] object-contain" />
 <div className="absolute left-[6cqw] top-[5cqh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9cqw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13cqw]" /></div></div>
 <div className="absolute right-[6cqw] top-[12cqh] w-[48cqw] text-right" dir="rtl">
-  <h1 className="hero-title english cover-brand mt-[3cqh] text-right"><span className="cover-brand-vyora">VYORA</span><span className="block cover-brand-move">MOVE</span></h1>
+  <SlideTitle className="hero-title english cover-brand mt-[3cqh] text-right"><span className="cover-brand-vyora">VYORA</span><span className="block cover-brand-move">MOVE</span></SlideTitle>
 <p className="copy refined-arabic refined-arabic-copy mt-[3cqh]">تدريبك في بيتك… بخطوات واضحة وتجربة تناسبك.</p>
  <div className="mt-[4cqh] space-y-[1.6cqh] text-left signature-font" dir="ltr">
  <p className="detail text-muted">Project Supervisor:</p>

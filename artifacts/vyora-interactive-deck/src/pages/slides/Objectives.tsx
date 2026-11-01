@@ -1,10 +1,12 @@
 const base = import.meta.env.BASE_URL;
 
+import { SlideTitle } from '@/components/SlideTitle';
+
 export default function Objectives() {
  return (
    <section className="w-screen h-screen overflow-hidden relative deck blue-deck slide-objectives">
 
-<header className="top"><h1 className="heading">أهداف المشروع</h1><p className="kicker english">Project Objectives</p></header>
+<header className="top"><SlideTitle className="heading">أهداف المشروع</SlideTitle><p className="kicker english">Project Objectives</p></header>
 <img src={base + 'media/fitness-tools.jpg'} crossOrigin="anonymous" alt="معدات بسيطة وتقنية تدعم التدريب المنزلي" className="absolute left-[6cqw] top-[29cqh] w-[43cqw] h-[56cqh] photo rounded-[2cqw]" />
 <div className="absolute right-[6cqw] top-[30cqh] w-[39cqw] text-right space-y-[5cqh]" dir="rtl">
 <div><h2 className="sub text-accent">تبسيط البداية</h2><p className="copy mt-[1.5cqh]">شرح التمرين بلغة واضحة وخطوات قصيرة.</p></div>

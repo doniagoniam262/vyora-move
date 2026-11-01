@@ -1222,3 +1222,279 @@ body {
   .slide-thank-you .signature-name { font-size: 14px; }
   .slide-thank-you > div[dir="ltr"] > p:last-child { margin-top: 12px !important; }
 }
+
+/* One continuous cinematic layer stays fixed while the deck scenes move above it. */
+.presentation-shell,
+.presentation-stage {
+  background: transparent !important;
+}
+.cinematic-backdrop {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 115%, rgba(255, 47, 143, .12), transparent 46%),
+    linear-gradient(145deg, #09080d 0%, #090a12 52%, #0c0812 100%);
+}
+.cinematic-backdrop-photo {
+  position: absolute;
+  inset: -4%;
+  width: 108%;
+  height: 108%;
+  object-fit: cover;
+  opacity: .16;
+  filter: brightness(.36) saturate(.5) blur(2px);
+  transform: scale(1.04);
+}
+.cinematic-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 10, .84), rgba(7, 7, 12, .6) 48%, rgba(8, 6, 12, .82)),
+    linear-gradient(0deg, rgba(7, 6, 11, .42), transparent 42%, rgba(7, 6, 11, .24));
+}
+.cinematic-backdrop-glow {
+  position: absolute;
+  z-index: 1;
+  width: min(58vw, 760px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  filter: blur(95px);
+  opacity: .17;
+  animation: cinematic-glow-drift 18s ease-in-out infinite alternate;
+}
+.cinematic-backdrop-glow-pink {
+  top: -39%;
+  left: -17%;
+  background: #ff2f8f;
+}
+.cinematic-backdrop-glow-blue {
+  right: -24%;
+  bottom: -53%;
+  background: #6b63ff;
+  animation-delay: -8s;
+}
+.cinematic-backdrop-grid {
+  position: absolute;
+  z-index: 2;
+  right: -10%;
+  bottom: -38%;
+  left: -10%;
+  height: 70%;
+  opacity: .12;
+  background-image:
+    linear-gradient(rgba(255, 87, 166, .45) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(117, 105, 255, .4) 1px, transparent 1px);
+  background-size: 62px 62px;
+  transform: perspective(340px) rotateX(62deg);
+  transform-origin: center top;
+  mask-image: linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent);
+}
+.cinematic-neural-lines {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .34;
+  color: #ff53a6;
+}
+.neural-web {
+  stroke-dasharray: 5 13;
+  animation: neural-flow 22s linear infinite;
+}
+.neural-nodes {
+  fill: #ff79b7;
+  filter: drop-shadow(0 0 7px rgba(255, 76, 163, .85));
+}
+.neural-nodes circle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: neural-pulse 3.5s ease-in-out infinite alternate;
+}
+.neural-nodes circle:nth-child(3n) { animation-delay: -1.2s; }
+.neural-nodes circle:nth-child(3n + 1) { animation-delay: -2.1s; }
+.deck,
+.pink-deck,
+.blue-deck,
+.how-it-works-slide {
+  background: transparent !important;
+}
+.framer-scene .deck :is(h1, h2, h3, p, .logo-plate, .screen, .experience-panel) {
+  animation: none !important;
+}
+.how-it-works-live {
+  color: #f5f4fa;
+  background: transparent !important;
+  font-family: 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+}
+.how-it-works-heading {
+  position: absolute;
+  top: 7cqh;
+  right: 6cqw;
+  z-index: 2;
+  text-align: right;
+}
+.how-it-works-heading h1 {
+  margin: 0;
+  color: #fff;
+  font-size: 4.25cqw;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.how-it-works-heading span {
+  display: block;
+  margin-top: .7cqh;
+  color: #b8b5c7;
+  font-size: 1.45cqw;
+  letter-spacing: .12em;
+}
+.how-it-works-orbit {
+  position: absolute;
+  top: 10cqh;
+  left: 4cqw;
+  width: 23cqw;
+  height: 28cqh;
+  border-radius: 54% 46% 64% 36% / 42% 58% 42% 58%;
+  background: radial-gradient(ellipse at 45% 45%, #173654 0%, #11253b 64%, rgba(17, 37, 59, .35) 100%);
+  box-shadow: 0 0 80px rgba(43, 136, 225, .12);
+  animation: cinematic-orbit 14s ease-in-out infinite alternate;
+}
+.how-it-works-grid {
+  position: absolute;
+  top: 35cqh;
+  right: 6cqw;
+  bottom: 22cqh;
+  left: 6cqw;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2cqw;
+}
+.how-step-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 0;
+  padding: 2.15cqw;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .07);
+  border-radius: 1.55cqw;
+  color: #fff;
+  text-align: right;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .3), inset 0 1px rgba(255, 255, 255, .04);
+  cursor: pointer;
+  transform-origin: center;
+}
+.how-step-card-1 { background: linear-gradient(148deg, #35163f 0%, #251329 100%); }
+.how-step-card-2 { background: linear-gradient(148deg, #302447 0%, #201932 100%); }
+.how-step-card-3 { background: linear-gradient(148deg, #1b3155 0%, #172744 100%); }
+.how-step-card-4 { background: linear-gradient(148deg, #174455 0%, #113344 100%); }
+.how-step-card > strong {
+  display: block;
+  align-self: flex-start;
+  color: #ff3f9d;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 6.2cqw;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: .02em;
+}
+.how-step-card-2 > strong { color: #bd8af3; }
+.how-step-card-3 > strong,
+.how-step-card-4 > strong { color: #57c9ff; }
+.how-step-card h2 {
+  align-self: flex-end;
+  margin: .8cqh 0 .3cqh;
+  color: #fff;
+  font-size: 2.35cqw;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.how-step-card p {
+  align-self: flex-end;
+  max-width: 100%;
+  margin: 0;
+  color: #d6d4df;
+  font-size: 1.72cqw;
+  font-weight: 400;
+  line-height: 1.65;
+}
+.how-step-card:focus-visible {
+  outline: 2px solid #ff70b5;
+  outline-offset: 4px;
+}
+.how-it-works-footer { z-index: 2; }
+.how-step-zoom {
+  position: absolute;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: default;
+}
+.how-step-zoom > strong { font-size: 9cqw; }
+.how-step-zoom h2 { font-size: 4.2cqw; }
+.how-step-zoom p { font-size: 2.5cqw; }
+@keyframes cinematic-glow-drift {
+  to { transform: translate3d(8vw, 7vh, 0) scale(1.13); opacity: .23; }
+}
+@keyframes neural-flow { to { stroke-dashoffset: -180; } }
+@keyframes neural-pulse { to { opacity: .38; transform: scale(.72); } }
+@keyframes cinematic-orbit {
+  to { transform: translate3d(2.5cqw, -1.5cqh, 0) rotate(7deg) scale(1.04); }
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .how-it-works-heading {
+    top: 5%;
+    right: 7%;
+    left: 7%;
+    text-align: center;
+  }
+  .how-it-works-heading h1 { font-size: clamp(24px, 7cqw, 31px); }
+  .how-it-works-heading span { margin-top: 2px; font-size: 10px; }
+  .how-it-works-orbit {
+    top: 14%;
+    left: 4%;
+    width: 42%;
+    height: 17%;
+  }
+  .how-it-works-grid {
+    top: 25%;
+    right: 6%;
+    bottom: 9%;
+    left: 6%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .how-step-card {
+    padding: 13px;
+    border-radius: 14px;
+  }
+  .how-step-card > strong { font-size: clamp(28px, 9cqw, 38px); }
+  .how-step-card h2 {
+    margin: 8px 0 3px;
+    font-size: clamp(14px, 4.4cqw, 17px);
+    line-height: 1.35;
+  }
+  .how-step-card p { font-size: clamp(11px, 3.3cqw, 13px); line-height: 1.55; }
+  .how-it-works-footer { display: none; }
+  .how-step-zoom > strong { font-size: clamp(46px, 15cqw, 70px); }
+  .how-step-zoom h2 { font-size: clamp(23px, 7cqw, 34px); }
+  .how-step-zoom p { font-size: clamp(15px, 4cqw, 20px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-backdrop-glow,
+  .cinematic-backdrop-grid,
+  .cinematic-neural-lines,
+  .neural-web,
+  .neural-nodes circle,
+  .how-it-works-orbit { animation: none !important; }
+}

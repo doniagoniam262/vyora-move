@@ -1,11 +1,13 @@
 const base = import.meta.env.BASE_URL;
 
+import { SlideTitle } from '@/components/SlideTitle';
+
 export default function Challenges() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck slide-challenges">
 
 <div className="blob left-[3cqw] bottom-[8cqh] w-[42cqw] h-[52cqh] bg-[#9B6BFF] opacity-20" />
-<header className="top"><h1 className="heading">التحديات والتطوير المستقبلي</h1><p className="kicker english">Challenges & Future Development</p></header>
+<header className="top"><SlideTitle className="heading">التحديات والتطوير المستقبلي</SlideTitle><p className="kicker english">Challenges & Future Development</p></header>
 <div className="absolute right-[6cqw] top-[31cqh] w-[40cqw] text-right" dir="rtl">
 <h2 className="sub text-primary">تحديات تعاملت معها</h2>
 <div className="mt-[4cqh]"><p className="copy font-bold">مطابقة الفيديو بالتمرين والنوع</p><p className="copy text-muted mt-[1cqh]">فصل مصادر الوسائط ومراجعة الربط.</p></div>

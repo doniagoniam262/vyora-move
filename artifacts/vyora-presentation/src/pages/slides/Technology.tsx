@@ -10,7 +10,6 @@ export default function Technology() {
 <div><div className="h-[1vh] w-[7vw] bg-[#9B6BFF] mb-[4vh]"/><h2 className="sub">الحساب والكتالوج</h2><p className="copy mt-[3vh]" dir="ltr">Clerk • Node.js • Express</p><p className="copy mt-[2vh]" dir="ltr">PostgreSQL • Drizzle</p><p className="copy mt-[3vh] text-muted">تسجيل دخول وكتالوج تمارين في قاعدة بيانات.</p></div>
 <div><div className="h-[1vh] w-[7vw] bg-accent mb-[4vh]"/><h2 className="sub">داخل المتصفح</h2><p className="copy mt-[3vh]" dir="ltr">localStorage • MediaPipe</p><p className="copy mt-[2vh]" dir="ltr">Web Speech • Web Audio</p><p className="copy mt-[3vh] text-muted">حفظ محلي، تتبّع حركة، وصوت ترحيبي.</p></div>
 </div>
-<p className="detail absolute bottom-[14vh] left-[6vw] right-[6vw] text-center text-accent" dir="rtl">تم التطوير داخل Replit • لغات الواجهة: TypeScript / JavaScript، HTML وCSS</p>
 <footer className="foot english"><span>VYORA MOVE</span><span>09 / 12</span></footer>
   </section>
  );

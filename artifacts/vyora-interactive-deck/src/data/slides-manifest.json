@@ -1,0 +1,98 @@
+[
+  {
+    "id": "f1587e1e-ce62-44d8-8b87-9ceaf8166b87",
+    "position": 1,
+    "filepath": "src/pages/slides/Cover.tsx",
+    "title": "Cover — VYORA MOVE",
+    "description": "Cover — VYORA MOVE",
+    "speakerNotes": ""
+  },
+  {
+    "id": "4dd029d2-2496-44e5-af4b-666c7ab4e083",
+    "position": 2,
+    "filepath": "src/pages/slides/Introduction.tsx",
+    "title": "Introduction — مقدمة المشروع",
+    "description": "Introduction — مقدمة المشروع",
+    "speakerNotes": ""
+  },
+  {
+    "id": "85387485-4a52-4daa-a423-fb34f1981a32",
+    "position": 3,
+    "filepath": "src/pages/slides/ProblemSolution.tsx",
+    "title": "Problem & Solution — المشكلة والحل",
+    "description": "Problem & Solution — المشكلة والحل",
+    "speakerNotes": ""
+  },
+  {
+    "id": "7d3b7a1a-5eaf-467d-ac84-7e4e3752e433",
+    "position": 4,
+    "filepath": "src/pages/slides/Objectives.tsx",
+    "title": "Project Objectives — أهداف المشروع",
+    "description": "Project Objectives — أهداف المشروع",
+    "speakerNotes": ""
+  },
+  {
+    "id": "f29c5631-4e28-46ed-b11d-f5ac5855466a",
+    "position": 5,
+    "filepath": "src/pages/slides/Features.tsx",
+    "title": "Main Features — الخصائص الفعلية",
+    "description": "Main Features — الخصائص الفعلية",
+    "speakerNotes": ""
+  },
+  {
+    "id": "0a1339dc-4f22-4ad0-b72c-c14e3fa03cac",
+    "position": 6,
+    "filepath": "src/pages/slides/Audience.tsx",
+    "title": "Target Audience — الفئة المستهدفة",
+    "description": "Target Audience — الفئة المستهدفة",
+    "speakerNotes": ""
+  },
+  {
+    "id": "ea114f63-96d2-468f-8cdd-5ff4af4963b2",
+    "position": 7,
+    "filepath": "src/pages/slides/Experience.tsx",
+    "title": "User Experience — تجربة المستخدم",
+    "description": "User Experience — تجربة المستخدم",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9a9062df-24d4-4b51-8d3c-9879b00b4588",
+    "position": 8,
+    "filepath": "src/pages/slides/HowItWorks.tsx",
+    "title": "How It Works — خطوات الاستخدام",
+    "description": "How It Works — خطوات الاستخدام",
+    "speakerNotes": ""
+  },
+  {
+    "id": "4c2a8646-50ee-4ccb-940b-bcf839a3138c",
+    "position": 9,
+    "filepath": "src/pages/slides/Technology.tsx",
+    "title": "Technologies Used — التقنيات المستخدمة",
+    "description": "Technologies Used — التقنيات المستخدمة",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9c8955a2-35c9-4171-b4ce-5fc108f152f3",
+    "position": 10,
+    "filepath": "src/pages/slides/Screens.tsx",
+    "title": "Application Screens — صور التطبيق",
+    "description": "Application Screens — صور التطبيق",
+    "speakerNotes": ""
+  },
+  {
+    "id": "eef4f759-8c6d-441e-8916-5e96859209ad",
+    "position": 11,
+    "filepath": "src/pages/slides/Challenges.tsx",
+    "title": "Challenges & Future Development — التحديات والتطوير",
+    "description": "Challenges & Future Development — التحديات والتطوير",
+    "speakerNotes": ""
+  },
+  {
+    "id": "9a18885a-6861-4f12-a95c-1495e7a91343",
+    "position": 12,
+    "filepath": "src/pages/slides/ThankYou.tsx",
+    "title": "Thank You — VYORA MOVE",
+    "description": "Thank You — VYORA MOVE",
+    "speakerNotes": ""
+  }
+]

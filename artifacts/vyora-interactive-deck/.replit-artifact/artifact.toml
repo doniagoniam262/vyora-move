@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/vyora-interactive-deck/"
+title = "VYORA MOVE — العرض التفاعلي"
+description = "نسخة ويب تفاعلية مستقلة من عرض مشروع VYORA MOVE ذي 12 شريحة، مع انتقالات سلسة بين الشرائح وعرض مناسب للتقديم على الشاشة."
+version = "1.0.0"
+id = "artifacts/vyora-interactive-deck"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/vyora-interactive-deck/" ]
+localPort = 19391
+
+[services.development]
+run = "pnpm --filter @workspace/vyora-interactive-deck run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/vyora-interactive-deck", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/vyora-interactive-deck/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19391"
+BASE_PATH = "/vyora-interactive-deck/"

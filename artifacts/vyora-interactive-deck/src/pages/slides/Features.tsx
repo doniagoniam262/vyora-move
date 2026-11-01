@@ -1,13 +1,31 @@
 import { CountUpNumber } from '@/components/CountUpNumber';
 import { SlideTitle } from '@/components/SlideTitle';
+import { Apple, CalendarDays, ChartNoAxesCombined, CirclePlay, Dumbbell, ScanFace, Timer, UserRound } from 'lucide-react';
+import { motion } from 'framer-motion';
 const base = import.meta.env.BASE_URL;
+
+const featureIcons = [Dumbbell, CirclePlay, CalendarDays, Timer, ChartNoAxesCombined, Apple, ScanFace, UserRound];
 
 export default function Features({ active = false }: { active?: boolean }) {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck pink-deck slide-features">
 
-<div className="absolute right-0 top-0 w-[32cqw] h-[100cqh] bg-gradient-to-b from-[#9B6BFF]/30 to-transparent" />
+<div className="absolute right-0 top-0 w-[32cqw] h-[100cqh] bg-gradient-to-b from-[#8A2BE2]/30 to-transparent" />
 <header className="top"><SlideTitle className="heading">خصائص موجودة بالفعل</SlideTitle><p className="kicker english"><CountUpNumber value={6} active={active} /> • Main Features</p></header>
+<div className="feature-icon-route" aria-hidden="true">
+  <div className="feature-icon-route-dots" />
+  {featureIcons.map((Icon, index) => (
+    <motion.span
+      className="feature-icon-node"
+      key={index}
+      initial={{ opacity: 0, y: 14, scale: 0.72 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.48, delay: index * 0.1, ease: [0.4, 0, 0.2, 1] }}
+    >
+      <Icon aria-hidden="true" />
+    </motion.span>
+  ))}
+</div>
 <div className="absolute top-[30cqh] right-[6cqw] left-[6cqw] grid grid-cols-2 gap-x-[6cqw] gap-y-[5cqh]" dir="rtl">
 <div className="flex gap-[1.6cqw]"><svg className="w-[3.2cqw] h-[3.2cqw] text-primary" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="5" width="26" height="22" rx="4"/><path d="m13 10 9 6-9 6Z"/></svg><div><h2 className="sub">فيديو وإرشادات الحركة</h2><p className="copy text-muted mt-[1cqh]">عضلات مستهدفة، تنفّس وأخطاء شائعة.</p></div></div>
 <div className="flex gap-[1.6cqw]"><svg className="w-[3.2cqw] h-[3.2cqw] text-accent" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2"><rect x="4" y="6" width="24" height="23" rx="3"/><path d="M4 13h24M10 3v7M22 3v7M10 18h4m4 0h4m-12 6h4"/></svg><div><h2 className="sub">خطط وجدول أسبوعي</h2><p className="copy text-muted mt-[1cqh]">حسب الهدف والمستوى وتكرار التدريب.</p></div></div>

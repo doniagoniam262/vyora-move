@@ -1,21 +1,49 @@
-const base = import.meta.env.BASE_URL;
-
+import { motion, useReducedMotion } from 'framer-motion';
 import { SlideTitle } from '@/components/SlideTitle';
 
-export default function Objectives() {
- return (
-   <section className="w-screen h-screen overflow-hidden relative deck blue-deck slide-objectives">
+const objectives = [
+  {
+    title: 'تبسيط البداية',
+    description: 'شرح التمرين بلغة واضحة وخطوات قصيرة.',
+  },
+  {
+    title: 'بناء عادة منتظمة',
+    description: 'ربط الهدف بخطة وجدول قابلين للمتابعة.',
+  },
+  {
+    title: 'تخصيص التجربة',
+    description: 'مراعاة المستوى والوقت والمساحة المتاحة.',
+  },
+];
 
-<header className="top"><SlideTitle className="heading">أهداف المشروع</SlideTitle><p className="kicker english">Project Objectives</p></header>
-<img src={base + 'media/fitness-tools.jpg'} crossOrigin="anonymous" alt="معدات بسيطة وتقنية تدعم التدريب المنزلي" className="absolute left-[6cqw] top-[29cqh] w-[43cqw] h-[56cqh] photo rounded-[2cqw]" />
-<div className="absolute right-[6cqw] top-[30cqh] w-[39cqw] text-right space-y-[5cqh]" dir="rtl">
-<div><h2 className="sub text-accent">تبسيط البداية</h2><p className="copy mt-[1.5cqh]">شرح التمرين بلغة واضحة وخطوات قصيرة.</p></div>
-<div className="rule" />
-<div><h2 className="sub text-accent">بناء عادة منتظمة</h2><p className="copy mt-[1.5cqh]">ربط الهدف بخطة وجدول قابلين للمتابعة.</p></div>
-<div className="rule" />
-<div><h2 className="sub text-accent">تخصيص التجربة</h2><p className="copy mt-[1.5cqh]">مراعاة المستوى والوقت والمساحة المتاحة.</p></div>
-</div>
-<footer className="foot english"><span>VYORA MOVE</span><span>04 / 12</span></footer>
-  </section>
- );
+export default function Objectives() {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <section className="w-screen h-screen overflow-hidden relative deck slide-objectives">
+      <header className="top">
+        <SlideTitle className="heading">أهداف المشروع</SlideTitle>
+        <p className="kicker english">Project Objectives</p>
+      </header>
+      <div className="objectives-track-window" aria-label="أهداف المشروع">
+        <motion.div
+          className="objectives-track"
+          animate={prefersReducedMotion ? undefined : { x: ['0%', '-50%'] }}
+          transition={prefersReducedMotion ? undefined : { duration: 26, ease: 'linear', repeat: Infinity }}
+        >
+          {[0, 1].map((copy) => (
+            <div className="objectives-track-group" key={copy} aria-hidden={copy === 1}>
+              {objectives.map((objective) => (
+                <article className="objective-card" key={`${copy}-${objective.title}`} dir="rtl">
+                  <h2>{objective.title}</h2>
+                  <p>{objective.description}</p>
+                </article>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+      <footer className="foot english"><span>VYORA MOVE</span><span>04 / 12</span></footer>
+    </section>
+  );
 }

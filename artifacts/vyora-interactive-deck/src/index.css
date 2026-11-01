@@ -604,7 +604,7 @@ button { font: inherit; }
 .logo-plate img { max-width:13cqw; height:4.8cqh; object-fit:contain; }
 .photo { object-fit:cover; }
 .rule { height:1px; background:#ffffff25; }
-.experience-photo-frame { position:absolute; inset:0 0 auto; height:38cqh; overflow:hidden; background:#e9e6df; }
+.experience-photo-frame { position:absolute; inset:0 auto 0 0; width:32%; height:100%; overflow:hidden; background:#e9e6df; }
 .experience-photo-backdrop { position:absolute; inset:-4%; width:108%; height:108%; object-fit:cover; filter:blur(16px) brightness(1.08) saturate(.82); opacity:.62; }
 .experience-photo-main { position:absolute; inset:0; box-sizing:border-box; width:100%; height:100%; padding:.8cqh 1cqw; object-fit:contain; }
 .problem-label,.problem-copy { color:#111; }
@@ -1085,17 +1085,18 @@ body {
     right: 6%;
     left: 6%;
     width: 88%;
-    height: 35%;
+    height: 25%;
     border-radius: 14px;
   }
-  .slide-experience .experience-panel:nth-of-type(1) { top: 17%; }
-  .slide-experience .experience-panel:nth-of-type(2) { top: 55%; }
-  .slide-experience .experience-photo-frame { height: 55%; }
-  .slide-experience .experience-photo-main { padding: 0; object-fit: cover; object-position: center 38%; }
+  .slide-experience .experience-panel:nth-of-type(1) { top: 14%; }
+  .slide-experience .experience-panel:nth-of-type(2) { top: 40%; }
+  .slide-experience .experience-photo-frame { width: 38%; height: 100%; }
+  .slide-experience .experience-photo-main { padding: 0; object-fit: cover; object-position: center; }
   .slide-experience .experience-panel > div[dir="rtl"] {
-    top: 57%;
+    top: 0;
     right: 5%;
-    left: 5%;
+    bottom: 0;
+    left: 42%;
   }
   .slide-experience .experience-panel .sub { font-size: 18px; }
   .slide-experience .experience-panel .copy { margin-top: 2px !important; }
@@ -1497,4 +1498,638 @@ body {
   .neural-web,
   .neural-nodes circle,
   .how-it-works-orbit { animation: none !important; }
+}
+
+/* VYORA MOVE × TrackFit-inspired visual system: keep all twelve original slides and copy. */
+:root {
+  --slide-primary: #8A2BE2;
+  --slide-accent: #FF4ECD;
+  --slide-bg: #2D1B4E;
+  --slide-text: #FFFFFF;
+  --slide-muted: #E8DDF4;
+}
+.presentation-shell {
+  background: #2D1B4E;
+  --primary: 271 76% 53%;
+  --accent: 317 100% 65%;
+}
+.cinematic-backdrop {
+  background: #2D1B4E;
+}
+.cinematic-backdrop-photo {
+  z-index: 0;
+  opacity: .82;
+  filter: brightness(.78) saturate(.85) blur(1px);
+}
+.cinematic-backdrop::after {
+  z-index: 1;
+  background: rgba(45, 27, 78, .6);
+}
+.cinematic-backdrop-glow { z-index: 2; opacity: .22; }
+.cinematic-backdrop-glow-pink { background: #FF4ECD; }
+.cinematic-backdrop-glow-blue { background: #8A2BE2; }
+.cinematic-backdrop-grid {
+  z-index: 3;
+  opacity: .1;
+  background-image:
+    linear-gradient(rgba(255, 78, 205, .36) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138, 43, 226, .38) 1px, transparent 1px);
+}
+.cinematic-neural-lines { z-index: 4; color: #FF4ECD; opacity: .21; }
+.neural-nodes { fill: #FF4ECD; filter: drop-shadow(0 0 7px rgba(255, 78, 205, .8)); }
+.neural-nodes circle { animation-duration: 4.8s; }
+.deck { --slide-primary: #8A2BE2; --slide-accent: #FF4ECD; }
+.deck .text-primary { color: #8A2BE2 !important; }
+.deck .text-accent { color: #FF4ECD !important; }
+.deck .bg-primary { background-color: #8A2BE2 !important; }
+.deck .blue-deck { --slide-primary: #8A2BE2; }
+.live-dot { background: #FF4ECD; box-shadow: 0 0 12px rgba(255, 78, 205, .72); }
+.viewer-mark { border-color: rgba(255, 78, 205, .58); color: #FF4ECD; }
+.viewer-brand-copy small { color: #d6b1f4; }
+.progress-segment.is-current { background: #FF4ECD; box-shadow: 0 0 14px rgba(255, 78, 205, .45); }
+.progress-segment.is-passed { background: rgba(138, 43, 226, .72); }
+.nav-button:hover:not(:disabled) { border-color: #FF4ECD; background: rgba(138, 43, 226, .25); }
+.nav-button:focus-visible,.progress-segment:focus-visible { outline-color: #FF4ECD; }
+.deck::before {
+  z-index: 0;
+  opacity: .45;
+  background:
+    radial-gradient(ellipse at 68% 34%, rgba(255, 78, 205, .065), transparent 42%),
+    linear-gradient(118deg, transparent 30%, rgba(255, 255, 255, .025) 50%, transparent 67%),
+    radial-gradient(circle, rgba(255, 78, 205, .88) 1.25px, transparent 1.6px) left 4% bottom 5% / 34px 34px repeat,
+    repeating-linear-gradient(135deg, rgba(255, 78, 205, .7) 0 2px, transparent 2px 5px) right 4% bottom 5% / 36px 36px no-repeat;
+}
+.deck::after {
+  content: "///";
+  position: absolute;
+  z-index: 1;
+  top: 2.4cqh;
+  left: 3.2cqw;
+  color: #FF4ECD;
+  font: 800 3.6cqw/.8 'Barlow Condensed', sans-serif;
+  letter-spacing: -.13em;
+  opacity: .88;
+  transform: skewX(-17deg);
+  pointer-events: none;
+}
+.deck :is(.heading,.hero-title,.thank-you-brand) { position: relative; z-index: 2; }
+.cover-gradient-panel {
+  position: absolute;
+  z-index: 1;
+  inset: 0 0 0 43%;
+  background: linear-gradient(132deg, #2D1B4E 0%, #54239A 48%, #8A2BE2 72%, #FF4ECD 130%);
+}
+.cover-athletes-image {
+  position: absolute;
+  z-index: 2;
+  inset: 0 auto 0 0;
+  width: 58%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 32% center;
+  clip-path: polygon(0 0, 100% 0, 76% 100%, 0 100%);
+  filter: saturate(.94) contrast(1.02);
+}
+.cover-partners {
+  position: absolute;
+  z-index: 10;
+  top: 20px;
+  right: 5cqw;
+  transform: scale(.68);
+  transform-origin: top right;
+}
+.cover-partners .logo-plate {
+  gap: 1.5cqw;
+  padding: .6cqh .8cqw;
+  border-radius: .75cqw;
+  background: rgba(255, 255, 255, .94);
+}
+.cover-partners .logo-plate img {
+  width: auto;
+  max-width: 10cqw;
+  height: 3.5cqh;
+  object-fit: contain;
+}
+.slide-cover .logo-plate,
+.slide-thank-you .logo-plate {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.slide-cover .logo-plate img,
+.slide-thank-you .logo-plate img {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, .92));
+}
+.slide-cover .cover-partners .nordpoints-logo,
+.slide-thank-you .closing-partners .nordpoints-logo {
+  max-width: 15cqw;
+  height: 4.6cqh;
+  filter: drop-shadow(0 1px 3px rgba(8, 6, 18, .82));
+}
+.slide-cover > div[dir="rtl"],
+.slide-thank-you > div[dir="ltr"] { z-index: 3; }
+.slide-cover .cover-brand-vyora { background-image: linear-gradient(105deg, #fff 0%, #FF4ECD 72%); }
+.slide-cover .cover-brand-move { background-image: linear-gradient(105deg, #fff 0%, #FF4ECD 58%, #fff 100%); }
+.slide-cover .signature-font .detail { color: #FFFFFF !important; }
+.slide-cover .signature-font .signature-name:not(.signature-supervisor) { color: #FFFFFF !important; }
+.slide-cover .signature-supervisor {
+  color: #FF4ECD !important;
+  text-shadow: 0 1px 5px rgba(45, 27, 78, .95);
+}
+.slide-thank-you .closing-gradient-panel { inset: 0 0 0 43%; }
+.slide-thank-you .closing-athletes-image { width: 58%; }
+.slide-thank-you > div[dir="ltr"] {
+  right: 4%;
+  left: 46%;
+  width: 50%;
+  top: 12cqh;
+}
+.slide-thank-you .thank-you-brand {
+  background: linear-gradient(100deg, #fff 0%, #FF4ECD 54%, #fff 100%);
+  background-clip: text;
+}
+.slide-thank-you .thank-you-arabic { color: #FFFFFF !important; }
+.slide-thank-you .signature-copy,
+.slide-thank-you .signature-name { color: #FFFFFF !important; }
+.slide-thank-you .signature-supervisor {
+  color: #FF4ECD !important;
+  text-shadow: 0 1px 5px rgba(45, 27, 78, .95);
+}
+.slide-thank-you .closing-partners { right: 4%; }
+.slide-introduction > img.photo,
+.slide-audience > img.photo { z-index: 1; }
+.slide-introduction > div[dir="rtl"],
+.slide-audience > div[dir="rtl"] { z-index: 3; }
+.slide-experience .experience-panel-ignored { background: transparent; }
+.slide-experience .experience-panel {
+  border: 1px solid rgba(255, 255, 255, .16);
+  box-shadow: 0 24px 60px rgba(18, 8, 35, .48);
+}
+.slide-experience .experience-panel:first-of-type {
+  background: linear-gradient(135deg, #8A2BE2, #2D1B4E) !important;
+}
+.slide-experience .experience-panel:nth-of-type(2) {
+  background: linear-gradient(135deg, #FF4ECD, #2D1B4E) !important;
+}
+.slide-experience .experience-photo-main,
+.slide-experience .experience-photo-backdrop { object-fit: cover; object-position: center; }
+.slide-experience .experience-photo-main.experience-photo-boys { object-position: center; }
+.slide-experience .experience-panel-copy {
+  position: absolute;
+  top: 0;
+  right: 5%;
+  bottom: 0;
+  left: 38%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 7px;
+  text-align: right;
+}
+.slide-experience .experience-panel-copy .copy,
+.slide-experience .experience-panel-copy .detail { margin: 0 !important; }
+.experience-label {
+  position: absolute;
+  z-index: 3;
+  top: 8%;
+  left: 4%;
+  padding: .45cqh 1.25cqw;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(45, 27, 78, .84);
+  box-shadow: 0 4px 14px rgba(16, 7, 30, .35);
+  font-size: clamp(14px, 1.8cqw, 22px);
+  font-weight: 800;
+  line-height: 1.4;
+  backdrop-filter: blur(8px);
+}
+.experience-label-girls { background: linear-gradient(115deg, #FF4ECD, #8A2BE2); }
+.experience-label-boys { background: linear-gradient(115deg, #8A2BE2, #2D1B4E); }
+.slide-experience .experience-photo-frame::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(0deg, rgba(45, 27, 78, .25), transparent);
+  pointer-events: none;
+}
+.experience-highlights {
+  position: absolute;
+  top: 67%;
+  right: 6%;
+  bottom: 7%;
+  left: 6%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) 30px;
+  gap: 5px;
+}
+.experience-highlights-title {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(12px, 1.1cqw, 15px);
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: right;
+}
+.experience-exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  min-height: 0;
+}
+.experience-exercise-card {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 10px;
+  background: #2D1B4E;
+  box-shadow: 0 6px 18px rgba(12, 4, 25, .28);
+}
+.experience-exercise-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.experience-exercise-backdrop {
+  object-fit: cover;
+  object-position: center;
+  filter: blur(7px) brightness(.52);
+  transform: scale(1.08);
+}
+.experience-exercise-main {
+  object-fit: contain;
+  object-position: center;
+  z-index: 1;
+}
+.experience-exercise-card figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding: 4px 5px;
+  background: linear-gradient(0deg, rgba(25, 12, 41, .92), rgba(25, 12, 41, .1));
+  color: #fff;
+  font-size: clamp(10px, .9cqw, 13px);
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, .55);
+}
+.experience-benefit-row {
+  display: grid;
+  grid-template-columns: minmax(46px, .65fr) repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+}
+.experience-info-label,
+.experience-info-chip {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 12px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: clamp(10px, 1cqw, 14px);
+  font-weight: 650;
+  line-height: 1.25;
+  text-align: center;
+}
+.experience-info-label {
+  border-color: rgba(255, 78, 205, .52);
+  background: rgba(138, 43, 226, .34);
+  color: #ffc1ec;
+}
+.experience-info-chip {
+  background: rgba(45, 27, 78, .72);
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .slide-experience .experience-photo-frame { width: 38%; height: 100%; }
+  .slide-experience .experience-photo-main,
+  .slide-experience .experience-photo-backdrop { object-position: center; }
+  .slide-experience .experience-panel-copy {
+    top: 0;
+    right: 5%;
+    bottom: 0;
+    left: 42%;
+    gap: 5px;
+  }
+  .slide-experience .experience-panel-copy .copy {
+    font-size: clamp(12px, 3.5cqw, 14px);
+    line-height: 1.35;
+  }
+  .slide-experience .experience-panel-copy .detail {
+    font-size: clamp(10px, 3cqw, 12px);
+    line-height: 1.35;
+  }
+  .experience-label { padding: 3px 8px; font-size: 11px; }
+  .slide-experience .experience-panel {
+    height: 25%;
+    border-radius: 14px;
+  }
+  .slide-experience .experience-panel:nth-of-type(1) { top: 14%; }
+  .slide-experience .experience-panel:nth-of-type(2) { top: 40%; }
+  .experience-highlights {
+    top: 67%;
+    right: 6%;
+    bottom: 15%;
+    left: 6%;
+    grid-template-rows: auto 78px 26px;
+    gap: 5px;
+  }
+  .experience-highlights-title {
+    font-size: clamp(12px, 3cqw, 13px);
+  }
+  .experience-exercise-grid { gap: 5px; }
+  .experience-exercise-card { border-radius: 8px; }
+  .experience-exercise-main {
+    object-fit: contain;
+    background: transparent;
+  }
+  .experience-exercise-card figcaption {
+    padding: 3px 2px;
+    font-size: clamp(8px, 2.5cqw, 10px);
+  }
+  .experience-benefit-row { grid-template-columns: 40px repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .experience-info-label,
+  .experience-info-chip {
+    border-radius: 8px;
+    padding: 3px 2px;
+    font-size: clamp(8px, 2.35cqw, 9.5px);
+    line-height: 1.15;
+  }
+}
+.how-it-works-orbit {
+  background: radial-gradient(ellipse at 45% 45%, rgba(138, 43, 226, .36) 0%, rgba(45, 27, 78, .86) 64%, rgba(45, 27, 78, .14) 100%);
+  box-shadow: 0 0 80px rgba(255, 78, 205, .12);
+}
+.how-step-card-1 { background: linear-gradient(148deg, #4b197d 0%, #2D1B4E 100%); }
+.how-step-card-2 { background: linear-gradient(148deg, #8A2BE2 0%, #3b205d 100%); }
+.how-step-card-3 { background: linear-gradient(148deg, #7f2fa5 0%, #2D1B4E 100%); }
+.how-step-card-4 { background: linear-gradient(148deg, #FF4ECD 0%, #542181 100%); }
+.how-step-card > strong,
+.how-step-card-2 > strong,
+.how-step-card-3 > strong,
+.how-step-card-4 > strong { color: #FF4ECD; }
+.how-step-card-3 > strong { color: #d9b5ff; }
+.how-step-card h2,.how-step-card p { color: #fff; }
+.how-step-card:focus-visible { outline-color: #FF4ECD; }
+
+/* Five concise cards preserve every sentence in the original problem/solution slide. */
+.slide-problem .problem-card-row {
+  position: absolute;
+  z-index: 2;
+  top: 30cqh;
+  right: 4cqw;
+  left: 4cqw;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1.25cqw;
+  min-height: 39cqh;
+}
+.problem-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  padding: 1.35cqw;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 1.4cqw;
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(20, 8, 36, .34);
+  transition: transform .38s cubic-bezier(.2, .75, .25, 1), box-shadow .38s ease, filter .38s ease;
+}
+.problem-card-1 { background: linear-gradient(155deg, #8A2BE2, #412063); }
+.problem-card-2 { background: linear-gradient(155deg, #FF4ECD, #592260); }
+.problem-card-3 { background: linear-gradient(155deg, #2D1B4E, #45216c); }
+.problem-card-4 { background: linear-gradient(155deg, #8A2BE2, #2D1B4E); }
+.problem-card-5 { background: linear-gradient(155deg, #FF4ECD, #8A2BE2); }
+.problem-card-kind {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: .55cqh .8cqw;
+  border: 1px solid rgba(255, 255, 255, .35);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1.35cqw;
+  letter-spacing: .1em;
+}
+.problem-card-copy {
+  max-height: 24cqh;
+  overflow: hidden;
+  transition: max-height .34s ease;
+}
+.problem-card-copy p {
+  margin: 0;
+  color: #fff;
+  font-size: 1.65cqw;
+  font-weight: 600;
+  line-height: 1.55;
+}
+.problem-card-copy p + p { margin-top: 1.15cqh; }
+.problem-card:hover,.problem-card:focus-within {
+  z-index: 4;
+  transform: translateY(-1.5cqh) scale(1.045);
+  filter: brightness(1.08);
+  box-shadow: 0 28px 56px rgba(20, 8, 36, .5), 0 0 24px rgba(255, 78, 205, .13);
+}
+.problem-card:hover .problem-card-copy,.problem-card:focus-within .problem-card-copy { max-height: 32cqh; }
+
+/* Three objectives travel as a continuous track over the fixed gym photograph. */
+.slide-objectives .objectives-track-window {
+  position: absolute;
+  top: 31cqh;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 2cqh 0 3cqh;
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.objectives-track { display: flex; width: max-content; }
+.objectives-track-group {
+  display: flex;
+  flex: 0 0 100cqw;
+  align-items: stretch;
+  justify-content: center;
+  gap: 1.5cqw;
+  padding: 0 5cqw;
+}
+.objective-card {
+  display: flex;
+  flex: 0 0 calc((100cqw - 13cqw) / 3);
+  flex-direction: column;
+  justify-content: center;
+  min-height: 34cqh;
+  padding: 2cqw;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 1.8cqw;
+  color: #fff;
+  background: linear-gradient(145deg, rgba(138, 43, 226, .83), rgba(45, 27, 78, .92));
+  box-shadow: 0 22px 50px rgba(18, 8, 35, .36);
+  backdrop-filter: blur(10px);
+}
+.objective-card:nth-child(2) { background: linear-gradient(145deg, rgba(255, 78, 205, .78), rgba(45, 27, 78, .94)); }
+.objective-card:nth-child(3) { background: linear-gradient(145deg, rgba(45, 27, 78, .9), rgba(138, 43, 226, .82)); }
+.objective-card h2 { margin: 0 0 1.8cqh; color: #fff; font-size: 2.55cqw; font-weight: 700; }
+.objective-card p { margin: 0; color: rgba(255, 255, 255, .88); font-size: 1.9cqw; line-height: 1.6; }
+
+/* Eight linked, animated icons add the reference's contents-map motif without adding slide copy. */
+.feature-icon-route {
+  position: absolute;
+  z-index: 2;
+  top: 18cqh;
+  right: 7cqw;
+  left: 7cqw;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  align-items: center;
+  height: 9cqh;
+  direction: ltr;
+}
+.feature-icon-route-dots {
+  position: absolute;
+  top: 50%;
+  right: 3%;
+  left: 3%;
+  border-top: 2px dotted rgba(255, 255, 255, .65);
+}
+.feature-icon-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-self: center;
+  width: 5.5cqh;
+  height: 5.5cqh;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, .68);
+  border-radius: 50%;
+  color: #fff;
+  background: linear-gradient(145deg, #8A2BE2, #2D1B4E);
+  box-shadow: 0 0 0 .65cqh rgba(45, 27, 78, .68), 0 0 20px rgba(255, 78, 205, .18);
+}
+.feature-icon-node:nth-of-type(odd) { background: linear-gradient(145deg, #FF4ECD, #5e2a81); }
+.feature-icon-node svg { width: 2.5cqh; height: 2.5cqh; }
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .deck::after { top: 1.5cqh; left: 4cqw; font-size: 7cqw; }
+  .slide-cover .cover-athletes-image {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 47%;
+    object-position: 30% 28%;
+    clip-path: polygon(0 0, 100% 0, 100% 76%, 0 100%);
+  }
+  .slide-cover .cover-gradient-panel { inset: 38% 0 0; }
+  .slide-cover .cover-partners { top: 12px; right: 6%; transform: scale(.72); }
+  .slide-cover .cover-partners .logo-plate { gap: 8px; padding: 5px 7px; }
+  .slide-cover .cover-partners .logo-plate img { max-width: 62px; height: 18px; }
+  .slide-cover .cover-partners .logo-plate img.nordpoints-logo { max-width: 120px; height: 32px; }
+  .slide-cover > div[dir="rtl"] { top: 45%; right: 6%; left: 6%; width: 88%; }
+  .slide-cover .hero-title { text-align: center !important; }
+  .slide-thank-you .closing-athletes-image {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 34%;
+    object-position: 28% 25%;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  }
+  .slide-thank-you .closing-gradient-panel { inset: 25% 0 0; }
+  .slide-thank-you .closing-partners { top: 12px; right: 6%; transform: scale(.68); }
+  .slide-thank-you .closing-partners .logo-plate { gap: 8px; padding: 5px 7px; }
+  .slide-thank-you .closing-partners .logo-plate img { max-width: 62px; height: 18px; }
+  .slide-thank-you .closing-partners .logo-plate img.nordpoints-logo { max-width: 120px; height: 32px; }
+  .slide-thank-you > div[dir="ltr"] {
+    top: 34%;
+    right: 6%;
+    left: 6%;
+    width: 88%;
+  }
+  .slide-problem .problem-card-row {
+    top: 18%;
+    right: 6%;
+    bottom: 5%;
+    left: 6%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+  }
+  .problem-card { padding: 10px; border-radius: 12px; }
+  .problem-card-kind { padding: 4px 7px; font-size: 9px; }
+  .problem-card-copy { max-height: none; overflow: auto; }
+  .problem-card-copy p { font-size: clamp(10px, 3.15cqw, 12px); line-height: 1.42; }
+  .problem-card-copy p + p { margin-top: 5px; }
+  .problem-card:hover,.problem-card:focus-within { transform: translateY(-2px) scale(1.015); }
+  .problem-card:hover .problem-card-copy,.problem-card:focus-within .problem-card-copy { max-height: none; }
+  .slide-objectives .objectives-track-window { top: 27%; }
+  .objectives-track-group { flex-basis: 100cqw; gap: 10px; padding: 0 6cqw; }
+  .objective-card {
+    flex-basis: calc((100cqw - 16cqw) / 3);
+    min-height: 32cqh;
+    padding: 12px;
+    border-radius: 13px;
+  }
+  .objective-card h2 { margin-bottom: 10px; font-size: clamp(14px, 4cqw, 16px); }
+  .objective-card p { font-size: clamp(11px, 3.1cqw, 13px); line-height: 1.5; }
+  .feature-icon-route { top: 15%; right: 7%; left: 7%; height: 7%; }
+  .feature-icon-node { width: 23px; height: 23px; }
+  .feature-icon-node svg { width: 12px; height: 12px; }
+  .slide-features > div[dir="rtl"] { top: 25%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-icon-node { animation: none !important; }
+}
+
+.project-proof-strip {
+  position: absolute;
+  z-index: 3;
+  top: 78cqh;
+  right: 6cqw;
+  left: 6cqw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.3cqw;
+  padding: 1.25cqh 1.5cqw;
+  border: 1px solid rgba(255, 255, 255, .17);
+  border-radius: 1.1cqw;
+  background: linear-gradient(100deg, rgba(138, 43, 226, .25), rgba(45, 27, 78, .82), rgba(255, 78, 205, .16));
+  box-shadow: 0 12px 30px rgba(10, 5, 20, .28);
+}
+.project-proof-strip > div { min-width: 0; }
+.project-proof-label {
+  display: block;
+  margin-bottom: .45cqh;
+  color: #ff9de0;
+  font-size: 1.25cqw;
+  font-weight: 700;
+}
+.project-proof-strip p {
+  margin: 0;
+  color: rgba(255, 255, 255, .9);
+  font-size: 1.2cqw;
+  line-height: 1.5;
+}
+
+@media (max-width: 700px) and (orientation: portrait) {
+  .project-proof-strip {
+    top: 86%;
+    right: 7%;
+    left: 7%;
+    gap: 7px;
+    padding: 7px 9px;
+    border-radius: 8px;
+  }
+  .project-proof-label { margin-bottom: 3px; font-size: 9px; }
+  .project-proof-strip p { font-size: 8px; line-height: 1.35; }
 }

@@ -5,9 +5,9 @@ export default function ThankYou() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck slide-thank-you">
 
-<div className="blob left-[6cqw] top-[24cqh] w-[32cqw] h-[62cqh] bg-gradient-to-br from-[#9B6BFF] via-[#6435A5] to-[#FFE6F0] opacity-60" />
-<img src={base + 'media/athletes.png'} crossOrigin="anonymous" alt="رياضيان في ختام العرض" className="absolute left-[2cqw] top-[22cqh] w-[38cqw] h-[65cqh] object-contain" />
-<div className="absolute left-[6cqw] top-[6cqh]"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" className="w-[9cqw]" /><img src={base + 'media/nordpoints.svg'} crossOrigin="anonymous" alt="Official Nordpoints logo" className="w-[13cqw]" /></div></div>
+ <div className="cover-gradient-panel closing-gradient-panel" aria-hidden="true" />
+ <img src={base + 'media/vyora-cover-gym-models.jpg'} crossOrigin="anonymous" alt="عارضة وعارض لياقة في نادٍ رياضي" className="cover-athletes-image closing-athletes-image" />
+  <div className="cover-partners closing-partners"><div className="logo-plate"><img src={base + 'media/replit.png'} crossOrigin="anonymous" alt="Official Replit logo" /><img className="nordpoints-logo" src={base + 'media/nordpoints-logo-white.svg'} crossOrigin="anonymous" alt="Official Nordpoints reversed logo" /></div></div>
 <div className="absolute right-[5cqw] top-[12cqh] w-[59cqw] text-center" dir="ltr">
   <SlideTitle className="thank-you-brand m-0">VYORA MOVE</SlideTitle>
 <p className="thank-you-arabic refined-arabic text-primary mt-[2cqh]" dir="rtl">مش مجرد تمرين، دي بداية لحياة أقوى</p>

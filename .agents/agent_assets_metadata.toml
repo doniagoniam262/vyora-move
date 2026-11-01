@@ -187,28 +187,28 @@ content_type = "video/mp4"
 id = "1dT-uTx9141cNvC4HFY1_"
 uri = "file://.local/outputs/VYORA-MOVE-Project-Presentation.pptx"
 type = "slides"
-title = "VYORA MOVE — PowerPoint قابل للتعديل"
-description = "عرض مشروع التخرج — 12 شريحة بالترتيب المطلوب، مبني على التطبيق الفعلي."
+title = "VYORA MOVE Project Presentation (PPTX)"
+description = "PowerPoint export of the 12-slide VYORA MOVE project presentation."
 logical_id = "533e5d5d-9aa8-4168-9fe9-f6b0587e8280"
-content_hash = "sha256:ac4d4a6de70848669fc12bfbec971c3dd8920933a2adeaa14eb95ab7c0ce610e"
-size = 5748263
-mtime_ms = 1793456980123
-storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/533e5d5d-9aa8-4168-9fe9-f6b0587e8280/c8b556f2-941c-424a-bd21-57a65a5af602"
-storage_version_token = "1793456982435210"
+content_hash = "sha256:842d37292da51a170bc5c732673430c3cff50611796e723563dddd5939e9d73d"
+size = 7732715
+mtime_ms = 1793560487405
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/533e5d5d-9aa8-4168-9fe9-f6b0587e8280/ff9da29d-a612-46c2-863d-2d9bffcebee1"
+storage_version_token = "1793560488056540"
 content_type = "application/vnd.openxmlformats-officedocument.presentationml.presentation"
 
 [[outputs]]
 id = "gwZVKXYS8GcRt47SyQ3ti"
 uri = "file://.local/outputs/VYORA-MOVE-Project-Presentation.pdf"
 type = "pdf"
-title = "VYORA MOVE — نسخة PDF"
-description = "عرض مشروع التخرج — 12 شريحة بالترتيب المطلوب، مبني على التطبيق الفعلي."
+title = "VYORA MOVE Project Presentation (PDF)"
+description = "PDF export of the 12-slide VYORA MOVE project presentation."
 logical_id = "740b0b4e-ce2a-4460-b2ae-25d0466e1a7a"
-content_hash = "sha256:cf6da9a78bd81f7fae0e989006025ebade0a949e64ec9b95583fb7f66e17aa57"
-size = 1722512
-mtime_ms = 1793456982043
-storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/740b0b4e-ce2a-4460-b2ae-25d0466e1a7a/2c840a38-e8e8-46d0-b51e-5de43ed787ba"
-storage_version_token = "1793456982973330"
+content_hash = "sha256:da223ed8500e2fec116363fe02aae7475f29f79838515b240eb0c531e1f2d30f"
+size = 6741055
+mtime_ms = 1793560492957
+storage_uri = "gcs://replit-rams-assets-reed/rams/assets/repl:5b4a7dbb-e3a6-4450-9fe9-f54a9e7e8e34/740b0b4e-ce2a-4460-b2ae-25d0466e1a7a/df44241e-d6e1-4818-87bb-0ba9a23a7ce1"
+storage_version_token = "1793560493385804"
 content_type = "application/pdf"
 
 [[outputs]]

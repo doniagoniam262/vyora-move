@@ -6,7 +6,7 @@ export default function Challenges() {
  return (
   <section className="w-screen h-screen overflow-hidden relative deck slide-challenges">
 
-<div className="blob left-[3cqw] bottom-[8cqh] w-[42cqw] h-[52cqh] bg-[#9B6BFF] opacity-20" />
+ <div className="blob left-[3cqw] bottom-[8cqh] w-[42cqw] h-[52cqh] bg-[#8A2BE2] opacity-20" />
 <header className="top"><SlideTitle className="heading">التحديات والتطوير المستقبلي</SlideTitle><p className="kicker english">Challenges & Future Development</p></header>
 <div className="absolute right-[6cqw] top-[31cqh] w-[40cqw] text-right" dir="rtl">
 <h2 className="sub text-primary">تحديات تعاملت معها</h2>
@@ -20,6 +20,16 @@ export default function Challenges() {
 <div className="rule my-[3cqh]" /><p className="copy">مزامنة التقدم بين الأجهزة.</p>
 <div className="rule my-[3cqh]" /><p className="copy">تقييم دقة تحليل الحركة وتجربة الاستخدام.</p>
 <p className="detail text-muted mt-[3cqh]">الدفع غير مفعّل حاليًا، ولا توجد اشتراكات مدفوعة فعّالة.</p>
+</div>
+<div className="project-proof-strip" dir="rtl">
+  <div>
+    <span className="project-proof-label">تغطية اختبارات مكتوبة</span>
+    <p>تقدير الطاقة • صلاحية الملف • حفظ تقييم الصعوبة</p>
+  </div>
+  <div>
+    <span className="project-proof-label">ما يحتاج تحققًا ميدانيًا</span>
+    <p>تجربة الاستخدام ودقة الكاميرا؛ لا يعرض المشروع نتائج ميدانية موثّقة.</p>
+  </div>
 </div>
 <footer className="foot english"><span>VYORA MOVE</span><span>11 / 12</span></footer>
   </section>

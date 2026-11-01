@@ -187,7 +187,7 @@ function App() {
   return (
     <main className="presentation-shell" data-testid="presentation-shell">
       <div className="cinematic-backdrop" aria-hidden="true">
-        <img className="cinematic-backdrop-photo" src={import.meta.env.BASE_URL + 'media/fitness-tools.jpg'} alt="" />
+        <img className="cinematic-backdrop-photo" src={import.meta.env.BASE_URL + 'media/vyora-gym-background.jpg'} alt="" />
         <div className="cinematic-backdrop-glow cinematic-backdrop-glow-pink" />
         <div className="cinematic-backdrop-glow cinematic-backdrop-glow-blue" />
         <div className="cinematic-backdrop-grid" />

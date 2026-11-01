@@ -1,26 +1,36 @@
-const base = import.meta.env.BASE_URL;
 import { SlideTitle } from '@/components/SlideTitle';
 
-export default function ProblemSolution() {
- return (
-   <section className="w-screen h-screen overflow-hidden relative deck slide-problem">
+const cards = [
+  { kind: 'PROBLEM', text: 'محتوى متفرّق يصعّب اختيار التمرين.' },
+  { kind: 'PROBLEM', text: 'غياب التنظيم والمتابعة المستمرة.' },
+  { kind: 'PROBLEM', text: 'التباس طريقة الأداء والأخطاء الشائعة.' },
+  { kind: 'SOLUTION', text: 'مكتبة مصنّفة وفيديو لكل تمرين متاح.' },
+  {
+    kind: 'SOLUTION',
+    text: 'خطة أسبوعية ومؤقت وسجل للجلسات.',
+    extra: 'إرشادات عربية وصور للصح والخطأ.',
+  },
+];
 
-<div className="blob left-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#9B6BFF] opacity-30" />
-<div className="blob right-[3cqw] bottom-[8cqh] w-[40cqw] h-[58cqh] bg-[#FFE6F0] opacity-20" />
-<header className="top"><SlideTitle className="heading">المشكلة والحل</SlideTitle><p className="kicker english">Problem & Solution</p></header>
-<div className="problem-column absolute top-[31cqh] right-[6cqw] w-[39cqw] text-right" dir="rtl">
-<p className="problem-label english text-[6cqw] font-bold m-0">PROBLEM</p>
-<p className="copy problem-copy mt-[4cqh]">محتوى متفرّق يصعّب اختيار التمرين.</p>
-<div className="rule my-[3cqh]" /><p className="copy problem-copy">غياب التنظيم والمتابعة المستمرة.</p>
-<div className="rule my-[3cqh]" /><p className="copy problem-copy">التباس طريقة الأداء والأخطاء الشائعة.</p>
-</div>
-<div className="solution-column absolute top-[31cqh] left-[6cqw] w-[39cqw] text-right" dir="rtl">
-<p className="solution-label english text-[6cqw] font-bold m-0">SOLUTION</p>
-<p className="copy solution-copy mt-[4cqh]">مكتبة مصنّفة وفيديو لكل تمرين متاح.</p>
-<div className="rule my-[3cqh]" /><p className="copy solution-copy">خطة أسبوعية ومؤقت وسجل للجلسات.</p>
-<div className="rule my-[3cqh]" /><p className="copy solution-copy">إرشادات عربية وصور للصح والخطأ.</p>
-</div>
-<footer className="foot english"><span>VYORA MOVE</span><span>03 / 12</span></footer>
-  </section>
- );
+export default function ProblemSolution() {
+  return (
+    <section className="w-screen h-screen overflow-hidden relative deck slide-problem">
+      <header className="top">
+        <SlideTitle className="heading">المشكلة والحل</SlideTitle>
+        <p className="kicker english">Problem &amp; Solution</p>
+      </header>
+      <div className="problem-card-row" dir="rtl">
+        {cards.map((card, index) => (
+          <article className={`problem-card problem-card-${index + 1} ${card.kind === 'SOLUTION' ? 'is-solution' : 'is-problem'}`} key={`${card.kind}-${index}`} tabIndex={0}>
+            <span className="problem-card-kind english">{card.kind}</span>
+            <div className="problem-card-copy">
+              <p>{card.text}</p>
+              {card.extra && <p>{card.extra}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+      <footer className="foot english"><span>VYORA MOVE</span><span>03 / 12</span></footer>
+    </section>
+  );
 }

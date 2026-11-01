@@ -8,6 +8,18 @@ VYORA is one product for women and men. The onboarding choice controls a pink th
 
 **How to apply:** Keep one VYORA brand and shared goal-based plans. If athlete photography is used, filter it to the selected profile and never infer gender from account data.
 
+When the user asks to replace presentation photography, use distinct image assets; changing crop or copy while reusing the old photos is not a visible replacement. Verify the target slide itself after navigation and animation settle.
+
+**Why:** Reusing the existing VYORA slide photos made a requested visual change look unchanged to the user.
+
+**How to apply:** Replace the slide's actual image sources, then inspect that exact slide at the relevant viewport after its reveal animation completes.
+
+For presentation exercise examples, show full-length realistic people and match each photo to the named movement; do not leave exercise examples as text-only chips.
+
+**Why:** The user explicitly asked for the woman and man to be visible head-to-toe and for each added exercise to show someone performing it.
+
+**How to apply:** Use clear full-body crops for profile imagery and an action-matched photo for every exercise label, then verify the active slide on mobile.
+
 Animation, typography, and palette requests explicitly assigned to the VYORA presentation apply to the presentation, not the workout website.
 
 **Why:** The user corrected an earlier change that applied presentation-specific requests to the website.

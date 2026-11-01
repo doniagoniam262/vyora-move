@@ -197,6 +197,7 @@ function SlideEditor() {
         <div
           key={slide.id}
           className={index === currentIndex ? 'vyora-slide-active' : undefined}
+          data-slide-position={slide.position}
           style={{ display: index === currentIndex ? 'block' : 'none' }}
         >
           <slide.Component active={index === currentIndex} />

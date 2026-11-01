@@ -20,6 +20,7 @@ import {
   isSdmEditingActive,
 } from '@/.sdm/editingState';
 import { useLocation } from 'wouter';
+import PresentationMusicControl from '@/components/PresentationMusicControl';
 
 function getSlideIndex(pathname: string): number {
   const match = pathname.match(/^\/slide(\d+)$/);
@@ -276,7 +277,7 @@ function SlideViewer() {
 
   return (
     <div
-      className="slide-viewer h-screen w-screen overflow-hidden bg-black flex items-center justify-center"
+      className="slide-viewer relative h-screen w-screen overflow-hidden bg-black flex items-center justify-center"
       onClick={() => iframeRef.current?.focus()}
     >
       <iframe
@@ -285,6 +286,12 @@ function SlideViewer() {
         style={{ width: dims.width, height: dims.height, border: 'none' }}
         onLoad={() => iframeRef.current?.focus()}
         title="Slide viewer"
+      />
+      <PresentationMusicControl
+        style={{
+          top: `calc(50% - ${dims.height / 2}px + 14px)`,
+          left: `calc(50% - ${dims.width / 2}px + 14px)`,
+        }}
       />
     </div>
   );

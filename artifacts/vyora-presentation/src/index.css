@@ -145,67 +145,6 @@ svg {flex-shrink:0;} .screen {border:1px solid #ffffff28;border-radius:1.1vw;obj
 .vyora-slide-active > section .logo-plate img {
  animation:none;
 }
-.vyora-music-control {
- position:absolute;
- z-index:20;
- display:inline-flex;
- align-items:center;
- gap:8px;
- padding:9px 13px;
- border:1px solid rgb(255 255 255 / 16%);
- border-radius:999px;
- color:#f7f4ff;
- background:rgb(12 14 25 / 78%);
- backdrop-filter:blur(14px);
- box-shadow:0 8px 28px rgb(0 0 0 / 25%);
- font-family:'IBM Plex Sans Arabic',sans-serif;
- font-size:12px;
- line-height:1.2;
- cursor:pointer;
- transition:background-color .25s ease,border-color .25s ease,transform .25s ease;
-}
-.vyora-music-control:hover {
- background:rgb(38 27 61 / 92%);
- border-color:rgb(208 171 255 / 60%);
- transform:translateY(-1px);
-}
-.vyora-music-control:focus-visible {
- outline:2px solid #FFE6F0;
- outline-offset:3px;
-}
-.vyora-music-control svg {
- width:16px;
- height:16px;
- fill:none;
- stroke:#d9c0ff;
- stroke-linecap:round;
- stroke-linejoin:round;
- stroke-width:1.8;
-}
-.vyora-music-control.is-playing svg {
- stroke:#ffb5db;
-}
-.vyora-music-equalizer {
- display:inline-flex;
- align-items:center;
- gap:2px;
- height:12px;
-}
-.vyora-music-equalizer i {
- display:block;
- width:2px;
- height:5px;
- border-radius:2px;
- background:#ffb5db;
- animation:vyora-audio-meter .8s ease-in-out infinite alternate;
-}
-.vyora-music-equalizer i:nth-child(2) {animation-delay:.18s;}
-.vyora-music-equalizer i:nth-child(3) {animation-delay:.34s;}
-@keyframes vyora-audio-meter {to {height:11px;}}
-@media (max-width:600px) {
- .vyora-music-control {gap:6px;padding:7px 9px;font-size:10px;}
- .vyora-music-control svg {width:14px;height:14px;}
-}
 @media (prefers-reduced-motion: reduce) {
  .vyora-slide-active > section,
  .vyora-slide-active > section * {

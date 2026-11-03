@@ -5,7 +5,8 @@
 </p>
 
 <p align="center">
-  <a href="https://tmrynk-tdrybt-lbyt.replit.app/vyora-interactive-deck/"><strong>فتح العرض التفاعلي</strong></a>
+  <a href="https://tmrynk-tdrybt-lbyt.replit.app/"><strong>فتح تطبيق VYORA MOVE</strong></a>
+  · <a href="https://tmrynk-tdrybt-lbyt.replit.app/vyora-interactive-deck/"><strong>فتح العرض التفاعلي</strong></a>
   · <a href="deliverables/VYORA-MOVE-Project-Presentation.pdf">فتح العرض PDF</a>
   · <a href="deliverables/VYORA-MOVE-Project-Presentation.pptx">تحميل PowerPoint</a>
   · <a href="artifacts/vyora-interactive-deck/src/pages/slides/">ملفات الشرائح</a>

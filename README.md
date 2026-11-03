@@ -8,10 +8,11 @@
   <a href="https://tmrynk-tdrybt-lbyt.replit.app/vyora-interactive-deck/"><strong>فتح العرض التفاعلي</strong></a>
   · <a href="deliverables/VYORA-MOVE-Project-Presentation.pdf">فتح العرض PDF</a>
   · <a href="deliverables/VYORA-MOVE-Project-Presentation.pptx">تحميل PowerPoint</a>
-  · <a href="artifacts/vyora-interactive-deck/src/App.tsx">كود العرض التفاعلي</a>
+  · <a href="artifacts/vyora-interactive-deck/src/pages/slides/">ملفات الشرائح</a>
+  · <a href="artifacts/vyora-interactive-deck/src/App.tsx">مشغّل العرض</a>
 </p>
 
-العرض التفاعلي يتكون من 12 شريحة. تظهر معاينة الغلاف هنا، ويمكن فتح ملف PDF أو PowerPoint لمشاهدة العرض، أو فتح ملف الكود لمراجعة التنفيذ.
+العرض التفاعلي يتكون من 12 شريحة. تظهر معاينة الغلاف هنا، ويمكن فتح ملف PDF أو PowerPoint لمشاهدة العرض، أو مراجعة ملفات الشرائح والكود.
 
 <p align="center">
   <a href="https://nordpoints.com/"><img src="artifacts/vyora-interactive-deck/public/media/nordpoints.svg" height="42" alt="Nordpoints logo"></a>
@@ -28,7 +29,6 @@
 
 **Created by: Donia Nabil Mesaad Ghoneim**
 
-**Academic Year:** Fourth Year — 2026
 **Project Supervisor:** Dr. Taha Mahmoud Metwally Nour El-Dein
 
 ## ملفات المشروع

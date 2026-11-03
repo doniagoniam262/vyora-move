@@ -15,7 +15,6 @@ export default function Cover() {
  <p className="detail text-muted">Project Supervisor:</p>
  <p className="signature-name signature-supervisor">Dr. Taha Mahmoud Metwally Nour El-Dein</p>
  <p className="detail text-muted">Student Name: <span className="signature-name text-text">Donia Nabil Mesaad Ghoneim</span></p>
- <p className="detail text-muted">Academic Year: <span className="font-bold text-text">Fourth Year</span></p>
 </div>
 </div>
 <footer className="foot english"><span>VYORA MOVE</span><span>01 / 12</span></footer>

@@ -15,7 +15,7 @@ export default function ThankYou() {
  <p className="detail text-muted signature-font">Special Thanks to the Project Supervisor:</p>
  <p className="signature-name signature-supervisor mt-[1.5vh]">Dr. Taha Mahmoud Metwally Nour El-Dein</p>
  <p className="signature-copy text-muted mt-[1vh]">for his support and guidance</p>
- <p className="signature-copy mt-[4vh]">Student: <span className="signature-name">Donia Nabil Mesaad Ghoneim</span><span className="detail text-accent block mt-[1vh]">- Fourth Year 2026</span></p>
+  <p className="signature-copy mt-[4vh]">Student: <span className="signature-name">Donia Nabil Mesaad Ghoneim</span></p>
 </div>
 <footer className="foot english"><span>VYORA MOVE</span><span>12 / 12</span></footer>
   </section>
